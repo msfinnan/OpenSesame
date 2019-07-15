@@ -3,25 +3,32 @@ package com.margi.sesame;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.StorageReference;
 
 import org.w3c.dom.Text;
 
 import io.grpc.Context;
+import model.Collection;
 import util.UserInfo;
 
-public class AddCollectionActivity extends AppCompatActivity implements View.OnClickListener{
+public class AddCollectionActivity extends AppCompatActivity {
+    private static final String TAG = "AddCollectionActivity";
     private Button saveButton;
     private ProgressBar progressBar;
     private EditText collectionNameEditText;
@@ -51,10 +58,15 @@ public class AddCollectionActivity extends AppCompatActivity implements View.OnC
         firebaseAuth = FirebaseAuth.getInstance();
         progressBar = findViewById(R.id.addCollectionProgressBar);
         collectionNameEditText = findViewById(R.id.collectionNameEditText);
+        saveButton = findViewById(R.id.addCollectionButton);
 
         progressBar.setVisibility(View.INVISIBLE);
 
         //paulo has a section here on getting the username bc that is displayed in his app, mine doesn't display that so i'm skipping it
+        //still need userId
+        if (UserInfo.getInstance() != null) {
+            currentUserId = UserInfo.getInstance().getUserId();
+        }
 
         authStateListener =new FirebaseAuth.AuthStateListener() {
             @Override
@@ -67,6 +79,13 @@ public class AddCollectionActivity extends AppCompatActivity implements View.OnC
                 }
             }
         };
+
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                saveCollection();
+            }
+        });
 
     }
 
@@ -87,25 +106,60 @@ public class AddCollectionActivity extends AppCompatActivity implements View.OnC
         }
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()){
-            case R.id.addCollectionButton:
-                //save Collection
-                saveCollection();
-                break;
-        }
-    }
+
+
+    //    @Override
+//    public void onClick(View view) {
+//        switch (view.getId()){
+//            case R.id.addCollectionButton:
+//                //save Collection
+//                saveCollection();
+//                break;
+//        }
+//    }
 
     private void saveCollection() {
         //get text view with collection name
         String collectionName = collectionNameEditText.getText().toString().trim();
 
+        progressBar.setVisibility(View.VISIBLE);
+
         if (!TextUtils.isEmpty(collectionName)){
             // add collectionName to *Database Collection collection in firestore
             //don't need to deal with image like in Paulo's app (he is storing image in *Storage)
-        }else {
+            //create a journal object - model
+            Collection collection = new Collection();
+            collection.setCollectionName(collectionName);
+            collection.setUserId(currentUserId);
+            Log.d(TAG, "saveCollection: currentUserId is " + currentUserId);
 
+
+            //invoke collection reference in forestore database
+
+            collectionReference.add(collection)
+                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                @Override
+                public void onSuccess(DocumentReference documentReference) {
+
+                    progressBar.setVisibility(View.INVISIBLE);
+
+                    //take user to list
+                    startActivity(new Intent(AddCollectionActivity.this,
+                            CollectionListActivity.class));
+                    finish();
+
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d(TAG, "onFailure: " + e.getMessage());
+                        }
+                    });
+
+            //save a collection instance
+        }else {
+            progressBar.setVisibility(View.INVISIBLE);
         }
     }
 }
