@@ -8,4 +8,6 @@
     <string name="or_text">Or</string>
     <string name="create_account">Create Account</string>
     <string name="username_hint">Username</string>
+    <string name="collecton_name">Collecton Name (ex. Study Spots)</string>
+    <string name="add_collection">Add Collection</string>
 </resources>

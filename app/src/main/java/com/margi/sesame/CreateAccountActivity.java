@@ -28,6 +28,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import util.UserInfo;
+
 public class CreateAccountActivity extends AppCompatActivity {
 
     private Button loginButton;
@@ -147,8 +149,15 @@ public class CreateAccountActivity extends AppCompatActivity {
                                                                     //get user name
                                                                     String name = task.getResult()
                                                                             .getString("username");
-                                                                    //pass via intent
 
+
+                                                                    //save user info to global userinfo
+                                                                    UserInfo userInfo = UserInfo.getInstance();
+                                                                    userInfo.setUserId(currentUserId);
+                                                                    userInfo.setUsername(name);
+
+
+                                                                    //pass via intent
                                                                     Intent intent = new Intent(CreateAccountActivity.this,
                                                                             AddCollectionActivity.class);
                                                                     intent.putExtra("username", name);
