@@ -10,4 +10,6 @@
     <string name="username_hint">Username</string>
     <string name="collecton_name">Collecton Name (ex. Study Spots)</string>
     <string name="add_collection">Add Collection</string>
+    <string name="menu_title">Add New Collection</string>
+    <string name="log_out">Log Out</string>
 </resources>
