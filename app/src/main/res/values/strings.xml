@@ -13,4 +13,5 @@
     <string name="menu_title">Add New Collection</string>
     <string name="log_out">Log Out</string>
     <string name="add_location">Add a new location using the + icon!</string>
+    <string name="add_location_button">Add Location</string>
 </resources>

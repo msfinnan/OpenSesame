@@ -1,6 +1,7 @@
 package ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.margi.sesame.AddLocationActivity;
+import com.margi.sesame.CollectionListActivity;
+import com.margi.sesame.LocationListActivity;
 import com.margi.sesame.R;
 
 import java.util.List;
@@ -58,6 +62,13 @@ public class CollectionRecyclerAdapter extends RecyclerView.Adapter<CollectionRe
             context = ctx;
 
             collectionName = itemView.findViewById(R.id.collection_name_list);
+
+            collectionName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    context.startActivity(new Intent(context, LocationListActivity.class));
+                }
+            });
 
         }
     }
