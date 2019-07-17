@@ -4,10 +4,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -18,16 +21,31 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import model.Location;
+import ui.LocationRecyclerAdapter;
 import util.UserInfo;
 
 public class AddLocationActivity extends AppCompatActivity {
+
+
+    //todo make dynamic get groupNames from firestore. Get all group names fom users id, add them to array, remove dups
+//    String[] groupNames = {"Dog Parks", "Neighborhood Favorites", "Dog Friendly Bars", "Date Night"};
+    private HashSet<String> groupNames;
+    private ArrayList<String> groupNamesArray;
+
     private static final String TAG = "AddLocationActivity";
     private Button saveButton;
     private ProgressBar progressBar;
     private EditText locationNameEditText;
-    private EditText groupNameEditText;
+    private AutoCompleteTextView groupNameAutoComplete;
 
     private String currentUserId;
     private String currentUserName;
@@ -49,15 +67,60 @@ public class AddLocationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_location);
 
+
         //if we need access to the user id or username can use UserInfo class like below
 //        UserInfo.getInstance().getUserId();
         firebaseAuth = FirebaseAuth.getInstance();
         progressBar = findViewById(R.id.addLocationProgressBar);
         locationNameEditText = findViewById(R.id.locationNameEditText);
-        groupNameEditText = findViewById(R.id.groupNameEditText);
+        groupNameAutoComplete = findViewById(R.id.groupNameAutoComplete);
         saveButton = findViewById(R.id.addLocationButton);
 
         progressBar.setVisibility(View.INVISIBLE);
+
+        groupNames = new HashSet<>();
+        groupNamesArray = new ArrayList<>();
+
+        //get all groupNames from Firestore for groupNames array that I use for drop down in activity_add_location.xml
+        collectionReference.whereEqualTo("userId", UserInfo.getInstance()
+                .getUserId()) //gets back all of users locations
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        if (!queryDocumentSnapshots.isEmpty()) {
+                            for (QueryDocumentSnapshot locations : queryDocumentSnapshots) {
+                                Location location = locations.toObject(Location.class);
+                                groupNames.add(location.getGroupName());
+                            }
+                            //convert hashset to arraylist
+                            groupNamesArray = new ArrayList<>(groupNames);
+                            //Creating the instance of ArrayAdapter containing list of group Names
+                            ArrayAdapter<String> adapter = new ArrayAdapter<String>
+                                    (AddLocationActivity.this, android.R.layout.select_dialog_item, groupNamesArray);
+
+                            //Getting the instance of AutoCompleteTextView
+                            AutoCompleteTextView actv = (AutoCompleteTextView) findViewById(R.id.groupNameAutoComplete);
+                            actv.setThreshold(1);//will start working from first character
+                            actv.setAdapter(adapter);//setting the adapter data into the AutoCompleteTextView
+
+                        }else {
+                            //document is empty (no collections)
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+
+
+        Log.d("AddLocationActivity", "onSuccess: groupNames " + groupNames);
+        Log.d("AddLocationActivity", "onCreate: groupNamesArray " + groupNamesArray );
+
+
 
         //paulo has a section here on getting the username bc that is displayed in his app, mine doesn't display that so i'm skipping it
         //still need userId
@@ -93,6 +156,33 @@ public class AddLocationActivity extends AppCompatActivity {
         super.onStart();
         user = firebaseAuth.getCurrentUser();
         firebaseAuth.addAuthStateListener(authStateListener);
+
+
+//        //get all groupNames from Firestore for groupNames array that I use for drop down in activity_add_location.xml
+//        collectionReference.whereEqualTo("userId", UserInfo.getInstance()
+//                .getUserId()) //gets back all of users locations
+//                .get()
+//                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+//                        if (!queryDocumentSnapshots.isEmpty()) {
+//                            for (QueryDocumentSnapshot locations : queryDocumentSnapshots) {
+//                                Location location = locations.toObject(Location.class);
+//                                groupNames.add(location.getGroupName());
+//                                Log.d("AddLocationActivity", "onSuccess: groupNames array " + groupNames);
+//                            }
+//
+//                        }else {
+//                            //document is empty (no collections)
+//                        }
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//
+//                    }
+//                });
     }
 
     @Override
@@ -118,7 +208,7 @@ public class AddLocationActivity extends AppCompatActivity {
     private void saveLocation() {
         //get text view with collection name
         String locationName = locationNameEditText.getText().toString().trim();
-        String groupName = groupNameEditText.getText().toString().trim();
+        String groupName = groupNameAutoComplete.getText().toString().trim();
 
         progressBar.setVisibility(View.VISIBLE);
 

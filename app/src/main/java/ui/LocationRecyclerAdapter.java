@@ -24,9 +24,11 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
     private Context context;
     private List<Location> locationList;
 
+
     public LocationRecyclerAdapter(Context context, List<Location> locationList) {
         this.context = context;
         this.locationList = locationList;
+
     }
 
     @NonNull

@@ -21,8 +21,8 @@
         android:inputType="textPersonName"
         android:hint="@string/location_name" />
 
-    <EditText
-        android:id="@+id/groupNameEditText"
+    <AutoCompleteTextView
+        android:id="@+id/groupNameAutoComplete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"

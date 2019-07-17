@@ -106,6 +106,7 @@ public class LocationListActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         if (!queryDocumentSnapshots.isEmpty()) {
+                            locationList.clear();
                             for (QueryDocumentSnapshot locations : queryDocumentSnapshots) {
                                 Location location = locations.toObject(Location.class);
                                 locationList.add(location);
