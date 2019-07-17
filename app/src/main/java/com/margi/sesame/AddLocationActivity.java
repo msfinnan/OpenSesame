@@ -17,10 +17,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import model.Collection;
 import model.Location;
 import util.UserInfo;
 
@@ -29,6 +27,7 @@ public class AddLocationActivity extends AppCompatActivity {
     private Button saveButton;
     private ProgressBar progressBar;
     private EditText locationNameEditText;
+    private EditText groupNameEditText;
 
     private String currentUserId;
     private String currentUserName;
@@ -43,7 +42,7 @@ public class AddLocationActivity extends AppCompatActivity {
 
     //in Paulos activity there is an image that goes to database so the Storage is instantiated here, I don't need to do that for collection
 //    private StorageReference storageReference;
-    private CollectionReference collectionReference = db.collection("collectionLocations"); //reference to the collection called Collecton (collection of locations)
+    private CollectionReference collectionReference = db.collection("Locations"); //reference to the collection called Collecton (collection of locations)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +54,7 @@ public class AddLocationActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         progressBar = findViewById(R.id.addLocationProgressBar);
         locationNameEditText = findViewById(R.id.locationNameEditText);
+        groupNameEditText = findViewById(R.id.groupNameEditText);
         saveButton = findViewById(R.id.addLocationButton);
 
         progressBar.setVisibility(View.INVISIBLE);
@@ -65,13 +65,13 @@ public class AddLocationActivity extends AppCompatActivity {
             currentUserId = UserInfo.getInstance().getUserId();
         }
 
-        authStateListener = new FirebaseAuth.AuthStateListener() {
+        authStateListener =new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 user = firebaseAuth.getCurrentUser();
                 if (user != null) {
 
-                } else {
+                }else {
 
                 }
             }
@@ -83,7 +83,10 @@ public class AddLocationActivity extends AppCompatActivity {
                 saveLocation();
             }
         });
+
     }
+
+
 
     @Override
     protected void onStart() {
@@ -100,43 +103,59 @@ public class AddLocationActivity extends AppCompatActivity {
         }
     }
 
+
+
+    //    @Override
+//    public void onClick(View view) {
+//        switch (view.getId()){
+//            case R.id.addCollectionButton:
+//                //save Location
+//                saveCollection();
+//                break;
+//        }
+//    }
+
     private void saveLocation() {
+        //get text view with collection name
         String locationName = locationNameEditText.getText().toString().trim();
+        String groupName = groupNameEditText.getText().toString().trim();
 
         progressBar.setVisibility(View.VISIBLE);
 
-        if (!TextUtils.isEmpty(locationName)) {
-            // add collectionName to *Database Collection collection in firestore
+        if (!TextUtils.isEmpty(locationName)){
+            // add collectionName to *Database Location location in firestore
             //don't need to deal with image like in Paulo's app (he is storing image in *Storage)
             //create a journal object - model
             Location location = new Location();
             location.setLocationName(locationName);
+            location.setGroupName(groupName);
             location.setUserId(currentUserId);
 
-            collectionReference.add(location)
-                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            //invoke location reference in forestore database
+
+            collectionReference.document(locationName).set(location)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
-                        public void onSuccess(DocumentReference documentReference) {
+                        public void onSuccess(Void aVoid) {
                             progressBar.setVisibility(View.INVISIBLE);
 
                             //take user to list
                             startActivity(new Intent(AddLocationActivity.this,
                                     LocationListActivity.class));
                             finish();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d(TAG, "onFailure: " + e.getMessage());
 
                         }
-                    }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.d(TAG, "onFailure: " + e.getMessage());
+                    });
 
-                }
-            });
-
-            //save a collection instance
+            //save a location instance
         }else {
             progressBar.setVisibility(View.INVISIBLE);
         }
     }
-
 }

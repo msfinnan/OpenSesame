@@ -24,9 +24,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.Collection;
 import model.Location;
-import ui.CollectionRecyclerAdapter;
 import ui.LocationRecyclerAdapter;
 import util.UserInfo;
 
@@ -36,17 +34,14 @@ public class LocationListActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener authStateListener;
     private FirebaseUser user;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-    //    private StorageReference storageReference;
+//    private StorageReference storageReference;
     // don't think I need this bc I don't have images, maybe once I add locations to the collection
     private List<Location> locationList;
     private RecyclerView recyclerView;
     private LocationRecyclerAdapter locationRecyclerAdapter;
 
-    private CollectionReference collectionReference = db.collection("collectionLocations");
+    private CollectionReference collectionReference = db.collection("Locations");
     private TextView noLocationEntry;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,11 +51,11 @@ public class LocationListActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
 
-        noLocationEntry = findViewById(R.id.location_list_no_locations);
+        noLocationEntry = findViewById(R.id.list_no_locations);
 
         locationList = new ArrayList<>();
 
-        recyclerView = findViewById(R.id.recyclerViewLocationList);
+        recyclerView = findViewById(R.id.recyclerViewCollectionList);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
@@ -73,14 +68,17 @@ public class LocationListActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
         switch (item.getItemId()) {
-            case R.id.action_add_location :
+            case R.id.action_add :
+                //take users to AddLocationActivity
+                //todo might need to change this once users can add locations to a collection
                 if (user != null && firebaseAuth != null) {
-                    //todo this might break bc this does something else in collectionlistact
                     startActivity(new Intent(LocationListActivity.this,
                             AddLocationActivity.class));
 //                    finish(); //come back to this
                 }
+
                 break;
             case R.id.action_sign_out :
                 if (user != null && firebaseAuth != null){
@@ -92,15 +90,18 @@ public class LocationListActivity extends AppCompatActivity {
 //                    finish(); //come back to this.
                 }
                 break;
-        }
+                }
         return super.onOptionsItemSelected(item);
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+        //get all Collections from Firestore
         collectionReference.whereEqualTo("userId", UserInfo.getInstance()
-        .getUserId())
+                .getUserId()) //gets back all of users locations
+//                .whereEqualTo("groupName", "Dog Friendly Bars") //filters down 
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -110,11 +111,15 @@ public class LocationListActivity extends AppCompatActivity {
                                 Location location = locations.toObject(Location.class);
                                 locationList.add(location);
                             }
+
                             //invoke recycler view
-                            locationRecyclerAdapter = new LocationRecyclerAdapter(LocationListActivity.this, locationList);
+                            locationRecyclerAdapter = new LocationRecyclerAdapter(LocationListActivity.this,
+                                    locationList);
                             recyclerView.setAdapter(locationRecyclerAdapter);
                             locationRecyclerAdapter.notifyDataSetChanged();
+
                         }else {
+                            //document is empty (no collections)
                             noLocationEntry.setVisibility(View.VISIBLE);
                         }
                     }
@@ -125,7 +130,6 @@ public class LocationListActivity extends AppCompatActivity {
 
                     }
                 });
-
 
     }
 }

@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -68,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
                                             userInfo.setUsername(snapshot.getString("username"));
 
                                             startActivity(new Intent(MainActivity.this,
-                                                    CollectionListActivity.class));
+                                                    LocationListActivity.class));
                                             finish(); //stops them from coming back to main activity ever
 
                                         }

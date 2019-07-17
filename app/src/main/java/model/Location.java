@@ -2,14 +2,16 @@ package model;
 
 public class Location {
     private String locationName;
+    private String groupName;
     private String userId;
+    //what else do I need? An array of locations? or do I add that later
 
-    public Location() {
-    }
+    public Location() { } //must have empty constructor for firestore for work
 
     public Location(String locationName, String userId) {
         this.locationName = locationName;
         this.userId = userId;
+        this.groupName = groupName;
     }
 
     public String getLocationName() {
@@ -26,5 +28,13 @@ public class Location {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
     }
 }

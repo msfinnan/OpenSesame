@@ -7,7 +7,7 @@
     tools:context=".LocationListActivity">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewLocationList"
+        android:id="@+id/recyclerViewCollectionList"
         android:layout_width="395dp"
         android:layout_height="715dp"
         android:layout_marginStart="8dp"
@@ -20,13 +20,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/location_list_no_locations"
+        android:id="@+id/list_no_locations"
         android:layout_width="424dp"
         android:layout_height="712dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:text="@string/add_location"
+        android:text="@string/add_first_location"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

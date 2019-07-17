@@ -8,10 +8,11 @@
     <string name="or_text">Or</string>
     <string name="create_account">Create Account</string>
     <string name="username_hint">Username</string>
-    <string name="collecton_name">Collecton Name (ex. Study Spots)</string>
-    <string name="add_collection">Add Collection</string>
-    <string name="menu_title">Add New Collection</string>
+    <string name="location_name">Location Name (ex. Roscoes)</string>
+    <string name="add_location">Add Location</string>
+    <string name="menu_title">Add New Location</string>
     <string name="log_out">Log Out</string>
-    <string name="add_location">Add a new location using the + icon!</string>
+    <string name="add_first_location">Add a new location using the + icon!</string>
     <string name="add_location_button">Add Location</string>
+    <string name="group_name">Group Name (ex. Dog Friendly Bars)</string>
 </resources>

@@ -14,10 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".LocationListActivity"></activity>
+        <activity android:name=".LocationListActivity" />
         <activity android:name=".AddLocationActivity" />
-        <activity android:name=".CollectionListActivity" />
-        <activity android:name=".AddCollectionActivity" />
         <activity android:name=".CreateAccountActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".MainActivity">

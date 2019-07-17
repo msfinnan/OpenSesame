@@ -26,8 +26,6 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.net.PortUnreachableException;
-
 import javax.annotation.Nullable;
 
 import util.UserInfo;
@@ -125,7 +123,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                                     //go to list activity //used global class instead of making an intent
                                                     startActivity(new Intent(LoginActivity.this,
-                                                            AddCollectionActivity.class));
+                                                            AddLocationActivity.class));
 //                                                    finish(); //will come back to this.
                                                 }
 
