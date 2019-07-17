@@ -8,10 +8,10 @@ public class Location {
 
     public Location() { } //must have empty constructor for firestore for work
 
-    public Location(String locationName, String userId) {
+    public Location(String locationName, String groupName, String userId) {
         this.locationName = locationName;
-        this.userId = userId;
         this.groupName = groupName;
+        this.userId = userId;
     }
 
     public String getLocationName() {

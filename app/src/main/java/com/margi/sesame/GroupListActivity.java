@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,36 +29,40 @@ import model.Location;
 import ui.LocationRecyclerAdapter;
 import util.UserInfo;
 
-public class LocationListActivity extends AppCompatActivity {
-
+public class GroupListActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
     private FirebaseUser user;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-//    private StorageReference storageReference;
+    //    private StorageReference storageReference;
     // don't think I need this bc I don't have images, maybe once I add locations to the collection
     private List<Location> locationList;
     private RecyclerView recyclerView;
     private LocationRecyclerAdapter locationRecyclerAdapter;
 
     private CollectionReference collectionReference = db.collection("Locations");
-    private TextView noLocationEntry;
+    private String groupName;
+//    private TextView noLocationEntry;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_location_list);
-
+        setContentView(R.layout.activity_group_list);
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
-
-        noLocationEntry = findViewById(R.id.list_no_locations);
 
         locationList = new ArrayList<>();
 
         recyclerView = findViewById(R.id.recyclerViewCollectionList);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // Get the Intent that started this activity and extract the string
+        Intent intent = getIntent();
+        groupName = intent.getStringExtra("groupName");
+        Log.d("GroupList", "onCreate: value of groupName is " + groupName);
+
     }
 
     @Override
@@ -72,24 +77,25 @@ public class LocationListActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_add :
                 //take users to AddLocationActivity
-                if (user != null && firebaseAuth != null) {
-                    startActivity(new Intent(LocationListActivity.this,
-                            AddLocationActivity.class));
-//                    finish(); //come back to this
-                }
+//                if (user != null && firebaseAuth != null) {
+//                    startActivity(new Intent(LocationListActivity.this,
+//                            AddLocationActivity.class));
+////                    finish(); //come back to this
+//
+//                }
 
                 break;
             case R.id.action_sign_out :
                 if (user != null && firebaseAuth != null){
                     firebaseAuth.signOut();
 
-                    startActivity(new Intent(LocationListActivity.this,
+                    startActivity(new Intent(GroupListActivity.this,
                             MainActivity.class));
 
 //                    finish(); //come back to this.
                 }
                 break;
-                }
+        }
         return super.onOptionsItemSelected(item);
 
     }
@@ -100,7 +106,7 @@ public class LocationListActivity extends AppCompatActivity {
         //get all Collections from Firestore
         collectionReference.whereEqualTo("userId", UserInfo.getInstance()
                 .getUserId()) //gets back all of users locations
-//                .whereEqualTo("groupName", "Dog Friendly Bars") //filters down
+                .whereEqualTo("groupName", groupName) //filters down
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -112,14 +118,14 @@ public class LocationListActivity extends AppCompatActivity {
                             }
 
                             //invoke recycler view
-                            locationRecyclerAdapter = new LocationRecyclerAdapter(LocationListActivity.this,
+                            locationRecyclerAdapter = new LocationRecyclerAdapter(GroupListActivity.this,
                                     locationList);
                             recyclerView.setAdapter(locationRecyclerAdapter);
                             locationRecyclerAdapter.notifyDataSetChanged();
 
                         }else {
                             //document is empty (no collections)
-                            noLocationEntry.setVisibility(View.VISIBLE);
+//                            noLocationEntry.setVisibility(View.VISIBLE);
                         }
                     }
                 })
