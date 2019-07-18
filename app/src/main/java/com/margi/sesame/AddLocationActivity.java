@@ -35,9 +35,6 @@ import util.UserInfo;
 
 public class AddLocationActivity extends AppCompatActivity {
 
-
-    //todo make dynamic get groupNames from firestore. Get all group names fom users id, add them to array, remove dups
-//    String[] groupNames = {"Dog Parks", "Neighborhood Favorites", "Dog Friendly Bars", "Date Night"};
     private HashSet<String> groupNames;
     private ArrayList<String> groupNamesArray;
 
@@ -68,8 +65,8 @@ public class AddLocationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_location);
 
 
-        //if we need access to the user id or username can use UserInfo class like below
-//        UserInfo.getInstance().getUserId();
+        // If we need access to the user id or username can use UserInfo class like below
+        // UserInfo.getInstance().getUserId();
         firebaseAuth = FirebaseAuth.getInstance();
         progressBar = findViewById(R.id.addLocationProgressBar);
         locationNameEditText = findViewById(R.id.locationNameEditText);
@@ -81,9 +78,9 @@ public class AddLocationActivity extends AppCompatActivity {
         groupNames = new HashSet<>();
         groupNamesArray = new ArrayList<>();
 
-        //get all groupNames from Firestore for groupNames array that I use for drop down in activity_add_location.xml
+        //get all groupNames from Firestore for groupNames array that I use for autocomplete drop down in activity_add_location.xml
         collectionReference.whereEqualTo("userId", UserInfo.getInstance()
-                .getUserId()) //gets back all of users locations
+                .getUserId())
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -95,12 +92,13 @@ public class AddLocationActivity extends AppCompatActivity {
                             }
                             //convert hashset to arraylist
                             groupNamesArray = new ArrayList<>(groupNames);
+
                             //Creating the instance of ArrayAdapter containing list of group Names
-                            ArrayAdapter<String> adapter = new ArrayAdapter<String>
+                            ArrayAdapter<String> adapter = new ArrayAdapter<>
                                     (AddLocationActivity.this, android.R.layout.select_dialog_item, groupNamesArray);
 
                             //Getting the instance of AutoCompleteTextView
-                            AutoCompleteTextView actv = (AutoCompleteTextView) findViewById(R.id.groupNameAutoComplete);
+                            AutoCompleteTextView actv = findViewById(R.id.groupNameAutoComplete);
                             actv.setThreshold(1);//will start working from first character
                             actv.setAdapter(adapter);//setting the adapter data into the AutoCompleteTextView
 
@@ -116,14 +114,6 @@ public class AddLocationActivity extends AppCompatActivity {
                     }
                 });
 
-
-        Log.d("AddLocationActivity", "onSuccess: groupNames " + groupNames);
-        Log.d("AddLocationActivity", "onCreate: groupNamesArray " + groupNamesArray );
-
-
-
-        //paulo has a section here on getting the username bc that is displayed in his app, mine doesn't display that so i'm skipping it
-        //still need userId
         if (UserInfo.getInstance() != null) {
             currentUserId = UserInfo.getInstance().getUserId();
         }
@@ -156,33 +146,6 @@ public class AddLocationActivity extends AppCompatActivity {
         super.onStart();
         user = firebaseAuth.getCurrentUser();
         firebaseAuth.addAuthStateListener(authStateListener);
-
-
-//        //get all groupNames from Firestore for groupNames array that I use for drop down in activity_add_location.xml
-//        collectionReference.whereEqualTo("userId", UserInfo.getInstance()
-//                .getUserId()) //gets back all of users locations
-//                .get()
-//                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-//                        if (!queryDocumentSnapshots.isEmpty()) {
-//                            for (QueryDocumentSnapshot locations : queryDocumentSnapshots) {
-//                                Location location = locations.toObject(Location.class);
-//                                groupNames.add(location.getGroupName());
-//                                Log.d("AddLocationActivity", "onSuccess: groupNames array " + groupNames);
-//                            }
-//
-//                        }else {
-//                            //document is empty (no collections)
-//                        }
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//
-//                    }
-//                });
     }
 
     @Override
