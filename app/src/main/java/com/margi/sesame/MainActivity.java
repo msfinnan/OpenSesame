@@ -19,9 +19,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import javax.annotation.Nullable;
 
-import util.UserInfo;
+import util.AppController;
 
 public class MainActivity extends AppCompatActivity {
+    //https://maps.googleapis.com/maps/api/place/findplacefromtext/json?parameters&key=AIzaSyBaodfDXSnUPLSaDUd15BjAbqG4THfraZQ&input=evoke seattle&inputtype=textquery
     private ImageView logo;
 
     private FirebaseAuth firebaseAuth;
@@ -62,9 +63,9 @@ public class MainActivity extends AppCompatActivity {
 
                                     if (!queryDocumentSnapshots.isEmpty()){
                                         for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots){
-                                            UserInfo userInfo = UserInfo.getInstance();
-                                            userInfo.setUserId(snapshot.getString("userId"));
-                                            userInfo.setUsername(snapshot.getString("username"));
+                                            AppController appController = AppController.getInstance();
+                                            appController.setUserId(snapshot.getString("userId"));
+                                            appController.setUsername(snapshot.getString("username"));
 
                                             startActivity(new Intent(MainActivity.this,
                                                     LocationListActivity.class));

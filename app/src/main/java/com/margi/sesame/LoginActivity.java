@@ -28,7 +28,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import javax.annotation.Nullable;
 
-import util.UserInfo;
+import util.AppController;
 
 public class LoginActivity extends AppCompatActivity {
     private Button loginButton;
@@ -117,9 +117,9 @@ public class LoginActivity extends AppCompatActivity {
                                                 //loop through to get user bc it is coming in as an arraylist or something like that
 
                                                 for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
-                                                    UserInfo userInfo = UserInfo.getInstance();
-                                                    userInfo.setUsername(snapshot.getString("username")); //username is name of field in database
-                                                    userInfo.setUserId(snapshot.getString("userId"));
+                                                    AppController appController = AppController.getInstance();
+                                                    appController.setUsername(snapshot.getString("username")); //username is name of field in database
+                                                    appController.setUserId(snapshot.getString("userId"));
 
                                                     //go to list activity //used global class instead of making an intent
                                                     startActivity(new Intent(LoginActivity.this,

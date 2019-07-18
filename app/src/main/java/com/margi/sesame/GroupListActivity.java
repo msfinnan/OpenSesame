@@ -10,8 +10,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -27,7 +25,7 @@ import java.util.List;
 
 import model.Location;
 import ui.LocationRecyclerAdapter;
-import util.UserInfo;
+import util.AppController;
 
 public class GroupListActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
@@ -104,7 +102,7 @@ public class GroupListActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         //get all Collections from Firestore
-        collectionReference.whereEqualTo("userId", UserInfo.getInstance()
+        collectionReference.whereEqualTo("userId", AppController.getInstance()
                 .getUserId()) //gets back all of users locations
                 .whereEqualTo("groupName", groupName) //filters down
                 .get()

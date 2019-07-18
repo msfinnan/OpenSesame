@@ -1,10 +1,10 @@
 package com.margi.sesame;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -17,6 +17,8 @@ import android.widget.ProgressBar;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -26,12 +28,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 import model.Location;
-import ui.LocationRecyclerAdapter;
-import util.UserInfo;
+import util.AppController;
 
 public class AddLocationActivity extends AppCompatActivity {
 
@@ -65,8 +64,8 @@ public class AddLocationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_location);
 
 
-        // If we need access to the user id or username can use UserInfo class like below
-        // UserInfo.getInstance().getUserId();
+        // If we need access to the user id or username can use AppController class like below
+        // AppController.getInstance().getUserId();
         firebaseAuth = FirebaseAuth.getInstance();
         progressBar = findViewById(R.id.addLocationProgressBar);
         locationNameEditText = findViewById(R.id.locationNameEditText);
@@ -79,7 +78,7 @@ public class AddLocationActivity extends AppCompatActivity {
         groupNamesArray = new ArrayList<>();
 
         //get all groupNames from Firestore for groupNames array that I use for autocomplete drop down in activity_add_location.xml
-        collectionReference.whereEqualTo("userId", UserInfo.getInstance()
+        collectionReference.whereEqualTo("userId", AppController.getInstance()
                 .getUserId())
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -114,8 +113,8 @@ public class AddLocationActivity extends AppCompatActivity {
                     }
                 });
 
-        if (UserInfo.getInstance() != null) {
-            currentUserId = UserInfo.getInstance().getUserId();
+        if (AppController.getInstance() != null) {
+            currentUserId = AppController.getInstance().getUserId();
         }
 
         authStateListener =new FirebaseAuth.AuthStateListener() {
@@ -155,7 +154,6 @@ public class AddLocationActivity extends AppCompatActivity {
             firebaseAuth.removeAuthStateListener(authStateListener);
         }
     }
-
 
 
     //    @Override

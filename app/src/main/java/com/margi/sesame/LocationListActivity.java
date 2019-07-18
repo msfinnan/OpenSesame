@@ -26,7 +26,7 @@ import java.util.List;
 
 import model.Location;
 import ui.LocationRecyclerAdapter;
-import util.UserInfo;
+import util.AppController;
 
 public class LocationListActivity extends AppCompatActivity {
 
@@ -98,7 +98,7 @@ public class LocationListActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         //get all Collections from Firestore
-        collectionReference.whereEqualTo("userId", UserInfo.getInstance()
+        collectionReference.whereEqualTo("userId", AppController.getInstance()
                 .getUserId()) //gets back all of users locations
 //                .whereEqualTo("groupName", "Dog Friendly Bars") //filters down
                 .get()

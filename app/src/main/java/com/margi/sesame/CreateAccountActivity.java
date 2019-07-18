@@ -28,7 +28,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import util.UserInfo;
+import util.AppController;
 
 public class CreateAccountActivity extends AppCompatActivity {
 
@@ -152,9 +152,9 @@ public class CreateAccountActivity extends AppCompatActivity {
 
 
                                                                     //save user info to global userinfo
-                                                                    UserInfo userInfo = UserInfo.getInstance();
-                                                                    userInfo.setUserId(currentUserId);
-                                                                    userInfo.setUsername(name);
+                                                                    AppController appController = AppController.getInstance();
+                                                                    appController.setUserId(currentUserId);
+                                                                    appController.setUsername(name);
 
 
                                                                     //pass via intent

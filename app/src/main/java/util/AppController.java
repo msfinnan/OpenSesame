@@ -1,25 +1,30 @@
 package util;
 
 import android.app.Application;
+import android.content.Context;
+
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.net.PlacesClient;
 //JournalApi in Paulo's tutorial
 //this global class will hold user id and username
 //it is a singleton
 //added this to manifest (it is a singleton that can be used anywhere in the application)
 
-public class UserInfo extends Application {
+
+public class AppController extends Application {
     private String username;
     private String userId;
-    private static UserInfo instance; //singleton
+    private static AppController instance; //singleton
 
-    //getInstance method of type UserInfo
-    public static UserInfo getInstance() {
+    //getInstance method of type AppController
+    public static AppController getInstance() {
         if (instance == null)
-            instance = new UserInfo();
+            instance = new AppController();
 
         return instance;
     }
 
-    public UserInfo(){} //empty constructor
+    public AppController(){} //empty constructor
 
 
     public String getUsername() {
@@ -37,4 +42,5 @@ public class UserInfo extends Application {
     public void setUserId(String userId) {
         this.userId = userId;
     }
+
 }

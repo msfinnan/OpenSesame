@@ -20,7 +20,7 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:hint="@string/location_name" />
-
+    
     <AutoCompleteTextView
         android:id="@+id/groupNameAutoComplete"
         android:layout_width="match_parent"
