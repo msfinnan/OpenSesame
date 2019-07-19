@@ -10,16 +10,14 @@
     android:padding="18dp"
     tools:context=".AddLocationActivity">
 
-    <EditText
-        android:id="@+id/locationNameEditText"
+
+    <fragment android:id="@+id/autocomplete_fragment"
+        android:hint="@string/location_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="276dp"
-        android:layout_marginEnd="8dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="@string/location_name" />
+        android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+        />
+
 
     <AutoCompleteTextView
         android:id="@+id/groupNameAutoComplete"
@@ -29,6 +27,7 @@
         android:layout_marginEnd="8dp"
         android:ems="10"
         android:inputType="textPersonName"
+        android:textSize="20sp"
         android:hint="@string/group_name" />
 
     <Button

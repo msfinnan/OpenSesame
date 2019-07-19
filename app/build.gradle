@@ -1,6 +1,8 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 
+
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.0"
@@ -11,13 +13,19 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField 'String', "ApiKey", openSesame_googleMapsApiKey
+        resValue 'string', "api_key", openSesame_googleMapsApiKey
     }
+
+
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
 }
 
 dependencies {
@@ -35,6 +43,7 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.android.volley:volley:1.1.1'
     implementation 'com.google.android.libraries.places:places:2.0.0'
+
 }
 
 
