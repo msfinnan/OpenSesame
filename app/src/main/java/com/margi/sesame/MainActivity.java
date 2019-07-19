@@ -22,7 +22,6 @@ import javax.annotation.Nullable;
 import util.AppController;
 
 public class MainActivity extends AppCompatActivity {
-    //https://maps.googleapis.com/maps/api/place/findplacefromtext/json?parameters&key=AIzaSyBaodfDXSnUPLSaDUd15BjAbqG4THfraZQ&input=evoke seattle&inputtype=textquery
     private ImageView logo;
 
     private FirebaseAuth firebaseAuth;
