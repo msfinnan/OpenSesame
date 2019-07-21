@@ -65,33 +65,37 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
     @Override
     public void onBindViewHolder(@NonNull final LocationRecyclerAdapter.ViewHolder viewHolder, int position) {
         final Location location = locationList.get(position);
-        //set Open status on location
+       //set Open status on location
         String placeId = location.getLocationId();
 
 
-// Specify the fields to return.
+        // Specify the fields to return.
         List<Place.Field> placeFields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.OPENING_HOURS, Place.Field.UTC_OFFSET);
 
-// Construct a request object, passing the place ID and fields array.
+        // Construct a request object, passing the place ID and fields array.
         FetchPlaceRequest request = FetchPlaceRequest.newInstance(placeId, placeFields);
 
         placesClient.fetchPlace(request).addOnSuccessListener(new OnSuccessListener<FetchPlaceResponse>() {
             @Override
             public void onSuccess(FetchPlaceResponse fetchPlaceResponse) {
                 Place place = fetchPlaceResponse.getPlace();
-                Log.d("LocationRecyclerAdapter", "onSuccess: Place found " + place.isOpen());
                 openStatus = place.isOpen();
 
-                location.setOpen(openStatus);
-                Log.d("LocationRecyclerAdapter", "fetchLocation: openStatus " + openStatus);
-                viewHolder.openClosed.setText(location.getOpen().toString());
-                if (openStatus) {
-                    viewHolder.openClosed.setText("Open");
-                    viewHolder.openClosed.setTextColor(context.getResources().getColor(R.color.colorPrimary));
-                }else{
-                    viewHolder.openClosed.setText("Closed");
-                    viewHolder.openClosed.setTextColor(context.getResources().getColor(R.color.colorAccent));
+                Log.d("LocationRecyclerAdapter", "onSuccess: Place Found " + place.isOpen());
 
+                if (openStatus != null) {
+//                    location.setOpen(openStatus);
+                    Log.d("LocationRecyclerAdapter", "fetchLocation: openStatus " + openStatus);
+//                    viewHolder.openClosed.setText(location.getOpen().toString());
+                    if (openStatus) {
+                        viewHolder.openClosed.setText("Open");
+                        viewHolder.openClosed.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+                    }else {
+                        viewHolder.openClosed.setText("Closed");
+                        viewHolder.openClosed.setTextColor(context.getResources().getColor(R.color.colorAccent));
+                    }
+                }else {
+                    viewHolder.openClosed.setText("No hours provided");
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -100,9 +104,9 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
                 Log.d("LocationRecyclerAdapter", "onFailure: Place not found" + e.getMessage());
             }
         });
-
-
-        //get location object
+//
+//
+//        //get location object
 
 
         viewHolder.locationName.setText(location.getLocationName());
