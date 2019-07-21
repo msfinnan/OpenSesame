@@ -123,7 +123,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                                     //go to list activity //used global class instead of making an intent
                                                     startActivity(new Intent(LoginActivity.this,
-                                                            AddLocationActivity.class));
+                                                            LocationListActivity.class));
 //                                                    finish(); //will come back to this.
                                                 }
 

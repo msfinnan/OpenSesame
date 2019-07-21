@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Sesame</string>
+    <string name="app_name">Open Sesame</string>
     <string name="open_sesame_logo">Open Sesame Logo</string>
     <string name="get_started">Get Started</string>
     <string name="email_hint">Email</string>

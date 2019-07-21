@@ -67,7 +67,7 @@ public class AddLocationActivity extends AppCompatActivity {
     private String currentUserId;
 //    private String currentUserName;
 
-    private LatLng latLng;
+//    private LatLng latLng;
 
     //firebase auth instance variable
     private FirebaseAuth firebaseAuth;
@@ -85,7 +85,7 @@ public class AddLocationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_location);
 
-        latLng = new LatLng(47.608013,-122.335167);
+//        latLng = new LatLng(47.608013,-122.335167);
 
 
         // Initialize the SDK

@@ -5,17 +5,16 @@ public class Location {
     private String groupName;
     private String userId;
     private String locationId;
-    private Boolean isOpen;
-    //what else do I need? An array of locations? or do I add that later
+//    private Boolean isOpen;
 
     public Location() { } //must have empty constructor for firestore for work
 
-    public Location(String locationName, String groupName, String userId, String locationId, Boolean isOpen) {
+    public Location(String locationName, String groupName, String userId, String locationId) {
         this.locationName = locationName;
         this.groupName = groupName;
         this.userId = userId;
         this.locationId = locationId;
-        this.isOpen = isOpen;
+//        this.isOpen = isOpen;
     }
 
     public String getLocationName() {
@@ -50,11 +49,11 @@ public class Location {
         this.locationId = locationId;
     }
 
-    public Boolean getOpen() {
-        return isOpen;
-    }
-
-    public void setOpen(Boolean open) {
-        isOpen = open;
-    }
+//    public Boolean getOpen() {
+//        return isOpen;
+//    }
+//
+//    public void setOpen(Boolean open) {
+//        isOpen = open;
+//    }
 }

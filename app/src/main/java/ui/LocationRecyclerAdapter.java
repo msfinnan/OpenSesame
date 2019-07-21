@@ -20,6 +20,7 @@ import com.google.android.libraries.places.api.net.FetchPlaceResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.margi.sesame.BuildConfig;
 import com.margi.sesame.GroupListActivity;
+import com.margi.sesame.LocationDetailsActivity;
 import com.margi.sesame.R;
 
 import java.util.Arrays;
@@ -35,12 +36,14 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
     private PlacesClient placesClient;
     private Boolean openBool;
     private Boolean openStatus;
+    private OnLocationNameListener mOnLocationNameListener;
 //    private String apiKey;
 
 
-    public LocationRecyclerAdapter(Context context, List<Location> locationList) {
+    public LocationRecyclerAdapter(Context context, List<Location> locationList, OnLocationNameListener onLocationNameListener) {
         this.context = context;
         this.locationList = locationList;
+        this.mOnLocationNameListener = onLocationNameListener;
 
     }
 
@@ -58,7 +61,7 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
         // Create a new Places client instance
         placesClient = Places.createClient(context);
 
-        return new ViewHolder(view, context);
+        return new ViewHolder(view, context, mOnLocationNameListener);
     }
 
 
@@ -88,14 +91,15 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
                     Log.d("LocationRecyclerAdapter", "fetchLocation: openStatus " + openStatus);
 //                    viewHolder.openClosed.setText(location.getOpen().toString());
                     if (openStatus) {
-                        viewHolder.openClosed.setText("Open");
-                        viewHolder.openClosed.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+
+                        viewHolder.openClosedTextView.setText("Open");
+                        viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
                     }else {
-                        viewHolder.openClosed.setText("Closed");
-                        viewHolder.openClosed.setTextColor(context.getResources().getColor(R.color.colorAccent));
+                        viewHolder.openClosedTextView.setText("Closed");
+                        viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorAccent));
                     }
                 }else {
-                    viewHolder.openClosed.setText("No hours provided");
+                    viewHolder.openClosedTextView.setText("No hours provided");
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -120,23 +124,31 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
         return locationList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView locationName;
         public TextView groupName;
-        public TextView openClosed;
-        String userId;
-        String userName;
+        public TextView openClosedTextView;
+
+        OnLocationNameListener onLocationNameListener;
 
 
-        public ViewHolder(@NonNull View itemView, Context ctx) {
+
+        public ViewHolder(@NonNull View itemView, Context ctx, OnLocationNameListener onLocationNameListener) {
             //pass context so we can go to next activity ctx.startActivity...
             super(itemView);
             context = ctx;
+            this.onLocationNameListener = onLocationNameListener;
+
+
 
 
             locationName = itemView.findViewById(R.id.location_name_list);
             groupName = itemView.findViewById(R.id.group_name_list);
-            openClosed = itemView.findViewById(R.id.open_closed_list);
+            openClosedTextView = itemView.findViewById(R.id.open_closed_list);
+
+
+            locationName.setOnClickListener(this);
+//            groupName.setOnClickListener(this);
 
             groupName.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -153,7 +165,24 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
             });
 
         }
+
+        @Override
+        public void onClick(View view) {
+//            onLocationNameListener.onGroupNameClick(getAdapterPosition());
+
+            onLocationNameListener.onLocationNameClick(getAdapterPosition());
+
+        }
     }
+    public interface OnLocationNameListener {
+        void onLocationNameClick(int position);
+//        void onGroupNameClick(int position);
+    }
+
+}
+
+
+
 
 //        private boolean fetchOpenStatus(){
 //initialize
@@ -161,7 +190,7 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
 //            Places.initialize(this, this.getString(R.string.apiKey));
 //        }
 //        PlacesClient placesClient = Places.createClient(this);
-        // Define a Place ID.
+// Define a Place ID.
 //        String placeId = ;
 //
 //
@@ -189,4 +218,3 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
 //        return openStatus;
 
 //    }
-}
