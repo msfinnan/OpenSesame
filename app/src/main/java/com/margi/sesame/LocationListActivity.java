@@ -10,7 +10,12 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -22,6 +27,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import model.Location;
@@ -39,6 +45,10 @@ public class LocationListActivity extends AppCompatActivity implements LocationR
     private List<Location> locationList;
     private RecyclerView recyclerView;
     private LocationRecyclerAdapter locationRecyclerAdapter;
+
+    private HashSet<String> groupNames;
+    private ArrayList<String> groupNamesArray;
+    private Spinner spinner;
 
 
     private CollectionReference collectionReference = db.collection("Locations");
@@ -58,6 +68,79 @@ public class LocationListActivity extends AppCompatActivity implements LocationR
         recyclerView = findViewById(R.id.recyclerViewCollectionList);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        groupNames = new HashSet<>();
+        groupNames.add("View All Locations");
+        groupNamesArray = new ArrayList<>();
+        spinner = findViewById(R.id.group_spinner);
+
+        //get all groupNames from Firestore for groupNames array that I use for autocomplete drop down in activity_add_location.xml
+        collectionReference.whereEqualTo("userId", AppController.getInstance()
+                .getUserId())
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        if (!queryDocumentSnapshots.isEmpty()) {
+                            for (QueryDocumentSnapshot locations : queryDocumentSnapshots) {
+                                Location location = locations.toObject(Location.class);
+                                groupNames.add(location.getGroupName());
+                            }
+                            //convert hashset to arraylist
+                            groupNamesArray = new ArrayList<>(groupNames);
+
+                            //Creating the instance of ArrayAdapter containing list of group Names
+                            ArrayAdapter<String> adapter = new ArrayAdapter<>
+                                    (LocationListActivity.this, android.R.layout.simple_spinner_item, groupNamesArray);
+
+                            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            spinner.setAdapter(adapter);
+
+
+                            int spinnerPosition = adapter.getPosition("View All Locations");
+
+                            //set the default according to value
+                            spinner.setSelection(spinnerPosition);
+
+
+                            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                @Override
+                                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                    if (adapterView.getItemAtPosition(i).toString() == "View All Locations"){
+                                        //stay on the same page
+
+                                    }else {
+                                        Intent intent = new Intent(LocationListActivity.this, GroupListActivity.class);
+                                        //add group name to intent
+                                        String groupName = adapterView.getItemAtPosition(i).toString();
+                                        intent.putExtra("groupName", groupName);
+                                        startActivity(intent);
+                                    }
+                                }
+
+                                @Override
+                                public void onNothingSelected(AdapterView<?> adapterView) {
+
+                                }
+                            });
+
+                            //Getting the instance of AutoCompleteTextView
+//                            AutoCompleteTextView actv = findViewById(R.id.groupNameAutoComplete);
+//                            actv.setThreshold(1);//will start working from first character
+//                            actv.setAdapter(adapter);//setting the adapter data into the AutoCompleteTextView
+
+                        }else {
+                            //document is empty (no collections)
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+
     }
 
     @Override

@@ -23,7 +23,10 @@ import com.margi.sesame.GroupListActivity;
 import com.margi.sesame.LocationDetailsActivity;
 import com.margi.sesame.R;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import model.Location;
@@ -83,15 +86,19 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
             public void onSuccess(FetchPlaceResponse fetchPlaceResponse) {
                 Place place = fetchPlaceResponse.getPlace();
                 openStatus = place.isOpen();
+                DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                Date date = new Date();
 
-                Log.d("LocationRecyclerAdapter", "onSuccess: Place Found " + place.isOpen());
+
+                Log.d("LocationRecyclerAdapter", "onSuccess: Place Found " + place.getName() + " " + place.isOpen());
+                Log.d("LocationRecyclerAdapter", "Time " + dateFormat.format(date));
+
 
                 if (openStatus != null) {
 //                    location.setOpen(openStatus);
                     Log.d("LocationRecyclerAdapter", "fetchLocation: openStatus " + openStatus);
 //                    viewHolder.openClosed.setText(location.getOpen().toString());
                     if (openStatus) {
-
                         viewHolder.openClosedTextView.setText("Open");
                         viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
                     }else {
