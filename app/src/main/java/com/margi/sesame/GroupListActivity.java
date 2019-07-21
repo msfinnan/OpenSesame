@@ -27,7 +27,7 @@ import model.Location;
 import ui.LocationRecyclerAdapter;
 import util.AppController;
 
-public class GroupListActivity extends AppCompatActivity {
+public class GroupListActivity extends AppCompatActivity implements LocationRecyclerAdapter.OnLocationNameListener {
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
     private FirebaseUser user;
@@ -40,6 +40,7 @@ public class GroupListActivity extends AppCompatActivity {
 
     private CollectionReference collectionReference = db.collection("Locations");
     private String groupName;
+
 //    private TextView noLocationEntry;
 
 
@@ -75,14 +76,13 @@ public class GroupListActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_add :
                 //take users to AddLocationActivity
-//                if (user != null && firebaseAuth != null) {
-//                    startActivity(new Intent(LocationListActivity.this,
-//                            AddLocationActivity.class));
+                if (user != null && firebaseAuth != null) {
+                    startActivity(new Intent(GroupListActivity.this,
+                            AddLocationActivity.class));
 ////                    finish(); //come back to this
 //
-//                }
-
-                break;
+                }
+                    break;
             case R.id.action_sign_out :
                 if (user != null && firebaseAuth != null){
                     firebaseAuth.signOut();
@@ -117,7 +117,7 @@ public class GroupListActivity extends AppCompatActivity {
 
                             //invoke recycler view
                             locationRecyclerAdapter = new LocationRecyclerAdapter(GroupListActivity.this,
-                                    locationList);
+                                    locationList, GroupListActivity.this);
                             recyclerView.setAdapter(locationRecyclerAdapter);
                             locationRecyclerAdapter.notifyDataSetChanged();
 
@@ -135,4 +135,26 @@ public class GroupListActivity extends AppCompatActivity {
                 });
 
     }
+
+    @Override
+    public void onLocationNameClick(int position) {
+
+        //get location object
+        Location currentLocation = locationList.get(position);
+        Intent intent = new Intent(this, LocationDetailsActivity.class);
+        //add location id to intent
+        intent.putExtra("locatinId", currentLocation.getLocationId());
+        startActivity(intent);
+
+    }
+
+//    @Override
+//    public void onGroupNameClick(int position) {
+//        Location currentLocation = locationList.get(position);
+//        Intent intent = new Intent(this, GroupListActivity.class);
+//        //add group name to intent
+//        intent.putExtra("groupName", currentLocation.getGroupName());
+//        startActivity(intent);
+//    }
+
 }

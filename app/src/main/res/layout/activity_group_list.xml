@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/list_no_locations"
+        android:id="@+id/group_no_locations"
         android:layout_width="424dp"
         android:layout_height="712dp"
         android:layout_marginStart="8dp"

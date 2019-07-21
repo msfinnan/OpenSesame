@@ -28,20 +28,20 @@ import model.Location;
 import ui.LocationRecyclerAdapter;
 import util.AppController;
 
-public class LocationListActivity extends AppCompatActivity {
+public class LocationListActivity extends AppCompatActivity implements LocationRecyclerAdapter.OnLocationNameListener{
 
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
     private FirebaseUser user;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-//    private StorageReference storageReference;
-    // don't think I need this bc I don't have images, maybe once I add locations to the collection
+
+    private TextView noLocationEntry;
     private List<Location> locationList;
     private RecyclerView recyclerView;
     private LocationRecyclerAdapter locationRecyclerAdapter;
 
+
     private CollectionReference collectionReference = db.collection("Locations");
-    private TextView noLocationEntry;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,7 +114,7 @@ public class LocationListActivity extends AppCompatActivity {
 
                             //invoke recycler view
                             locationRecyclerAdapter = new LocationRecyclerAdapter(LocationListActivity.this,
-                                    locationList);
+                                    locationList, LocationListActivity.this);
                             recyclerView.setAdapter(locationRecyclerAdapter);
                             locationRecyclerAdapter.notifyDataSetChanged();
 
@@ -132,4 +132,24 @@ public class LocationListActivity extends AppCompatActivity {
                 });
 
     }
+
+    @Override
+    public void onLocationNameClick(int position) {
+        //get location object
+        Location currentLocation = locationList.get(position);
+        Intent intent = new Intent(this, LocationDetailsActivity.class);
+        //add location id to intent
+        intent.putExtra("locationId", currentLocation.getLocationId());
+        startActivity(intent);
+    }
+
+//    @Override
+//    public void onGroupNameClick(int position) {
+//        Location currentLocation = locationList.get(position);
+//        Intent intent = new Intent(this, GroupListActivity.class);
+//        //add group name to intent
+//        intent.putExtra("groupName", currentLocation.getGroupName());
+//        startActivity(intent);
+//
+//    }
 }

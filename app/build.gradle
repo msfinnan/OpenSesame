@@ -2,7 +2,6 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 
 
-
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.0"
@@ -16,7 +15,6 @@ android {
         buildConfigField 'String', "ApiKey", openSesame_googleMapsApiKey
         resValue 'string', "api_key", openSesame_googleMapsApiKey
     }
-
 
 
     buildTypes {
@@ -45,5 +43,3 @@ dependencies {
     implementation 'com.google.android.libraries.places:places:2.0.0'
 
 }
-
-
