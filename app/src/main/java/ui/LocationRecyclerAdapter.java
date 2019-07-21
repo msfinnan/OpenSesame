@@ -82,19 +82,23 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
             @Override
             public void onSuccess(FetchPlaceResponse fetchPlaceResponse) {
                 Place place = fetchPlaceResponse.getPlace();
-                Log.d("LocationRecyclerAdapter", "onSuccess: Place found " + place.isOpen());
-//                openStatus = place.isOpen();
+                openStatus = place.isOpen();
 
-//                location.setOpen(openStatus);
-//                Log.d("LocationRecyclerAdapter", "fetchLocation: openStatus " + openStatus);
-//                viewHolder.openClosed.setText(location.getOpen().toString());
-                if (place.isOpen()) {
-                    viewHolder.openClosedTextView.setText("Open");
-                    viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
-                }else{
-                    viewHolder.openClosedTextView.setText("Closed");
-                    viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorAccent));
+                Log.d("LocationRecyclerAdapter", "onSuccess: Place Found " + place.isOpen());
 
+                if (openStatus != null) {
+//                    location.setOpen(openStatus);
+                    Log.d("LocationRecyclerAdapter", "fetchLocation: openStatus " + openStatus);
+//                    viewHolder.openClosed.setText(location.getOpen().toString());
+                    if (openStatus) {
+                        viewHolder.openClosedTextView.setText("Open");
+                        viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+                    }else {
+                        viewHolder.openClosedTextView.setText("Closed");
+                        viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorAccent));
+                    }
+                }else {
+                    viewHolder.openClosedTextView.setText("No hours provided");
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {

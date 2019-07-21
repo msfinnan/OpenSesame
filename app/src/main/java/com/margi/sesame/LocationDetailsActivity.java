@@ -104,30 +104,36 @@ public class LocationDetailsActivity extends AppCompatActivity {
             public void onSuccess(FetchPlaceResponse fetchPlaceResponse) {
                 final Place place = fetchPlaceResponse.getPlace();
 
-                locationNameTextView.setText(place.getName());
+                if (place.getName() != null) {
+                    locationNameTextView.setText(place.getName());
+                }
 
-                locationAddressTextView.setText(place.getAddress());
+                if (place.getAddress() != null) {
+                    locationAddressTextView.setText(place.getAddress());
+                }
 
-                String sundayHours = place.getOpeningHours().getWeekdayText().get(6);
-                sundayHoursTextView.setText(sundayHours);
+                if (place.getOpeningHours() != null ) {
+                    String sundayHours = place.getOpeningHours().getWeekdayText().get(6);
+                    sundayHoursTextView.setText(sundayHours);
 
-                String mondayHours = place.getOpeningHours().getWeekdayText().get(0);
-                mondayHoursTextView.setText(mondayHours);
+                    String mondayHours = place.getOpeningHours().getWeekdayText().get(0);
+                    mondayHoursTextView.setText(mondayHours);
 
-                String tuesdayHours = place.getOpeningHours().getWeekdayText().get(1);
-                tuesdayHoursTextView.setText(tuesdayHours);
+                    String tuesdayHours = place.getOpeningHours().getWeekdayText().get(1);
+                    tuesdayHoursTextView.setText(tuesdayHours);
 
-                String wednesdayHours = place.getOpeningHours().getWeekdayText().get(2);
-                wednesdayHoursTextView.setText(wednesdayHours);
+                    String wednesdayHours = place.getOpeningHours().getWeekdayText().get(2);
+                    wednesdayHoursTextView.setText(wednesdayHours);
 
-                String thursdayHours = place.getOpeningHours().getWeekdayText().get(3);
-                thursdayHoursTextView.setText(thursdayHours);
+                    String thursdayHours = place.getOpeningHours().getWeekdayText().get(3);
+                    thursdayHoursTextView.setText(thursdayHours);
 
-                String fridayHours = place.getOpeningHours().getWeekdayText().get(4);
-                fridayHoursTextView.setText(fridayHours);
+                    String fridayHours = place.getOpeningHours().getWeekdayText().get(4);
+                    fridayHoursTextView.setText(fridayHours);
 
-                String saturdayHours = place.getOpeningHours().getWeekdayText().get(5);
-                saturdayHoursTextView.setText(saturdayHours);
+                    String saturdayHours = place.getOpeningHours().getWeekdayText().get(5);
+                    saturdayHoursTextView.setText(saturdayHours);
+                }
 
                 if (place.getWebsiteUri() != null) {
                     String website = place.getWebsiteUri().toString();
