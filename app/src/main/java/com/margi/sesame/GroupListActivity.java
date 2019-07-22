@@ -143,7 +143,7 @@ public class GroupListActivity extends AppCompatActivity implements LocationRecy
         Location currentLocation = locationList.get(position);
         Intent intent = new Intent(this, LocationDetailsActivity.class);
         //add location id to intent
-        intent.putExtra("locatinId", currentLocation.getLocationId());
+        intent.putExtra("locationId", currentLocation.getLocationId());
         startActivity(intent);
 
     }

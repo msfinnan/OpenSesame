@@ -14,19 +14,29 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Period;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.net.FetchPlaceRequest;
 import com.google.android.libraries.places.api.net.FetchPlaceResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.api.LogDescriptor;
 import com.margi.sesame.BuildConfig;
 import com.margi.sesame.GroupListActivity;
 import com.margi.sesame.LocationDetailsActivity;
 import com.margi.sesame.R;
 
+import org.json.JSONObject;
+
+import java.sql.Timestamp;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import model.Location;
@@ -86,17 +96,63 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
             public void onSuccess(FetchPlaceResponse fetchPlaceResponse) {
                 Place place = fetchPlaceResponse.getPlace();
                 openStatus = place.isOpen();
-                DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-                Date date = new Date();
 
+//                Log.d("RecyclerAdapter", "onSuccess: " + place.getOpeningHours());
 
-                Log.d("LocationRecyclerAdapter", "onSuccess: Place Found " + place.getName() + " " + place.isOpen());
-                Log.d("LocationRecyclerAdapter", "Time " + dateFormat.format(date));
+//                Date closingTime = null;
+//                try {
+//                    //get closing hour and minute
+//                    //currently hard coded
+//                    //todo add logic to pull in hour and minute of closing for today
+//                    Date today = new Date();
+//                    Calendar calendar = GregorianCalendar.getInstance(); // creates a new calendar instance
+//                    calendar.setTime(today);   // assigns calendar to given date
+//
+//                    List<Period> periods = place.getOpeningHours().getPeriods();
+//                    //todo loop through periods List and do something meaningful with open closed times
+//
+//
+//                    Log.d("LocationRecyclerAdapter", "onSuccess: Name " + place.getName());
+//                    Log.d("LocationRecyclerAdapter", "onSuccess: " + periods.);
+//
+//
+//                    closingTime = new SimpleDateFormat("k-m").parse("15-59");
+//                } catch (ParseException e) {
+//                    e.printStackTrace();
+//                }
+//                try {
+//                    //get todays hour and minute
+//                    Date today = new Date();
+//                    Calendar calendar = GregorianCalendar.getInstance(); // creates a new calendar instance
+//                    calendar.setTime(today);   // assigns calendar to given date
+//                    int hour = calendar.get(Calendar.HOUR_OF_DAY);
+//                    int minute = calendar.get(Calendar.MINUTE);
+//                    String hourString = Integer.toString(hour);
+//                    String minuteString = Integer.toString(minute);
+//                    String source = hourString + "-" + minuteString;
+//
+//                    Date currentTime = new SimpleDateFormat("k-m").parse(source);
+//
+//                    long diff =  closingTime.getTime() - currentTime.getTime();
+//                    int numOfDays = (int) (diff / (1000 * 60 * 60 * 24));
+//                    int hours = (int) (diff / (1000 * 60 * 60));
+//                    int minutes = (int) (diff / (1000 * 60));
+//                    int seconds = (int) (diff / (1000));
+//
+//                    Log.d("RecyclerAdapter", "onSuccess: " + minutes);
+//
+//                } catch (ParseException e) {
+//                    e.printStackTrace();
+//                }
+//
+
+//                Log.d("RecyclerAdapter", "onSuccess: " + today.toString());
+
 
 
                 if (openStatus != null) {
 //                    location.setOpen(openStatus);
-                    Log.d("LocationRecyclerAdapter", "fetchLocation: openStatus " + openStatus);
+//                    Log.d("LocationRecyclerAdapter", "fetchLocation: openStatus " + openStatus);
 //                    viewHolder.openClosed.setText(location.getOpen().toString());
                     if (openStatus) {
                         viewHolder.openClosedTextView.setText("Open");
@@ -115,8 +171,7 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
                 Log.d("LocationRecyclerAdapter", "onFailure: Place not found" + e.getMessage());
             }
         });
-//
-//
+
 //        //get location object
 
 
@@ -166,7 +221,7 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
                     String message = textView.getText().toString();
                     intent.putExtra("groupName", message);
                     context.startActivity(intent);
-                    Log.d("LocationRecycler", "onClick: message is: " + message);
+//                    Log.d("LocationRecycler", "onClick: message is: " + message);
 
                 }
             });
@@ -225,3 +280,47 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
 //        return openStatus;
 
 //    }
+
+
+//date stuff
+//                Date date= new Date();
+//
+//                long time = date.getTime();
+//                Log.d("LocationRecycler", "Time in Milliseconds: " + time);
+//
+//                Log.d("LocationRecycler", "Day of week " + Calendar.DAY_OF_WEEK);
+
+//                SimpleDateFormat simpleDataFormat = new SimpleDateFormat("EEE");
+//                Date date = new Date();
+//                DateFormat df = new SimpleDateFormat("hh:'00' a");
+//                String hour = df.format(date);
+//                Log.d("LocationRecycler", "onSuccess: hour " + hour);
+
+//                java.sql.Timestamp ts = rs.getTimestamp(1);
+
+//                Calendar now = Calendar.getInstance();
+//                int year = now.get(Calendar.YEAR);
+//                int month = now.get(Calendar.MONTH) + 1; // Note: zero based!
+//                int day = now.get(Calendar.DAY_OF_MONTH);
+//                int dayOfWeek = now.get(Calendar.DAY_OF_WEEK); //sunday is 1
+//                int hour = now.get(Calendar.HOUR_OF_DAY);
+//                int minute = now.get(Calendar.MINUTE);
+//                int second = now.get(Calendar.SECOND);
+
+//                Log.d("RecyclerAdapter", "onSuccess: " + dayOfWeek + " " + day +  " " + hour + " " + minute);
+
+//Get the calendar instance.
+//                Calendar calendar = Calendar.getInstance();
+
+//Set the time for the notification to occur.
+//                calendar.set(Calendar.YEAR, 2019);
+//                calendar.set(Calendar.MONTH, 7); //starts with 0!! 7 is Aug
+//                calendar.set(Calendar.DAY_OF_MONTH, 17);
+//                calendar.set(Calendar.HOUR_OF_DAY, 10);
+//                calendar.set(Calendar.MINUTE, 45);
+//                calendar.set(Calendar.SECOND, 0);
+
+
+
+//                Log.d("RecyclerAdapter", "onSuccess: future date" + calendar.get(Calendar.DAY_OF_WEEK));
+//                Log.d("RecyclerAdapter", "onSuccess: which is greater" + calendar.compareTo(now));
