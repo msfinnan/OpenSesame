@@ -19,29 +19,19 @@ import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.net.FetchPlaceRequest;
 import com.google.android.libraries.places.api.net.FetchPlaceResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
-import com.google.api.LogDescriptor;
 import com.margi.sesame.BuildConfig;
 import com.margi.sesame.GroupListActivity;
-import com.margi.sesame.LocationDetailsActivity;
 import com.margi.sesame.R;
+import com.margi.sesame.TimeRange;
 
-import org.json.JSONObject;
-
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
+import java.lang.reflect.Array;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
 
 import model.Location;
-
-import static android.provider.AlarmClock.EXTRA_MESSAGE;
 
 public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecyclerAdapter.ViewHolder> {
     private Context context;
@@ -50,6 +40,10 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
     private Boolean openBool;
     private Boolean openStatus;
     private OnLocationNameListener mOnLocationNameListener;
+    private HashMap<String, ArrayList> openHoursHashMap;
+//    private ArrayList<TimeRange> rangesArray;
+    private ArrayList<Place> placesArray;
+    private static String TAG = "LocationRecyclerAdapter";
 //    private String apiKey;
 
 
@@ -81,6 +75,7 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
     @Override
     public void onBindViewHolder(@NonNull final LocationRecyclerAdapter.ViewHolder viewHolder, int position) {
         final Location location = locationList.get(position);
+//        rangesArray = new ArrayList<TimeRange>();
        //set Open status on location
         String placeId = location.getLocationId();
 
@@ -96,58 +91,49 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
             public void onSuccess(FetchPlaceResponse fetchPlaceResponse) {
                 Place place = fetchPlaceResponse.getPlace();
                 openStatus = place.isOpen();
+                openHoursHashMap = new HashMap<>();
+                placesArray = new ArrayList<>();
 
-//                Log.d("RecyclerAdapter", "onSuccess: " + place.getOpeningHours());
 
-//                Date closingTime = null;
-//                try {
-//                    //get closing hour and minute
-//                    //currently hard coded
-//                    //todo add logic to pull in hour and minute of closing for today
-//                    Date today = new Date();
-//                    Calendar calendar = GregorianCalendar.getInstance(); // creates a new calendar instance
-//                    calendar.setTime(today);   // assigns calendar to given date
-//
-//                    List<Period> periods = place.getOpeningHours().getPeriods();
-//                    //todo loop through periods List and do something meaningful with open closed times
-//
-//
-//                    Log.d("LocationRecyclerAdapter", "onSuccess: Name " + place.getName());
-//                    Log.d("LocationRecyclerAdapter", "onSuccess: " + periods.);
-//
-//
-//                    closingTime = new SimpleDateFormat("k-m").parse("15-59");
-//                } catch (ParseException e) {
-//                    e.printStackTrace();
-//                }
-//                try {
-//                    //get todays hour and minute
-//                    Date today = new Date();
-//                    Calendar calendar = GregorianCalendar.getInstance(); // creates a new calendar instance
-//                    calendar.setTime(today);   // assigns calendar to given date
-//                    int hour = calendar.get(Calendar.HOUR_OF_DAY);
-//                    int minute = calendar.get(Calendar.MINUTE);
-//                    String hourString = Integer.toString(hour);
-//                    String minuteString = Integer.toString(minute);
-//                    String source = hourString + "-" + minuteString;
-//
-//                    Date currentTime = new SimpleDateFormat("k-m").parse(source);
-//
-//                    long diff =  closingTime.getTime() - currentTime.getTime();
-//                    int numOfDays = (int) (diff / (1000 * 60 * 60 * 24));
-//                    int hours = (int) (diff / (1000 * 60 * 60));
-//                    int minutes = (int) (diff / (1000 * 60));
-//                    int seconds = (int) (diff / (1000));
-//
-//                    Log.d("RecyclerAdapter", "onSuccess: " + minutes);
-//
-//                } catch (ParseException e) {
-//                    e.printStackTrace();
-//                }
-//
 
-//                Log.d("RecyclerAdapter", "onSuccess: " + today.toString());
+//                    for (int i = 0; i < place.getOpeningHours().getPeriods().size(); i++ ){
+//                int i = 0;
+//                Log.d(TAG, "onSuccess: Outside the loop and i is " + i );
+                for(Period place1 : place.getOpeningHours().getPeriods()) {
+                    ArrayList<TimeRange> rangesArray = new ArrayList<>();
 
+
+                    String openDay = place1.getOpen().getDay().toString();
+                        String closeDay = place1.getClose().getDay().toString();
+                        int openHours = place1.getOpen().getTime().getHours();
+                        int openMinutes = place1.getOpen().getTime().getMinutes();
+                        int closeHours = place1.getClose().getTime().getHours();
+                        int closeMinutes = place1.getClose().getTime().getMinutes();
+
+//                    Log.d(TAG, "onSuccess: in the loop and i is " + i + " and open Day is " + openDay);
+
+                        TimeRange timeRange = new TimeRange(openHours, openMinutes, closeHours, closeMinutes);
+//                        timeRange.setStartTime(String.valueOf(openHours) + ":" + String.valueOf(openMinutes));
+//                        timeRange.setEndTime(String.valueOf(closeHours) + ":" + String.valueOf(closeMinutes));
+
+//                    Log.d(TAG, "onSuccess: in the loop and i is " + i + " and timeRange is " + timeRange);
+
+//                        rangesArray.add(timeRange);
+
+                        //if key with value of open day does not
+                    if (!openHoursHashMap.containsKey(openDay)) {
+                        rangesArray.add(timeRange);
+                        openHoursHashMap.put(openDay, rangesArray);
+                    } else {
+                        openHoursHashMap.get(openDay).add(timeRange);
+                        Log.d(TAG, "onSuccess: hitting the else " + openDay);
+
+                    }
+                        //if key with value of open day does exist add rangesArray to that key
+//                        i++;
+                    }
+                Log.d("LocationRecycler", "onSuccess: openHoursHashMap" + openHoursHashMap);
+                Log.d("LocationRecycler", "onSuccess: Saturday" + openHoursHashMap.get("SATURDAY"));
 
 
                 if (openStatus != null) {
