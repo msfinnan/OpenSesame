@@ -33,6 +33,10 @@ public class TimeRange {
         //returns a bool
         return requestedTime.isAfter(startTime) && requestedTime.isBefore(endTime);
     }
+
+    public String toString(){
+        return startTime.toString() + " to " + endTime.toString();
+    }
 }
 
 

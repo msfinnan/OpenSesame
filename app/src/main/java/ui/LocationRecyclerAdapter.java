@@ -95,45 +95,52 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
                 placesArray = new ArrayList<>();
 
 
-
-//                    for (int i = 0; i < place.getOpeningHours().getPeriods().size(); i++ ){
-//                int i = 0;
-//                Log.d(TAG, "onSuccess: Outside the loop and i is " + i );
                 for(Period place1 : place.getOpeningHours().getPeriods()) {
+
                     ArrayList<TimeRange> rangesArray = new ArrayList<>();
 
 
                     String openDay = place1.getOpen().getDay().toString();
-                        String closeDay = place1.getClose().getDay().toString();
-                        int openHours = place1.getOpen().getTime().getHours();
-                        int openMinutes = place1.getOpen().getTime().getMinutes();
-                        int closeHours = place1.getClose().getTime().getHours();
-                        int closeMinutes = place1.getClose().getTime().getMinutes();
+                    String closeDay = place1.getClose().getDay().toString();
+                    int openHours = place1.getOpen().getTime().getHours();
+                    int openMinutes = place1.getOpen().getTime().getMinutes();
+                    int closeHours = place1.getClose().getTime().getHours();
+                    int closeMinutes = place1.getClose().getTime().getMinutes();
 
-//                    Log.d(TAG, "onSuccess: in the loop and i is " + i + " and open Day is " + openDay);
 
-                        TimeRange timeRange = new TimeRange(openHours, openMinutes, closeHours, closeMinutes);
-//                        timeRange.setStartTime(String.valueOf(openHours) + ":" + String.valueOf(openMinutes));
-//                        timeRange.setEndTime(String.valueOf(closeHours) + ":" + String.valueOf(closeMinutes));
+                    TimeRange timeRange;
+                    TimeRange timeRange2;
 
-//                    Log.d(TAG, "onSuccess: in the loop and i is " + i + " and timeRange is " + timeRange);
+                    if (openDay == closeDay) { //not open overnight
+                        timeRange = new TimeRange(openHours, openMinutes, closeHours, closeMinutes);
 
-//                        rangesArray.add(timeRange);
+                        if (!openHoursHashMap.containsKey(openDay)) {
+                            rangesArray.add(timeRange);
+                            openHoursHashMap.put(openDay, rangesArray);
+                        } else {
+                            openHoursHashMap.get(openDay).add(timeRange);
+                        }
+                    }else { //open overnight
+                        timeRange = new TimeRange (openHours, openMinutes, 23, 59);
 
-                        //if key with value of open day does not
-                    if (!openHoursHashMap.containsKey(openDay)) {
-                        rangesArray.add(timeRange);
-                        openHoursHashMap.put(openDay, rangesArray);
-                    } else {
-                        openHoursHashMap.get(openDay).add(timeRange);
-                        Log.d(TAG, "onSuccess: hitting the else " + openDay);
+                        if (!openHoursHashMap.containsKey(openDay)) {
+                            rangesArray.add(timeRange);
+                            openHoursHashMap.put(openDay, rangesArray);
+                        } else {
+                            openHoursHashMap.get(openDay).add(timeRange);
+                        }
+                        timeRange2 = new TimeRange (0, 00, closeHours, closeMinutes);
 
+                        if (!openHoursHashMap.containsKey(closeDay)) {
+                            rangesArray.add(timeRange2);
+                            openHoursHashMap.put(closeDay, rangesArray);
+                        } else {
+                            openHoursHashMap.get(closeDay).add(timeRange2);
+                        }
                     }
-                        //if key with value of open day does exist add rangesArray to that key
-//                        i++;
-                    }
-                Log.d("LocationRecycler", "onSuccess: openHoursHashMap" + openHoursHashMap);
-                Log.d("LocationRecycler", "onSuccess: Saturday" + openHoursHashMap.get("SATURDAY"));
+
+                }
+                Log.d("LocationRecycler", "onSuccess: openHoursHashMap - Saturday " + place.getName() + " " + openHoursHashMap.get("SATURDAY"));
 
 
                 if (openStatus != null) {
@@ -157,8 +164,6 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
                 Log.d("LocationRecyclerAdapter", "onFailure: Place not found" + e.getMessage());
             }
         });
-
-//        //get location object
 
 
         viewHolder.locationName.setText(location.getLocationName());
@@ -207,7 +212,6 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
                     String message = textView.getText().toString();
                     intent.putExtra("groupName", message);
                     context.startActivity(intent);
-//                    Log.d("LocationRecycler", "onClick: message is: " + message);
 
                 }
             });
@@ -229,84 +233,3 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
 
 }
 
-
-
-
-//        private boolean fetchOpenStatus(){
-//initialize
-//        if (!Places.isInitialized()) {
-//            Places.initialize(this, this.getString(R.string.apiKey));
-//        }
-//        PlacesClient placesClient = Places.createClient(this);
-// Define a Place ID.
-//        String placeId = ;
-//
-//
-//// Specify the fields to return.
-//        List<Place.Field> placeFields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.OPENING_HOURS, Place.Field.UTC_OFFSET);
-//
-//// Construct a request object, passing the place ID and fields array.
-//        FetchPlaceRequest request = FetchPlaceRequest.newInstance(placeId, placeFields);
-//
-//        placesClient.fetchPlace(request).addOnSuccessListener(new OnSuccessListener<FetchPlaceResponse>() {
-//            @Override
-//            public void onSuccess(FetchPlaceResponse fetchPlaceResponse) {
-//                Place place = fetchPlaceResponse.getPlace();
-//                Log.d("LocationRecyclerAdapter", "onSuccess: Place found " + place.isOpen());
-//                openStatus = place.isOpen();
-//            }
-//        }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//                Log.d("LocationRecyclerAdapter", "onFailure: Place not found" + e.getMessage());
-//            }
-//        });
-//
-//            Log.d("LocationRecyclerAdapter", "fetchLocation: openStatus " + openStatus);
-//        return openStatus;
-
-//    }
-
-
-//date stuff
-//                Date date= new Date();
-//
-//                long time = date.getTime();
-//                Log.d("LocationRecycler", "Time in Milliseconds: " + time);
-//
-//                Log.d("LocationRecycler", "Day of week " + Calendar.DAY_OF_WEEK);
-
-//                SimpleDateFormat simpleDataFormat = new SimpleDateFormat("EEE");
-//                Date date = new Date();
-//                DateFormat df = new SimpleDateFormat("hh:'00' a");
-//                String hour = df.format(date);
-//                Log.d("LocationRecycler", "onSuccess: hour " + hour);
-
-//                java.sql.Timestamp ts = rs.getTimestamp(1);
-
-//                Calendar now = Calendar.getInstance();
-//                int year = now.get(Calendar.YEAR);
-//                int month = now.get(Calendar.MONTH) + 1; // Note: zero based!
-//                int day = now.get(Calendar.DAY_OF_MONTH);
-//                int dayOfWeek = now.get(Calendar.DAY_OF_WEEK); //sunday is 1
-//                int hour = now.get(Calendar.HOUR_OF_DAY);
-//                int minute = now.get(Calendar.MINUTE);
-//                int second = now.get(Calendar.SECOND);
-
-//                Log.d("RecyclerAdapter", "onSuccess: " + dayOfWeek + " " + day +  " " + hour + " " + minute);
-
-//Get the calendar instance.
-//                Calendar calendar = Calendar.getInstance();
-
-//Set the time for the notification to occur.
-//                calendar.set(Calendar.YEAR, 2019);
-//                calendar.set(Calendar.MONTH, 7); //starts with 0!! 7 is Aug
-//                calendar.set(Calendar.DAY_OF_MONTH, 17);
-//                calendar.set(Calendar.HOUR_OF_DAY, 10);
-//                calendar.set(Calendar.MINUTE, 45);
-//                calendar.set(Calendar.SECOND, 0);
-
-
-
-//                Log.d("RecyclerAdapter", "onSuccess: future date" + calendar.get(Calendar.DAY_OF_WEEK));
-//                Log.d("RecyclerAdapter", "onSuccess: which is greater" + calendar.compareTo(now));
