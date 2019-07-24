@@ -151,7 +151,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                                                                             .getString("username");
 
 
-                                                                    //save user info to global userinfo
+                                                                    //save user info to global singleton AppController
                                                                     AppController appController = AppController.getInstance();
                                                                     appController.setUserId(currentUserId);
                                                                     appController.setUsername(name);

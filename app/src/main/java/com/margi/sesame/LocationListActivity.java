@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,6 +37,7 @@ import util.AppController;
 
 public class LocationListActivity extends AppCompatActivity implements LocationRecyclerAdapter.OnLocationNameListener{
 
+    private static final String TAG = "LocationListActivity";
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
     private FirebaseUser user;
@@ -106,7 +108,7 @@ public class LocationListActivity extends AppCompatActivity implements LocationR
                             spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                 @Override
                                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                                    if (adapterView.getItemAtPosition(i).toString() == "View All Locations"){
+                                    if (adapterView.getItemAtPosition(i).toString().equals("View All Locations")){
                                         //stay on the same page
 
                                     }else {

@@ -35,6 +35,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import model.Location;
+import util.AppController;
 
 public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecyclerAdapter.ViewHolder> {
     private Context context;
@@ -44,10 +45,9 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
     private Boolean openStatus;
     private OnLocationNameListener mOnLocationNameListener;
     private HashMap<String, ArrayList<TimeRange>> openHoursHashMap;
-//    private ArrayList<TimeRange> rangesArray;
     private ArrayList<Place> placesArray;
     private static String TAG = "LocationRecyclerAdapter";
-//    private String apiKey;
+    private AppController appController = AppController.getInstance();
 
 
     public LocationRecyclerAdapter(Context context, List<Location> locationList, OnLocationNameListener onLocationNameListener) {
@@ -72,6 +72,7 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
         placesClient = Places.createClient(context);
 
         return new ViewHolder(view, context, mOnLocationNameListener);
+
     }
 
 
@@ -81,6 +82,8 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
 //        rangesArray = new ArrayList<TimeRange>();
        //set Open status on location
         String placeId = location.getLocationId();
+        final LocalTime requestedTime = appController.getFutureHourMin();
+        final String requestedDay = appController.getFutureDay();
 
 
         // Specify the fields to return.
@@ -169,19 +172,34 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
 //                    }
 //                }
 
-                if (openStatus != null) {
-//                    location.setOpen(openStatus);
-//                    Log.d("LocationRecyclerAdapter", "fetchLocation: openStatus " + openStatus);
-//                    viewHolder.openClosed.setText(location.getOpen().toString());
-                    if (openStatus) {
-                        viewHolder.openClosedTextView.setText("Open");
-                        viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
-                    }else {
-                        viewHolder.openClosedTextView.setText("Closed");
-                        viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorAccent));
+                //if there is a request saved to AppController, do logic about what's open
+                //todo add logic about what's open
+                //else show what is open now
+                if (requestedDay != null && requestedTime != null) { //there is a requested date & time
+                    if (openStatus != null) {
+
+                        if (openStatus) {
+                            viewHolder.openClosedTextView.setText("Open - requested time");
+                            viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+                        } else {
+                            viewHolder.openClosedTextView.setText("Closed - requested time");
+                            viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorAccent));
+                        }
+                    } else {
+                        viewHolder.openClosedTextView.setText("No hours provided");
                     }
-                }else {
-                    viewHolder.openClosedTextView.setText("No hours provided");
+                } else { //no requested date & time / see whats open now
+                    if (openStatus != null) {
+                        if (openStatus) {
+                            viewHolder.openClosedTextView.setText("Open Now");
+                            viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+                        } else {
+                            viewHolder.openClosedTextView.setText("Closed Now");
+                            viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorAccent));
+                        }
+                    } else {
+                        viewHolder.openClosedTextView.setText("No hours provided");
+                    }
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {

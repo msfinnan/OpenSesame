@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -17,11 +18,14 @@ import android.widget.TimePicker;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeFieldType;
 import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
 
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
+import util.AppController;
 
 public class SelectDayTimeActivity extends AppCompatActivity {
     private TextView displayDate;
@@ -30,6 +34,8 @@ public class SelectDayTimeActivity extends AppCompatActivity {
 
     private DatePickerDialog.OnDateSetListener dateSetListener;
     private TimePickerDialog.OnTimeSetListener timeSetListener;
+    private AppController appController = AppController.getInstance();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +45,8 @@ public class SelectDayTimeActivity extends AppCompatActivity {
         displayDate = findViewById(R.id.select_day_time_text);
         displayTime = findViewById(R.id.select_time_text);
         goToLocations = findViewById(R.id.select_day_time_go_to_locations);
+
+        final Intent intent = new Intent(SelectDayTimeActivity.this, LocationListActivity.class);
 
         displayDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,6 +74,10 @@ public class SelectDayTimeActivity extends AppCompatActivity {
                 String dayOfWeek = localDate.property(DateTimeFieldType.dayOfWeek()).getAsText();
                 displayDate.setText( dayOfWeek + ", " + (month + 1) + "/" + day + "/" + year);
 
+                //todo set year month and day to AppCOntroller for calendar export
+                //save day of week to global singleton AppController to access later in RecyclerAdapter
+                appController.setFutureDay(dayOfWeek);
+
             }
         };
 
@@ -89,9 +101,18 @@ public class SelectDayTimeActivity extends AppCompatActivity {
                 displayTime.setText(hour + ":" + min);
                 goToLocations.setVisibility(View.VISIBLE);
 
-
+                //save hour and min to global singleton AppController to access later in RecyclerAdapter
+                LocalTime localTime = new LocalTime(hour, min);
+                appController.setFutureHourMin(localTime);
             }
         };
+
+        goToLocations.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(intent);
+            }
+        });
     }
 
 }

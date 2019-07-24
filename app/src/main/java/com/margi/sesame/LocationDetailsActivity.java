@@ -41,6 +41,7 @@ public class LocationDetailsActivity extends AppCompatActivity {
 
 
     private static final int PERMISSION_CODE = 1 ;
+    private static final String TAG = "LocationDetailsActivity";
     TextView locationNameTextView;
     TextView locationAddressTextView;
     ImageView locationImageView;
@@ -64,6 +65,7 @@ public class LocationDetailsActivity extends AppCompatActivity {
         //get google places id from intent
         Intent intent = getIntent();
         String placeId = intent.getStringExtra("locationId");
+
 
         locationNameTextView = findViewById(R.id.location_details_name_textview);
 
