@@ -100,62 +100,58 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
                 openHoursHashMap = new HashMap<>();
                 placesArray = new ArrayList<>();
 
-                //hard coded requested time (hour and min) & day of week
-                LocalTime requestedTimeHourMin = new LocalTime(9, 15);
-                String requestedDayOfWeek = "TUESDAY";
-
-                //add JSON data for each location to a HashMap
-                if (place.getOpeningHours() != null) {
-                    for (Period place1 : place.getOpeningHours().getPeriods()) {
-
-                        ArrayList<TimeRange> rangesArray = new ArrayList<>();
-
-
-                        String openDay = place1.getOpen().getDay().toString();
-                        String closeDay = place1.getClose().getDay().toString();
-                        int openHours = place1.getOpen().getTime().getHours();
-                        int openMinutes = place1.getOpen().getTime().getMinutes();
-                        int closeHours = place1.getClose().getTime().getHours();
-                        int closeMinutes = place1.getClose().getTime().getMinutes();
-
-
-                        TimeRange timeRange;
-                        TimeRange timeRange2;
-
-                        if (openDay.equals(closeDay)) { //not open overnight
-                            timeRange = new TimeRange(openHours, openMinutes, closeHours, closeMinutes);
-
-                            if (!openHoursHashMap.containsKey(openDay)) {
-                                rangesArray.add(timeRange);
-                                openHoursHashMap.put(openDay, rangesArray);
-                            } else {
-                                openHoursHashMap.get(openDay).add(timeRange);
-                            }
-                        } else { //open overnight
-                            timeRange = new TimeRange(openHours, openMinutes, 23, 59);
-
-                            if (!openHoursHashMap.containsKey(openDay)) {
-                                rangesArray.add(timeRange);
-                                openHoursHashMap.put(openDay, rangesArray);
-                            } else {
-                                openHoursHashMap.get(openDay).add(timeRange);
-                            }
-                            timeRange2 = new TimeRange(0, 00, closeHours, closeMinutes);
-
-                            if (!openHoursHashMap.containsKey(closeDay)) {
-                                rangesArray.add(timeRange2);
-                                openHoursHashMap.put(closeDay, rangesArray);
-                            } else {
-                                openHoursHashMap.get(closeDay).add(timeRange2);
-                            }
-                        }
-
-                    }
-                }else {
-                    //if its null
-                    //todo handle this
-                    Log.d(TAG, "onSuccess: No open hours for: " + place.getName());
-                }
+//                //add JSON data for each location to a HashMap
+//                if (place.getOpeningHours() != null) {
+//                    for (Period place1 : place.getOpeningHours().getPeriods()) {
+//
+//                        ArrayList<TimeRange> rangesArray = new ArrayList<>();
+//
+//
+//                        String openDay = place1.getOpen().getDay().toString();
+//                        String closeDay = place1.getClose().getDay().toString();
+//                        int openHours = place1.getOpen().getTime().getHours();
+//                        int openMinutes = place1.getOpen().getTime().getMinutes();
+//                        int closeHours = place1.getClose().getTime().getHours();
+//                        int closeMinutes = place1.getClose().getTime().getMinutes();
+//
+//
+//                        TimeRange timeRange;
+//                        TimeRange timeRange2;
+//
+//                        if (openDay.equals(closeDay)) { //not open overnight
+//                            timeRange = new TimeRange(openHours, openMinutes, closeHours, closeMinutes);
+//
+//                            if (!openHoursHashMap.containsKey(openDay)) {
+//                                rangesArray.add(timeRange);
+//                                openHoursHashMap.put(openDay, rangesArray);
+//                            } else {
+//                                openHoursHashMap.get(openDay).add(timeRange);
+//                            }
+//                        } else { //open overnight
+//                            timeRange = new TimeRange(openHours, openMinutes, 23, 59);
+//
+//                            if (!openHoursHashMap.containsKey(openDay)) {
+//                                rangesArray.add(timeRange);
+//                                openHoursHashMap.put(openDay, rangesArray);
+//                            } else {
+//                                openHoursHashMap.get(openDay).add(timeRange);
+//                            }
+//                            timeRange2 = new TimeRange(0, 00, closeHours, closeMinutes);
+//
+//                            if (!openHoursHashMap.containsKey(closeDay)) {
+//                                rangesArray.add(timeRange2);
+//                                openHoursHashMap.put(closeDay, rangesArray);
+//                            } else {
+//                                openHoursHashMap.get(closeDay).add(timeRange2);
+//                            }
+//                        }
+//
+//                    }
+//                }else {
+//                    //if its null
+//                    //todo handle this
+//                    Log.d(TAG, "onSuccess: No open hours for: " + place.getName());
+//                }
 
 
 //                Log.d(TAG, "onSuccess: Tuesday @ " + place.getName() + openHoursHashMap.get("TUESDAY"));
@@ -176,18 +172,79 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
                 //todo add logic about what's open
                 //else show what is open now
                 if (requestedDay != null && requestedTime != null) { //there is a requested date & time
-                    if (openStatus != null) {
+                    viewHolder.openClosedTextView.setText("There is a requested time/day");
+                    //add JSON data for each location to a HashMap
+                    if (place.getOpeningHours() != null) {
+                        for (Period place1 : place.getOpeningHours().getPeriods()) {
 
-                        if (openStatus) {
-                            viewHolder.openClosedTextView.setText("Open - requested time");
-                            viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
-                        } else {
-                            viewHolder.openClosedTextView.setText("Closed - requested time");
-                            viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorAccent));
+                            ArrayList<TimeRange> rangesArray = new ArrayList<>();
+
+
+                            String openDay = place1.getOpen().getDay().toString();
+                            String closeDay = place1.getClose().getDay().toString();
+                            int openHours = place1.getOpen().getTime().getHours();
+                            int openMinutes = place1.getOpen().getTime().getMinutes();
+                            int closeHours = place1.getClose().getTime().getHours();
+                            int closeMinutes = place1.getClose().getTime().getMinutes();
+
+
+                            TimeRange timeRange;
+                            TimeRange timeRange2;
+
+                            if (openDay.equals(closeDay)) { //not open overnight
+                                timeRange = new TimeRange(openHours, openMinutes, closeHours, closeMinutes);
+
+                                if (!openHoursHashMap.containsKey(openDay)) {
+                                    rangesArray.add(timeRange);
+                                    openHoursHashMap.put(openDay, rangesArray);
+                                } else {
+                                    openHoursHashMap.get(openDay).add(timeRange);
+                                }
+                            } else { //open overnight
+                                timeRange = new TimeRange(openHours, openMinutes, 23, 59);
+
+                                if (!openHoursHashMap.containsKey(openDay)) {
+                                    rangesArray.add(timeRange);
+                                    openHoursHashMap.put(openDay, rangesArray);
+                                } else {
+                                    openHoursHashMap.get(openDay).add(timeRange);
+                                }
+                                timeRange2 = new TimeRange(0, 00, closeHours, closeMinutes);
+
+                                if (!openHoursHashMap.containsKey(closeDay)) {
+                                    rangesArray.add(timeRange2);
+                                    openHoursHashMap.put(closeDay, rangesArray);
+                                } else {
+                                    openHoursHashMap.get(closeDay).add(timeRange2);
+                                }
+                            }
+
                         }
-                    } else {
+                    }else {
+                        //if its null
+                        //todo handle this
+                        Log.d(TAG, "onSuccess: No open hours for: " + place.getName());
+                    }
+
+                    ArrayList<TimeRange> hashValues = openHoursHashMap.get(requestedDay.toUpperCase());
+//                    Log.d(TAG, "onSuccess: " + openHoursHashMap);
+                    if (openStatus != null) {
+                    for (int i = 0; i < hashValues.size(); i++) {
+                        if (hashValues.get(i).rangeIncludes(requestedTime)) {
+                            Log.d(TAG, "onSuccess: " + "TRUE " + place.getName());
+                            viewHolder.openClosedTextView.setText("Will Be Open");
+                            viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+
+                        } else {
+                            viewHolder.openClosedTextView.setText("Will Be Closed");
+                            viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorAccent));
+                            Log.d(TAG, "onSuccess: " + "FALSE" + place.getName());
+                        }
+                    }
+                    }else {
                         viewHolder.openClosedTextView.setText("No hours provided");
                     }
+//
                 } else { //no requested date & time / see whats open now
                     if (openStatus != null) {
                         if (openStatus) {
