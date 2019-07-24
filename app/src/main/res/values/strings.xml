@@ -15,4 +15,10 @@
     <string name="add_first_location">Add a new location using the + icon!</string>
     <string name="add_location_button">Add Location</string>
     <string name="group_name">Group Name (ex. Dog Friendly Bars)</string>
+    <string name="see_what_s_open_now">See What\'s Open Now</string>
+    <string name="see_what_s_open_later">See What\'s Open Later</string>
+    <string name="select_date_and_time">Select Date and Time</string>
+    <string name="select_time">Select Time</string>
+    <string name="select_date">Select Date</string>
+    <string name="see_what_s_open">See What\'s Open</string>
 </resources>

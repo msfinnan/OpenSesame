@@ -183,7 +183,6 @@ public class LocationListActivity extends AppCompatActivity implements LocationR
         //get all Collections from Firestore
         collectionReference.whereEqualTo("userId", AppController.getInstance()
                 .getUserId()) //gets back all of users locations
-//                .whereEqualTo("groupName", "Dog Friendly Bars") //filters down
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override

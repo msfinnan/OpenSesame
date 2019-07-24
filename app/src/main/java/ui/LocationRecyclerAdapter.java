@@ -102,66 +102,72 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
                 String requestedDayOfWeek = "TUESDAY";
 
                 //add JSON data for each location to a HashMap
-                for(Period place1 : place.getOpeningHours().getPeriods()) {
+                if (place.getOpeningHours() != null) {
+                    for (Period place1 : place.getOpeningHours().getPeriods()) {
 
-                    ArrayList<TimeRange> rangesArray = new ArrayList<>();
-
-
-                    String openDay = place1.getOpen().getDay().toString();
-                    String closeDay = place1.getClose().getDay().toString();
-                    int openHours = place1.getOpen().getTime().getHours();
-                    int openMinutes = place1.getOpen().getTime().getMinutes();
-                    int closeHours = place1.getClose().getTime().getHours();
-                    int closeMinutes = place1.getClose().getTime().getMinutes();
+                        ArrayList<TimeRange> rangesArray = new ArrayList<>();
 
 
-                    TimeRange timeRange;
-                    TimeRange timeRange2;
+                        String openDay = place1.getOpen().getDay().toString();
+                        String closeDay = place1.getClose().getDay().toString();
+                        int openHours = place1.getOpen().getTime().getHours();
+                        int openMinutes = place1.getOpen().getTime().getMinutes();
+                        int closeHours = place1.getClose().getTime().getHours();
+                        int closeMinutes = place1.getClose().getTime().getMinutes();
 
-                    if (openDay.equals(closeDay)) { //not open overnight
-                        timeRange = new TimeRange(openHours, openMinutes, closeHours, closeMinutes);
 
-                        if (!openHoursHashMap.containsKey(openDay)) {
-                            rangesArray.add(timeRange);
-                            openHoursHashMap.put(openDay, rangesArray);
-                        } else {
-                            openHoursHashMap.get(openDay).add(timeRange);
+                        TimeRange timeRange;
+                        TimeRange timeRange2;
+
+                        if (openDay.equals(closeDay)) { //not open overnight
+                            timeRange = new TimeRange(openHours, openMinutes, closeHours, closeMinutes);
+
+                            if (!openHoursHashMap.containsKey(openDay)) {
+                                rangesArray.add(timeRange);
+                                openHoursHashMap.put(openDay, rangesArray);
+                            } else {
+                                openHoursHashMap.get(openDay).add(timeRange);
+                            }
+                        } else { //open overnight
+                            timeRange = new TimeRange(openHours, openMinutes, 23, 59);
+
+                            if (!openHoursHashMap.containsKey(openDay)) {
+                                rangesArray.add(timeRange);
+                                openHoursHashMap.put(openDay, rangesArray);
+                            } else {
+                                openHoursHashMap.get(openDay).add(timeRange);
+                            }
+                            timeRange2 = new TimeRange(0, 00, closeHours, closeMinutes);
+
+                            if (!openHoursHashMap.containsKey(closeDay)) {
+                                rangesArray.add(timeRange2);
+                                openHoursHashMap.put(closeDay, rangesArray);
+                            } else {
+                                openHoursHashMap.get(closeDay).add(timeRange2);
+                            }
                         }
-                    }else { //open overnight
-                        timeRange = new TimeRange (openHours, openMinutes, 23, 59);
 
-                        if (!openHoursHashMap.containsKey(openDay)) {
-                            rangesArray.add(timeRange);
-                            openHoursHashMap.put(openDay, rangesArray);
-                        } else {
-                            openHoursHashMap.get(openDay).add(timeRange);
-                        }
-                        timeRange2 = new TimeRange (0, 00, closeHours, closeMinutes);
-
-                        if (!openHoursHashMap.containsKey(closeDay)) {
-                            rangesArray.add(timeRange2);
-                            openHoursHashMap.put(closeDay, rangesArray);
-                        } else {
-                            openHoursHashMap.get(closeDay).add(timeRange2);
-                        }
                     }
-
+                }else {
+                    //if its null
+                    //todo handle this
+                    Log.d(TAG, "onSuccess: No open hours for: " + place.getName());
                 }
 
 
-                Log.d(TAG, "onSuccess: Tuesday @ " + place.getName() + openHoursHashMap.get("TUESDAY"));
+//                Log.d(TAG, "onSuccess: Tuesday @ " + place.getName() + openHoursHashMap.get("TUESDAY"));
+//
+//                ArrayList<TimeRange> hashValues;
+//                hashValues = openHoursHashMap.get(requestedDayOfWeek);
 
-                ArrayList<TimeRange> hashValues;
-                hashValues = openHoursHashMap.get(requestedDayOfWeek);
 
-
-                for (int i = 0; i < hashValues.size(); i++){
-                    if (hashValues.get(i).rangeIncludes(requestedTimeHourMin)){
-                        Log.d(TAG, "onSuccess: " + "TRUE " + place.getName() );
-                    }else{
-                        Log.d(TAG, "onSuccess: " + "FALSE" + place.getName());
-                    }
-                }
+//                for (int i = 0; i < hashValues.size(); i++){
+//                    if (hashValues.get(i).rangeIncludes(requestedTimeHourMin)){
+//                        Log.d(TAG, "onSuccess: " + "TRUE " + place.getName() );
+//                    }else{
+//                        Log.d(TAG, "onSuccess: " + "FALSE" + place.getName());
+//                    }
+//                }
 
                 if (openStatus != null) {
 //                    location.setOpen(openStatus);

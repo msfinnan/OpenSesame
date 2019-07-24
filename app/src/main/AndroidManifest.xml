@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.margi.sesame">
 
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -18,7 +18,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".LocationDetailsActivity"></activity>
+        <activity android:name=".SelectDayTimeActivity"></activity>
+        <activity android:name=".LandingPageActivity" />
+        <activity android:name=".LocationDetailsActivity" />
         <activity android:name=".GroupListActivity" />
         <activity android:name=".LocationListActivity" />
         <activity android:name=".AddLocationActivity" />

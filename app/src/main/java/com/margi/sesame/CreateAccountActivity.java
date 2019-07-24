@@ -159,7 +159,7 @@ public class CreateAccountActivity extends AppCompatActivity {
 
                                                                     //pass via intent
                                                                     Intent intent = new Intent(CreateAccountActivity.this,
-                                                                            LocationListActivity.class);
+                                                                            LandingPageActivity.class);
                                                                     intent.putExtra("username", name);
                                                                     intent.putExtra("userId", currentUserId);
                                                                     startActivity(intent);
