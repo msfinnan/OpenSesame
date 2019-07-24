@@ -248,9 +248,12 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
                 } else { //no requested date & time / see whats open now
                     if (openStatus != null) {
                         if (openStatus) {
+                            //todo go through openHoursHashMap, see what range we are currently in
+                            // set text to "Open now until" + closing time
                             viewHolder.openClosedTextView.setText("Open Now");
                             viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
                         } else {
+                            //todo go through oopenHoursHashMap, see when the next open time will be
                             viewHolder.openClosedTextView.setText("Closed Now");
                             viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorAccent));
                         }

@@ -245,7 +245,7 @@ public class AddLocationActivity extends AppCompatActivity {
 
             //invoke location reference in forestore database
 
-            collectionReference.document(locationName).set(location)
+            collectionReference.document(locationName + ":" + currentUserId).set(location)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
