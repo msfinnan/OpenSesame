@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.OpeningHours;
 import com.google.android.libraries.places.api.model.Period;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.net.FetchPlaceRequest;
@@ -23,6 +24,8 @@ import com.margi.sesame.BuildConfig;
 import com.margi.sesame.GroupListActivity;
 import com.margi.sesame.R;
 import com.margi.sesame.TimeRange;
+
+import org.joda.time.LocalTime;
 
 import java.lang.reflect.Array;
 import java.sql.Time;
@@ -40,7 +43,7 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
     private Boolean openBool;
     private Boolean openStatus;
     private OnLocationNameListener mOnLocationNameListener;
-    private HashMap<String, ArrayList> openHoursHashMap;
+    private HashMap<String, ArrayList<TimeRange>> openHoursHashMap;
 //    private ArrayList<TimeRange> rangesArray;
     private ArrayList<Place> placesArray;
     private static String TAG = "LocationRecyclerAdapter";
@@ -84,7 +87,7 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
         List<Place.Field> placeFields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.OPENING_HOURS, Place.Field.UTC_OFFSET);
 
         // Construct a request object, passing the place ID and fields array.
-        FetchPlaceRequest request = FetchPlaceRequest.newInstance(placeId, placeFields);
+        final FetchPlaceRequest request = FetchPlaceRequest.newInstance(placeId, placeFields);
 
         placesClient.fetchPlace(request).addOnSuccessListener(new OnSuccessListener<FetchPlaceResponse>() {
             @Override
@@ -94,7 +97,11 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
                 openHoursHashMap = new HashMap<>();
                 placesArray = new ArrayList<>();
 
+                //hard coded requested time (hour and min) & day of week
+                LocalTime requestedTimeHourMin = new LocalTime(9, 15);
+                String requestedDayOfWeek = "TUESDAY";
 
+                //add JSON data for each location to a HashMap
                 for(Period place1 : place.getOpeningHours().getPeriods()) {
 
                     ArrayList<TimeRange> rangesArray = new ArrayList<>();
@@ -111,7 +118,7 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
                     TimeRange timeRange;
                     TimeRange timeRange2;
 
-                    if (openDay == closeDay) { //not open overnight
+                    if (openDay.equals(closeDay)) { //not open overnight
                         timeRange = new TimeRange(openHours, openMinutes, closeHours, closeMinutes);
 
                         if (!openHoursHashMap.containsKey(openDay)) {
@@ -140,8 +147,21 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
                     }
 
                 }
-                Log.d("LocationRecycler", "onSuccess: openHoursHashMap - Saturday " + place.getName() + " " + openHoursHashMap.get("SATURDAY"));
 
+
+                Log.d(TAG, "onSuccess: Tuesday @ " + place.getName() + openHoursHashMap.get("TUESDAY"));
+
+                ArrayList<TimeRange> hashValues;
+                hashValues = openHoursHashMap.get(requestedDayOfWeek);
+
+
+                for (int i = 0; i < hashValues.size(); i++){
+                    if (hashValues.get(i).rangeIncludes(requestedTimeHourMin)){
+                        Log.d(TAG, "onSuccess: " + "TRUE " + place.getName() );
+                    }else{
+                        Log.d(TAG, "onSuccess: " + "FALSE" + place.getName());
+                    }
+                }
 
                 if (openStatus != null) {
 //                    location.setOpen(openStatus);
