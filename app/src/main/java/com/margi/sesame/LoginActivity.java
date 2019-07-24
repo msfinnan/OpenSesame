@@ -91,8 +91,13 @@ public class LoginActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             //get info out of task
                             FirebaseUser user = firebaseAuth.getCurrentUser();
-                            assert user != null;
-                            String currentUserId = user.getUid();
+//                            assert user != null;
+                            String currentUserId = null;
+                            if (user != null) {
+                                currentUserId = user.getUid();
+                            }else {
+                                Toast.makeText(LoginActivity.this, "Please enter a valid email and password", Toast.LENGTH_LONG).show();
+                            }
 
                             //invoke collection reference to get a user from users collection
 
