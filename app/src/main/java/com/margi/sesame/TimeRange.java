@@ -41,7 +41,12 @@ public class TimeRange {
 
     public boolean rangeIncludes(LocalTime requestedTime) {
         //returns a bool
-        return requestedTime.isAfter(startTime) && requestedTime.isBefore(endTime);
+        return (requestedTime.isEqual(startTime) || requestedTime.isAfter(startTime))
+                && (requestedTime.isEqual(endTime) || requestedTime.isBefore(endTime));
+
+
+
+//        return requestedTime.isAfter(startTime) && requestedTime.isBefore(endTime);
     }
 
     public String toString(){
