@@ -8,7 +8,7 @@
     <string name="or_text">Or</string>
     <string name="create_account">Create Account</string>
     <string name="username_hint">Username</string>
-    <string name="location_name">Location Name (ex. Roscoes)</string>
+    <string name="location_name">Location Name (ex. Roscoe\'s)</string>
     <string name="add_location">Add Location</string>
     <string name="menu_title">Add New Location</string>
     <string name="log_out">Log Out</string>
