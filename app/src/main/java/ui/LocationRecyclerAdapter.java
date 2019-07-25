@@ -227,13 +227,52 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
                     }
 
                     ArrayList<TimeRange> hashValues = openHoursHashMap.get(requestedDay.toUpperCase());
-//                    Log.d(TAG, "onSuccess: " + openHoursHashMap);
                     if (openStatus != null) {
                     for (int i = 0; i < hashValues.size(); i++) {
                         if (hashValues.get(i).rangeIncludes(requestedTime)) {
                             Log.d(TAG, "onSuccess: " + "TRUE " + place.getName());
-                            viewHolder.openClosedTextView.setText("Will Be Open");
-                            viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+                            if (hashValues.get(i).getEndTime().getMinuteOfHour() != 59) {
+                                viewHolder.openClosedTextView.setText("Will Be Open Until " + hashValues.get(i).getFormattedEndTime()); // add "until " + endOfRange
+                                viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+                                Log.d(TAG, "onSuccess: the range is " + hashValues.get(i));
+                                break;
+                            } else{ //open overnight
+                                switch (requestedDay.toUpperCase()) {
+                                    case "SUNDAY":
+                                        viewHolder.openClosedTextView.setText("Will Be Open Until " + openHoursHashMap.get("MONDAY").get(1).getFormattedEndTime());
+                                        viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+
+                                        Log.d(TAG, "onSuccess: MONDAY" + openHoursHashMap.get("MONDAY").get(1).getFormattedEndTime());
+                                        break;
+                                    case "MONDAY":
+                                        viewHolder.openClosedTextView.setText("Will Be Open Until " + openHoursHashMap.get("TUESDAY").get(0).getFormattedEndTime());
+                                        viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+                                        break;
+                                    case "TUESDAY":
+                                        viewHolder.openClosedTextView.setText("Will Be Open Until " + openHoursHashMap.get("WEDNESDAY").get(0).getFormattedEndTime());
+                                        viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+                                        break;
+                                    case "WEDNESDAY":
+                                        viewHolder.openClosedTextView.setText("Will Be Open Until " + openHoursHashMap.get("THURSDAY").get(0).getFormattedEndTime());
+                                        viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+                                        break;
+                                    case "THURSDAY":
+                                        viewHolder.openClosedTextView.setText("Will Be Open Until " + openHoursHashMap.get("FRIDAY").get(0).getFormattedEndTime());
+                                        viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+                                        break;
+                                    case "FRIDAY":
+                                        viewHolder.openClosedTextView.setText("Will Be Open Until " + openHoursHashMap.get("SATURDAY").get(0).getFormattedEndTime());
+                                        viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+                                        break;
+                                    case "SATURDAY":
+                                        viewHolder.openClosedTextView.setText("Will Be Open Until " + openHoursHashMap.get("SUNDAY").get(0).getFormattedEndTime());
+                                        viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+                                        break;
+                                }
+
+                                break;
+
+                            }
 
                         } else {
                             viewHolder.openClosedTextView.setText("Will Be Closed");

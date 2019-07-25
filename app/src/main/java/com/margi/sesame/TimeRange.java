@@ -29,6 +29,16 @@ public class TimeRange {
         return rangeIncludes(new LocalTime(hour, minute));
     }
 
+    public String getFormattedEndTime() {
+        return endTime.toString("h:mm a");
+//        String hour = String.valueOf(endTime.getHourOfDay());
+//        String minute = String.valueOf(endTime.getMinuteOfHour());
+//        if (minute.length() == 1){
+//            minute = "0" + minute;
+//        }
+//        return hour + ":" + minute;
+    }
+
     public boolean rangeIncludes(LocalTime requestedTime) {
         //returns a bool
         return requestedTime.isAfter(startTime) && requestedTime.isBefore(endTime);

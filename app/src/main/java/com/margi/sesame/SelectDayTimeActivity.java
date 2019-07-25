@@ -98,7 +98,9 @@ public class SelectDayTimeActivity extends AppCompatActivity {
         timeSetListener = new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker timePicker, int hour, int min) {
-                displayTime.setText(hour + ":" + min);
+                LocalTime timeToDisplay = new LocalTime(hour, min);
+//                displayTime.setText(hour + ":" + min);
+                displayTime.setText(timeToDisplay.toString("h:mm a"));
                 goToLocations.setVisibility(View.VISIBLE);
 
                 //save hour and min to global singleton AppController to access later in RecyclerAdapter
