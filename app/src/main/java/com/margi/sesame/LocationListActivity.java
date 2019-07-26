@@ -37,7 +37,7 @@ import model.Location;
 import ui.LocationRecyclerAdapter;
 import util.AppController;
 
-public class LocationListActivity extends AppCompatActivity {
+public class LocationListActivity extends AppCompatActivity implements LocationRecyclerAdapter.OnDeleteListener{
     //implements LocationRecyclerAdapter.OnLocationNameListener
 
     private static final String TAG = "LocationListActivity";
@@ -195,8 +195,8 @@ public class LocationListActivity extends AppCompatActivity {
                             }
 
                             //invoke recycler view
-                            locationRecyclerAdapter = new LocationRecyclerAdapter(LocationListActivity.this, locationList);
-                            recyclerView.setAdapter(locationRecyclerAdapter);
+                            locationRecyclerAdapter = new LocationRecyclerAdapter(LocationListActivity.this,
+                                    locationList, LocationListActivity.this);                            recyclerView.setAdapter(locationRecyclerAdapter);
                             locationRecyclerAdapter.notifyDataSetChanged();
 
                         }else {
@@ -214,14 +214,65 @@ public class LocationListActivity extends AppCompatActivity {
 
     }
 
-//    @Override
-//    public void onLocationNameClick(int position) {
-//        //get location object
-//        Location currentLocation = locationList.get(position);
-//        Intent intent = new Intent(this, LocationDetailsActivity.class);
-//        //add location id to intent
-//        intent.putExtra("locationId", currentLocation.getLocationId());
-//        startActivity(intent);
-//    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        collectionReference.whereEqualTo("userId", AppController.getInstance()
+                .getUserId()) //gets back all of users locations
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        if (!queryDocumentSnapshots.isEmpty()) {
+                            locationList.clear();
+                            for (QueryDocumentSnapshot locations : queryDocumentSnapshots) {
+                                Location location = locations.toObject(Location.class);
+                                locationList.add(location);
+                            }
+
+                            //invoke recycler view
+                            locationRecyclerAdapter = new LocationRecyclerAdapter(LocationListActivity.this,
+                                    locationList, LocationListActivity.this);                            recyclerView.setAdapter(locationRecyclerAdapter);
+                            locationRecyclerAdapter.notifyDataSetChanged();
+
+                        }else {
+                            //document is empty (no collections)
+                            noLocationEntry.setVisibility(View.VISIBLE);
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+
+    }
+
+    @Override
+    public void onDeleteClick(int position) {
+        //get location object
+        final Location currentLocation = locationList.get(position);
+        db.collection("Locations").document(currentLocation.getLocationName() + ":" + user.getUid()).delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "onSuccess: Successfully deleted " + currentLocation.getLocationName() );
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d(TAG, "onFailure: Error deleting " + currentLocation.getLocationName() + " " + e.getMessage());
+                    }
+                });
+
+        locationList.remove(position);
+        locationRecyclerAdapter.notifyDataSetChanged();
+
+    }
+
+
 
 }

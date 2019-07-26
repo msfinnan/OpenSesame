@@ -43,16 +43,16 @@ import java.util.List;
 import model.Location;
 import util.AppController;
 
-public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecyclerAdapter.ViewHolder> {
+public class GroupRecyclerAdapter extends RecyclerView.Adapter<GroupRecyclerAdapter.ViewHolder> {
     private Context context;
     private List<Location> locationList;
     private PlacesClient placesClient;
     private Boolean openBool;
     private Boolean openStatus;
-    private OnDeleteListener onDeleteListener;
+    private OnDeleteFromGroupListener onDeleteFromGroupListener;
     private HashMap<String, ArrayList<TimeRange>> openHoursHashMap;
     private ArrayList<Place> placesArray;
-    private static String TAG = "LocationRecyclerAdapter";
+    private static String TAG = "GroupRecyclerAdapter";
     private AppController appController = AppController.getInstance();
     public ImageButton addToCalendarButton;
     public ImageButton addToCalendarNowButton;
@@ -60,17 +60,17 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
     public TextView locationName;
 
 
-    public LocationRecyclerAdapter(Context context, List<Location> locationList, OnDeleteListener onDeleteListener) {
+    public GroupRecyclerAdapter(Context context, List<Location> locationList, OnDeleteFromGroupListener onDeleteFromGroupListener) {
         this.context = context;
         this.locationList = locationList;
-        this.onDeleteListener = onDeleteListener;
+        this.onDeleteFromGroupListener = onDeleteFromGroupListener;
 
     }
 
 
     @NonNull
     @Override
-    public LocationRecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+    public GroupRecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         View view = LayoutInflater.from(context)
                 .inflate(R.layout.location_row, viewGroup, false);
 
@@ -81,17 +81,17 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
         // Create a new Places client instance
         placesClient = Places.createClient(context);
 
-        return new ViewHolder(view, context, onDeleteListener);
+        return new ViewHolder(view, context, onDeleteFromGroupListener);
 
     }
 
 
     @Override
-    public void onBindViewHolder(@NonNull final LocationRecyclerAdapter.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull final GroupRecyclerAdapter.ViewHolder viewHolder, int position) {
         final Location location = locationList.get(position);
 
 //        rangesArray = new ArrayList<TimeRange>();
-       //set Open status on location
+        //set Open status on location
         String placeId = location.getLocationId();
         final LocalTime requestedTime = appController.getFutureHourMin();
         final String requestedDay = appController.getFutureDay();
@@ -181,51 +181,51 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
                     //make visible button
                     ArrayList<TimeRange> hashValues = openHoursHashMap.get(requestedDay.toUpperCase());
                     if (openStatus != null) {
-                    for (int i = 0; i < hashValues.size(); i++) {
-                        if (hashValues.get(i).rangeIncludes(requestedTime)) {
-                            if (hashValues.get(i).getEndTime().getMinuteOfHour() != 59) {
-                                viewHolder.openClosedTextView.setText("Will Be Open Until " + hashValues.get(i).getFormattedEndTime()); // add "until " + endOfRange
-                                viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
-                                break;
-                            } else{ //open overnight
-                                switch (requestedDay.toUpperCase()) {
-                                    case "SUNDAY":
-                                        viewHolder.openClosedTextView.setText("Will Be Open Until " + openHoursHashMap.get("MONDAY").get(1).getFormattedEndTime());
-                                        viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
-                                        break;
-                                    case "MONDAY":
-                                        viewHolder.openClosedTextView.setText("Will Be Open Until " + openHoursHashMap.get("TUESDAY").get(0).getFormattedEndTime());
-                                        viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
-                                        break;
-                                    case "TUESDAY":
-                                        viewHolder.openClosedTextView.setText("Will Be Open Until " + openHoursHashMap.get("WEDNESDAY").get(0).getFormattedEndTime());
-                                        viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
-                                        break;
-                                    case "WEDNESDAY":
-                                        viewHolder.openClosedTextView.setText("Will Be Open Until " + openHoursHashMap.get("THURSDAY").get(0).getFormattedEndTime());
-                                        viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
-                                        break;
-                                    case "THURSDAY":
-                                        viewHolder.openClosedTextView.setText("Will Be Open Until " + openHoursHashMap.get("FRIDAY").get(0).getFormattedEndTime());
-                                        viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
-                                        break;
-                                    case "FRIDAY":
-                                        viewHolder.openClosedTextView.setText("Will Be Open Until " + openHoursHashMap.get("SATURDAY").get(0).getFormattedEndTime());
-                                        viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
-                                        break;
-                                    case "SATURDAY":
-                                        viewHolder.openClosedTextView.setText("Will Be Open Until " + openHoursHashMap.get("SUNDAY").get(0).getFormattedEndTime());
-                                        viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
-                                        break;
+                        for (int i = 0; i < hashValues.size(); i++) {
+                            if (hashValues.get(i).rangeIncludes(requestedTime)) {
+                                if (hashValues.get(i).getEndTime().getMinuteOfHour() != 59) {
+                                    viewHolder.openClosedTextView.setText("Will Be Open Until " + hashValues.get(i).getFormattedEndTime()); // add "until " + endOfRange
+                                    viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+                                    break;
+                                } else{ //open overnight
+                                    switch (requestedDay.toUpperCase()) {
+                                        case "SUNDAY":
+                                            viewHolder.openClosedTextView.setText("Will Be Open Until " + openHoursHashMap.get("MONDAY").get(1).getFormattedEndTime());
+                                            viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+                                            break;
+                                        case "MONDAY":
+                                            viewHolder.openClosedTextView.setText("Will Be Open Until " + openHoursHashMap.get("TUESDAY").get(0).getFormattedEndTime());
+                                            viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+                                            break;
+                                        case "TUESDAY":
+                                            viewHolder.openClosedTextView.setText("Will Be Open Until " + openHoursHashMap.get("WEDNESDAY").get(0).getFormattedEndTime());
+                                            viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+                                            break;
+                                        case "WEDNESDAY":
+                                            viewHolder.openClosedTextView.setText("Will Be Open Until " + openHoursHashMap.get("THURSDAY").get(0).getFormattedEndTime());
+                                            viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+                                            break;
+                                        case "THURSDAY":
+                                            viewHolder.openClosedTextView.setText("Will Be Open Until " + openHoursHashMap.get("FRIDAY").get(0).getFormattedEndTime());
+                                            viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+                                            break;
+                                        case "FRIDAY":
+                                            viewHolder.openClosedTextView.setText("Will Be Open Until " + openHoursHashMap.get("SATURDAY").get(0).getFormattedEndTime());
+                                            viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+                                            break;
+                                        case "SATURDAY":
+                                            viewHolder.openClosedTextView.setText("Will Be Open Until " + openHoursHashMap.get("SUNDAY").get(0).getFormattedEndTime());
+                                            viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+                                            break;
+                                    }
+                                    break;
                                 }
-                                break;
-                            }
 
-                        } else {
-                            viewHolder.openClosedTextView.setText("Will Be Closed");
-                            viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorAccent));
+                            } else {
+                                viewHolder.openClosedTextView.setText("Will Be Closed");
+                                viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorAccent));
+                            }
                         }
-                    }
                     }else {
                         viewHolder.openClosedTextView.setText("No hours provided");
                     }
@@ -296,7 +296,7 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d("LocationRecyclerAdapter", "onFailure: Place not found" + e.getMessage());
+                Log.d("GroupRecyclerAdapter", "onFailure: Place not found" + e.getMessage());
             }
         });
 
@@ -316,17 +316,21 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
         public TextView groupName;
         public TextView openClosedTextView;
 
-        OnDeleteListener onDeleteListener;
+        OnDeleteFromGroupListener onDeleteFromGroupListener;
 
 
-        public ViewHolder(@NonNull View itemView, Context ctx, OnDeleteListener onDeleteListener) {
+        public ViewHolder(@NonNull View itemView, Context ctx, OnDeleteFromGroupListener onDeleteFromGroupListener) {
             //pass context so we can go to next activity ctx.startActivity...
             super(itemView);
             context = ctx;
 
+            this.onDeleteFromGroupListener = onDeleteFromGroupListener;
+
+            itemView.setOnClickListener(this);
 
 
-            this.onDeleteListener = onDeleteListener;
+
+//            this.onDeleteListener = onDeleteListener;
 //            locationName = itemView.findViewById(R.id.location_name_list);
             groupName = itemView.findViewById(R.id.group_name_list);
             openClosedTextView = itemView.findViewById(R.id.open_closed_list);
@@ -334,7 +338,7 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
             addToCalendarNowButton = itemView.findViewById(R.id.add_to_calendar_now_button);
             deleteLocationButton = itemView.findViewById(R.id.delete_location_button);
 
-            //todo consider making these one button for better user experience 
+            //todo consider making these one button for better user experience
             if (appController.getFutureDay() != null && appController.getFutureHourMin() != null ){ //looking at future times
                 addToCalendarButton.setVisibility(View.VISIBLE);
             }else{
@@ -374,8 +378,13 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
 
         @Override
         public void onClick(View view) {
-            onDeleteListener.onDeleteClick(getAdapterPosition());
+            onDeleteFromGroupListener.onDeleteFromGroup(getAdapterPosition());
         }
+
+//        @Override
+//        public void onClick(View view) {
+//            onDeleteListener.onDeleteClick(getAdapterPosition());
+//        }
     }
 
     private void addEventToCalendar(String locationName) {
@@ -401,7 +410,7 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
         LocalDate today = LocalDate.now();
         LocalTime timeNow = LocalTime.now();
         beginTime.set(today.getYear(), today.getMonthOfYear(), today.getDayOfMonth(),
-               timeNow.getHourOfDay() , timeNow.getMinuteOfHour());
+                timeNow.getHourOfDay() , timeNow.getMinuteOfHour());
         Calendar endTime = Calendar.getInstance();
         endTime.set(today.getYear(), today.getMonthOfYear(), today.getDayOfMonth(),
                 (timeNow.getHourOfDay() + 1) , timeNow.getMinuteOfHour());
@@ -416,10 +425,8 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
         context.startActivity(intent);
     }
 
-    public interface OnDeleteListener {
-        void onDeleteClick(int position);
-
+    public interface OnDeleteFromGroupListener {
+        void onDeleteFromGroup(int position);
     }
 
 }
-

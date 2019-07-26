@@ -21,14 +21,16 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.security.acl.Group;
 import java.util.ArrayList;
 import java.util.List;
 
 import model.Location;
+import ui.GroupRecyclerAdapter;
 import ui.LocationRecyclerAdapter;
 import util.AppController;
 
-public class GroupListActivity extends AppCompatActivity {
+public class GroupListActivity extends AppCompatActivity implements GroupRecyclerAdapter.OnDeleteFromGroupListener {
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
     private FirebaseUser user;
@@ -37,7 +39,7 @@ public class GroupListActivity extends AppCompatActivity {
     // don't think I need this bc I don't have images, maybe once I add locations to the collection
     private List<Location> locationList;
     private RecyclerView recyclerView;
-    private LocationRecyclerAdapter locationRecyclerAdapter;
+    private GroupRecyclerAdapter groupRecyclerAdapter;
 
     private CollectionReference collectionReference = db.collection("Locations");
     private String groupName;
@@ -81,7 +83,6 @@ public class GroupListActivity extends AppCompatActivity {
                     startActivity(new Intent(GroupListActivity.this,
                             AddLocationActivity.class));
 ////                    finish(); //come back to this
-//
                 }
                     break;
             case R.id.action_sign_out :
@@ -117,12 +118,10 @@ public class GroupListActivity extends AppCompatActivity {
                                 locationList.add(location);
                             }
 
-                            //invoke recycler view
-                            locationRecyclerAdapter = new LocationRecyclerAdapter(GroupListActivity.this,
-                                    locationList);
-                            recyclerView.setAdapter(locationRecyclerAdapter);
-                            locationRecyclerAdapter.notifyDataSetChanged();
-
+//                            invoke recycler view
+                            groupRecyclerAdapter = new GroupRecyclerAdapter(GroupListActivity.this, locationList, GroupListActivity.this);
+                            recyclerView.setAdapter(groupRecyclerAdapter);
+                            groupRecyclerAdapter.notifyDataSetChanged();
                         }else {
                             //document is empty (no collections)
 //                            noLocationEntry.setVisibility(View.VISIBLE);
@@ -138,25 +137,27 @@ public class GroupListActivity extends AppCompatActivity {
 
     }
 
-//    @Override
-//    public void onLocationNameClick(int position) {
-//
-//        //get location object
-//        Location currentLocation = locationList.get(position);
-//        Intent intent = new Intent(this, LocationDetailsActivity.class);
-//        //add location id to intent
-//        intent.putExtra("locationId", currentLocation.getLocationId());
-//        startActivity(intent);
-//
-//    }
 
-//    @Override
-//    public void onGroupNameClick(int position) {
-//        Location currentLocation = locationList.get(position);
-//        Intent intent = new Intent(this, GroupListActivity.class);
-//        //add group name to intent
-//        intent.putExtra("groupName", currentLocation.getGroupName());
-//        startActivity(intent);
-//    }
 
+    @Override
+    public void onDeleteFromGroup(int position) {
+        final Location currentLocation = locationList.get(position);
+        db.collection("Locations").document(currentLocation.getLocationName() + ":" + user.getUid()).delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("GroupListActivity", "onSuccess: Successfully deleted " + currentLocation.getLocationName() );
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("GroupListActivity", "onFailure: Error deleting " + currentLocation.getLocationName() + " " + e.getMessage());
+                    }
+                });
+
+        locationList.remove(position);
+        groupRecyclerAdapter.notifyDataSetChanged();
+
+    }
 }
