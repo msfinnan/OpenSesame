@@ -18,6 +18,11 @@ public class AppController extends Application {
     private String userId;
     private String futureDay;
     private LocalTime futureHourMin;
+    private int futureYear;
+    private int futureMonth;
+    private int futureDayOfMonth;
+    private int futureHour;
+    private int futureMin;
 
     private static AppController instance; //singleton
 
@@ -63,4 +68,43 @@ public class AppController extends Application {
         this.userId = userId;
     }
 
+    public int getFutureYear() {
+        return futureYear;
+    }
+
+    public void setFutureYear(int futureYear) {
+        this.futureYear = futureYear;
+    }
+
+    public int getFutureMonth() {
+        return futureMonth;
+    }
+
+    public void setFutureMonth(int futureMonth) {
+        this.futureMonth = futureMonth;
+    }
+
+    public int getFutureDayOfMonth() {
+        return futureDayOfMonth;
+    }
+
+    public void setFutureDayOfMonth(int futureDayOfMonth) {
+        this.futureDayOfMonth = futureDayOfMonth;
+    }
+
+    public int getFutureHour() {
+        return futureHour;
+    }
+
+    public void setFutureHour(int futureHour) {
+        this.futureHour = futureHour;
+    }
+
+    public int getFutureMin() {
+        return futureMin;
+    }
+
+    public void setFutureMin(int futureMin) {
+        this.futureMin = futureMin;
+    }
 }

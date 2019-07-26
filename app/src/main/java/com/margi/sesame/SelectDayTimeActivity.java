@@ -77,6 +77,9 @@ public class SelectDayTimeActivity extends AppCompatActivity {
                 //todo set year month and day to AppCOntroller for calendar export
                 //save day of week to global singleton AppController to access later in RecyclerAdapter
                 appController.setFutureDay(dayOfWeek);
+                appController.setFutureYear(year);
+                appController.setFutureMonth(month); //may need to add to one
+                appController.setFutureDayOfMonth(day);
 
             }
         };
@@ -86,6 +89,9 @@ public class SelectDayTimeActivity extends AppCompatActivity {
             public void onClick(View view) {
                 int hourOfDay = 0;
                 int minute = 0 ;
+
+
+
 
                 TimePickerDialog dialog = new TimePickerDialog(SelectDayTimeActivity.this,
                         android.R.style.Theme_DeviceDefault_Dialog,
@@ -106,6 +112,9 @@ public class SelectDayTimeActivity extends AppCompatActivity {
                 //save hour and min to global singleton AppController to access later in RecyclerAdapter
                 LocalTime localTime = new LocalTime(hour, min);
                 appController.setFutureHourMin(localTime);
+
+                appController.setFutureHour(hour);
+                appController.setFutureMin(min);
             }
         };
 

@@ -2,10 +2,13 @@ package ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.icu.util.Calendar;
+import android.provider.CalendarContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -50,6 +53,7 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
     private ArrayList<Place> placesArray;
     private static String TAG = "LocationRecyclerAdapter";
     private AppController appController = AppController.getInstance();
+    public ImageButton addToCalendarButton;
 
 
     public LocationRecyclerAdapter(Context context, List<Location> locationList, OnLocationNameListener onLocationNameListener) {
@@ -86,6 +90,7 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
         String placeId = location.getLocationId();
         final LocalTime requestedTime = appController.getFutureHourMin();
         final String requestedDay = appController.getFutureDay();
+
 
 
         // Specify the fields to return.
@@ -156,7 +161,7 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
                 }
 
                 if (requestedDay != null && requestedTime != null) { //there is a requested date & time
-
+                    //make visible button
                     ArrayList<TimeRange> hashValues = openHoursHashMap.get(requestedDay.toUpperCase());
                     if (openStatus != null) {
                     for (int i = 0; i < hashValues.size(); i++) {
@@ -295,6 +300,9 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
         public TextView groupName;
         public TextView openClosedTextView;
 
+
+
+
         OnLocationNameListener onLocationNameListener;
 
 
@@ -311,6 +319,11 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
             locationName = itemView.findViewById(R.id.location_name_list);
             groupName = itemView.findViewById(R.id.group_name_list);
             openClosedTextView = itemView.findViewById(R.id.open_closed_list);
+            addToCalendarButton = itemView.findViewById(R.id.add_to_calendar_button);
+
+            if (appController.getFutureDay() != null && appController.getFutureHourMin() != null ){ //looking at future times
+                addToCalendarButton.setVisibility(View.VISIBLE);
+            }
 
 
             locationName.setOnClickListener(this);
@@ -329,6 +342,13 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
                 }
             });
 
+            addToCalendarButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    addEventToCalendar(locationName.getText().toString());
+                }
+            });
+
         }
 
         @Override
@@ -339,6 +359,25 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
 
         }
     }
+
+    private void addEventToCalendar(String locationName) {
+        Calendar beginTime = Calendar.getInstance();
+        beginTime.set(appController.getFutureYear(), appController.getFutureMonth(), appController.getFutureDayOfMonth(),
+                appController.getFutureHour(), appController.getFutureMin());
+        Calendar endTime = Calendar.getInstance();
+        endTime.set(appController.getFutureYear(), appController.getFutureMonth(), appController.getFutureDayOfMonth(),
+                (appController.getFutureHour() + 1) , appController.getFutureMin());
+        Intent intent = new Intent(Intent.ACTION_INSERT)
+                .setData(CalendarContract.Events.CONTENT_URI)
+                .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis())
+                .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis())
+                .putExtra(CalendarContract.Events.TITLE, "Go to " + locationName)
+                .putExtra(CalendarContract.Events.EVENT_LOCATION, locationName);
+//                .putExtra(Intent.EXTRA_EMAIL, "rowan@example.com,trevor@example.com");
+
+        context.startActivity(intent);
+    }
+
     public interface OnLocationNameListener {
         void onLocationNameClick(int position);
 //        void onGroupNameClick(int position);
