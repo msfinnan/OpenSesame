@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,7 +28,7 @@ import model.Location;
 import ui.LocationRecyclerAdapter;
 import util.AppController;
 
-public class GroupListActivity extends AppCompatActivity implements LocationRecyclerAdapter.OnLocationNameListener {
+public class GroupListActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
     private FirebaseUser user;
@@ -101,6 +102,7 @@ public class GroupListActivity extends AppCompatActivity implements LocationRecy
     @Override
     protected void onStart() {
         super.onStart();
+        final Context context;
         //get all Collections from Firestore
         collectionReference.whereEqualTo("userId", AppController.getInstance()
                 .getUserId()) //gets back all of users locations
@@ -117,7 +119,7 @@ public class GroupListActivity extends AppCompatActivity implements LocationRecy
 
                             //invoke recycler view
                             locationRecyclerAdapter = new LocationRecyclerAdapter(GroupListActivity.this,
-                                    locationList, GroupListActivity.this);
+                                    locationList);
                             recyclerView.setAdapter(locationRecyclerAdapter);
                             locationRecyclerAdapter.notifyDataSetChanged();
 
@@ -136,17 +138,17 @@ public class GroupListActivity extends AppCompatActivity implements LocationRecy
 
     }
 
-    @Override
-    public void onLocationNameClick(int position) {
-
-        //get location object
-        Location currentLocation = locationList.get(position);
-        Intent intent = new Intent(this, LocationDetailsActivity.class);
-        //add location id to intent
-        intent.putExtra("locationId", currentLocation.getLocationId());
-        startActivity(intent);
-
-    }
+//    @Override
+//    public void onLocationNameClick(int position) {
+//
+//        //get location object
+//        Location currentLocation = locationList.get(position);
+//        Intent intent = new Intent(this, LocationDetailsActivity.class);
+//        //add location id to intent
+//        intent.putExtra("locationId", currentLocation.getLocationId());
+//        startActivity(intent);
+//
+//    }
 
 //    @Override
 //    public void onGroupNameClick(int position) {

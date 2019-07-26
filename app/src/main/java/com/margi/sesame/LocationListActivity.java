@@ -14,6 +14,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,7 +37,8 @@ import model.Location;
 import ui.LocationRecyclerAdapter;
 import util.AppController;
 
-public class LocationListActivity extends AppCompatActivity implements LocationRecyclerAdapter.OnLocationNameListener{
+public class LocationListActivity extends AppCompatActivity {
+    //implements LocationRecyclerAdapter.OnLocationNameListener
 
     private static final String TAG = "LocationListActivity";
     private FirebaseAuth firebaseAuth;
@@ -70,6 +73,7 @@ public class LocationListActivity extends AppCompatActivity implements LocationR
         recyclerView = findViewById(R.id.recyclerViewCollectionList);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
 
         groupNames = new HashSet<>();
         groupNames.add("View All Locations");
@@ -125,12 +129,6 @@ public class LocationListActivity extends AppCompatActivity implements LocationR
 
                                 }
                             });
-
-                            //Getting the instance of AutoCompleteTextView
-//                            AutoCompleteTextView actv = findViewById(R.id.groupNameAutoComplete);
-//                            actv.setThreshold(1);//will start working from first character
-//                            actv.setAdapter(adapter);//setting the adapter data into the AutoCompleteTextView
-
                         }else {
                             //document is empty (no collections)
                         }
@@ -197,8 +195,7 @@ public class LocationListActivity extends AppCompatActivity implements LocationR
                             }
 
                             //invoke recycler view
-                            locationRecyclerAdapter = new LocationRecyclerAdapter(LocationListActivity.this,
-                                    locationList, LocationListActivity.this);
+                            locationRecyclerAdapter = new LocationRecyclerAdapter(LocationListActivity.this, locationList);
                             recyclerView.setAdapter(locationRecyclerAdapter);
                             locationRecyclerAdapter.notifyDataSetChanged();
 
@@ -217,23 +214,14 @@ public class LocationListActivity extends AppCompatActivity implements LocationR
 
     }
 
-    @Override
-    public void onLocationNameClick(int position) {
-        //get location object
-        Location currentLocation = locationList.get(position);
-        Intent intent = new Intent(this, LocationDetailsActivity.class);
-        //add location id to intent
-        intent.putExtra("locationId", currentLocation.getLocationId());
-        startActivity(intent);
-    }
-
 //    @Override
-//    public void onGroupNameClick(int position) {
+//    public void onLocationNameClick(int position) {
+//        //get location object
 //        Location currentLocation = locationList.get(position);
-//        Intent intent = new Intent(this, GroupListActivity.class);
-//        //add group name to intent
-//        intent.putExtra("groupName", currentLocation.getGroupName());
+//        Intent intent = new Intent(this, LocationDetailsActivity.class);
+//        //add location id to intent
+//        intent.putExtra("locationId", currentLocation.getLocationId());
 //        startActivity(intent);
-//
 //    }
+
 }

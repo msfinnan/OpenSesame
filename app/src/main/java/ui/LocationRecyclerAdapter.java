@@ -25,6 +25,7 @@ import com.google.android.libraries.places.api.net.FetchPlaceResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.margi.sesame.BuildConfig;
 import com.margi.sesame.GroupListActivity;
+import com.margi.sesame.LocationDetailsActivity;
 import com.margi.sesame.R;
 import com.margi.sesame.TimeRange;
 
@@ -48,19 +49,21 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
     private PlacesClient placesClient;
     private Boolean openBool;
     private Boolean openStatus;
-    private OnLocationNameListener mOnLocationNameListener;
+//    private OnLocationNameListener mOnLocationNameListener;
     private HashMap<String, ArrayList<TimeRange>> openHoursHashMap;
     private ArrayList<Place> placesArray;
     private static String TAG = "LocationRecyclerAdapter";
     private AppController appController = AppController.getInstance();
     public ImageButton addToCalendarButton;
     public ImageButton addToCalendarNowButton;
+    public ImageButton deleteLocationButton;
+    public TextView locationName;
 
 
-    public LocationRecyclerAdapter(Context context, List<Location> locationList, OnLocationNameListener onLocationNameListener) {
+    public LocationRecyclerAdapter(Context context, List<Location> locationList) {
         this.context = context;
         this.locationList = locationList;
-        this.mOnLocationNameListener = onLocationNameListener;
+//        this.mOnLocationNameListener = onLocationNameListener;
 
     }
 
@@ -78,7 +81,7 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
         // Create a new Places client instance
         placesClient = Places.createClient(context);
 
-        return new ViewHolder(view, context, mOnLocationNameListener);
+        return new ViewHolder(view, context);
 
     }
 
@@ -86,12 +89,25 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
     @Override
     public void onBindViewHolder(@NonNull final LocationRecyclerAdapter.ViewHolder viewHolder, int position) {
         final Location location = locationList.get(position);
+
 //        rangesArray = new ArrayList<TimeRange>();
        //set Open status on location
         String placeId = location.getLocationId();
         final LocalTime requestedTime = appController.getFutureHourMin();
         final String requestedDay = appController.getFutureDay();
 
+
+        locationName = viewHolder.itemView.findViewById(R.id.location_name_list);
+
+        locationName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, LocationDetailsActivity.class);
+                //add location id to intent
+                intent.putExtra("locationId", location.getLocationId());
+                context.startActivity(intent);
+            }
+        });
 
 
         // Specify the fields to return.
@@ -285,7 +301,7 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
         });
 
 
-        viewHolder.locationName.setText(location.getLocationName());
+        locationName.setText(location.getLocationName());
         viewHolder.groupName.setText(location.getGroupName());
 
 
@@ -297,31 +313,31 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public TextView locationName;
         public TextView groupName;
         public TextView openClosedTextView;
 
 
 
 
-        OnLocationNameListener onLocationNameListener;
+//        OnLocationNameListener onLocationNameListener;
 
 
 
-        public ViewHolder(@NonNull View itemView, Context ctx, OnLocationNameListener onLocationNameListener) {
+        public ViewHolder(@NonNull View itemView, Context ctx) {
             //pass context so we can go to next activity ctx.startActivity...
             super(itemView);
             context = ctx;
-            this.onLocationNameListener = onLocationNameListener;
+//            this.onLocationNameListener = onLocationNameListener;
 
 
 
 
-            locationName = itemView.findViewById(R.id.location_name_list);
+//            locationName = itemView.findViewById(R.id.location_name_list);
             groupName = itemView.findViewById(R.id.group_name_list);
             openClosedTextView = itemView.findViewById(R.id.open_closed_list);
             addToCalendarButton = itemView.findViewById(R.id.add_to_calendar_button);
             addToCalendarNowButton = itemView.findViewById(R.id.add_to_calendar_now_button);
+            deleteLocationButton = itemView.findViewById(R.id.delete_location_button);
 
             //todo consider making these one button for better user experience 
             if (appController.getFutureDay() != null && appController.getFutureHourMin() != null ){ //looking at future times
@@ -331,7 +347,7 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
             }
 
 
-            locationName.setOnClickListener(this);
+//            locationName.setOnClickListener(this);
 //            groupName.setOnClickListener(this);
 
             groupName.setOnClickListener(new View.OnClickListener() {
@@ -367,7 +383,7 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
         public void onClick(View view) {
 //            onLocationNameListener.onGroupNameClick(getAdapterPosition());
 
-            onLocationNameListener.onLocationNameClick(getAdapterPosition());
+//            onLocationNameListener.onLocationNameClick(getAdapterPosition());
 
         }
     }
@@ -410,10 +426,10 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
         context.startActivity(intent);
     }
 
-    public interface OnLocationNameListener {
-        void onLocationNameClick(int position);
+//    public interface OnLocationNameListener {
+//        void onLocationNameClick(int position);
 //        void onGroupNameClick(int position);
-    }
+//    }
 
 }
 
