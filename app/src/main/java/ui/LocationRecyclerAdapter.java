@@ -54,6 +54,7 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
     private static String TAG = "LocationRecyclerAdapter";
     private AppController appController = AppController.getInstance();
     public ImageButton addToCalendarButton;
+    public ImageButton addToCalendarNowButton;
 
 
     public LocationRecyclerAdapter(Context context, List<Location> locationList, OnLocationNameListener onLocationNameListener) {
@@ -320,9 +321,13 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
             groupName = itemView.findViewById(R.id.group_name_list);
             openClosedTextView = itemView.findViewById(R.id.open_closed_list);
             addToCalendarButton = itemView.findViewById(R.id.add_to_calendar_button);
+            addToCalendarNowButton = itemView.findViewById(R.id.add_to_calendar_now_button);
 
+            //todo consider making these one button for better user experience 
             if (appController.getFutureDay() != null && appController.getFutureHourMin() != null ){ //looking at future times
                 addToCalendarButton.setVisibility(View.VISIBLE);
+            }else{
+                addToCalendarNowButton.setVisibility(View.VISIBLE);
             }
 
 
@@ -349,6 +354,13 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
                 }
             });
 
+            addToCalendarNowButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    addEventToCalendarNow(locationName.getText().toString());
+                }
+            });
+
         }
 
         @Override
@@ -367,6 +379,26 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
         Calendar endTime = Calendar.getInstance();
         endTime.set(appController.getFutureYear(), appController.getFutureMonth(), appController.getFutureDayOfMonth(),
                 (appController.getFutureHour() + 1) , appController.getFutureMin());
+        Intent intent = new Intent(Intent.ACTION_INSERT)
+                .setData(CalendarContract.Events.CONTENT_URI)
+                .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis())
+                .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis())
+                .putExtra(CalendarContract.Events.TITLE, "Go to " + locationName)
+                .putExtra(CalendarContract.Events.EVENT_LOCATION, locationName);
+//                .putExtra(Intent.EXTRA_EMAIL, "rowan@example.com,trevor@example.com");
+
+        context.startActivity(intent);
+    }
+
+    private void addEventToCalendarNow(String locationName) {
+        Calendar beginTime = Calendar.getInstance();
+        LocalDate today = LocalDate.now();
+        LocalTime timeNow = LocalTime.now();
+        beginTime.set(today.getYear(), today.getMonthOfYear(), today.getDayOfMonth(),
+               timeNow.getHourOfDay() , timeNow.getMinuteOfHour());
+        Calendar endTime = Calendar.getInstance();
+        endTime.set(today.getYear(), today.getMonthOfYear(), today.getDayOfMonth(),
+                (timeNow.getHourOfDay() + 1) , timeNow.getMinuteOfHour());
         Intent intent = new Intent(Intent.ACTION_INSERT)
                 .setData(CalendarContract.Events.CONTENT_URI)
                 .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis())

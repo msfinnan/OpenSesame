@@ -45,13 +45,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-        <ImageButton
-            android:id="@+id/add_to_calendar_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@android:drawable/ic_menu_my_calendar"
-            android:visibility="invisible"/>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
+            <ImageButton
+                android:id="@+id/add_to_calendar_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@android:drawable/ic_menu_my_calendar"
+                android:visibility="invisible"/>
+
+            <ImageButton
+                android:id="@+id/add_to_calendar_now_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@android:drawable/ic_menu_my_calendar"
+                android:visibility="invisible"/>
+        </LinearLayout>
 
     </LinearLayout>
 
