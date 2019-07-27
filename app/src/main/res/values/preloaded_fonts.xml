@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="preloaded_fonts" translatable="false">
+        <item>@font/cabin</item>
+        <item>@font/montserrat</item>
+        <item>@font/poppins</item>
+        <item>@font/work_sans</item>
+        <item>@font/work_sans_thin</item>
+    </array>
+</resources>

@@ -156,7 +156,8 @@ public class LocationDetailsActivity extends AppCompatActivity {
 
                 if (place.getPhoneNumber() != null) {
                     final String phoneNumber = place.getPhoneNumber();
-                    phoneNumberTextView.setText(phoneNumber);
+                    final String trimmedPhoneNumber = phoneNumber.substring(3, (phoneNumber.length() -1));
+                    phoneNumberTextView.setText(trimmedPhoneNumber);
                     phoneNumberTextView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
