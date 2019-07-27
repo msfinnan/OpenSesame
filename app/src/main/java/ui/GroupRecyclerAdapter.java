@@ -184,37 +184,37 @@ public class GroupRecyclerAdapter extends RecyclerView.Adapter<GroupRecyclerAdap
                         for (int i = 0; i < hashValues.size(); i++) {
                             if (hashValues.get(i).rangeIncludes(requestedTime)) {
                                 if (hashValues.get(i).getEndTime().getMinuteOfHour() != 59) {
-                                    viewHolder.openClosedTextView.setText("Will Be Open Until " + hashValues.get(i).getFormattedEndTime()); // add "until " + endOfRange
+                                    viewHolder.openClosedTextView.setText("Open - Closes " + hashValues.get(i).getFormattedEndTime()); // add "until " + endOfRange
                                     viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
                                     break;
                                 } else{ //open overnight
                                     switch (requestedDay.toUpperCase()) {
                                         case "SUNDAY":
-                                            viewHolder.openClosedTextView.setText("Will Be Open Until " + openHoursHashMap.get("MONDAY").get(1).getFormattedEndTime());
+                                            viewHolder.openClosedTextView.setText("Open - Closes " + openHoursHashMap.get("MONDAY").get(1).getFormattedEndTime());
                                             viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
                                             break;
                                         case "MONDAY":
-                                            viewHolder.openClosedTextView.setText("Will Be Open Until " + openHoursHashMap.get("TUESDAY").get(0).getFormattedEndTime());
+                                            viewHolder.openClosedTextView.setText("Open - Closes " + openHoursHashMap.get("TUESDAY").get(0).getFormattedEndTime());
                                             viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
                                             break;
                                         case "TUESDAY":
-                                            viewHolder.openClosedTextView.setText("Will Be Open Until " + openHoursHashMap.get("WEDNESDAY").get(0).getFormattedEndTime());
+                                            viewHolder.openClosedTextView.setText("Open - Closes " + openHoursHashMap.get("WEDNESDAY").get(0).getFormattedEndTime());
                                             viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
                                             break;
                                         case "WEDNESDAY":
-                                            viewHolder.openClosedTextView.setText("Will Be Open Until " + openHoursHashMap.get("THURSDAY").get(0).getFormattedEndTime());
+                                            viewHolder.openClosedTextView.setText("Open - Closes " + openHoursHashMap.get("THURSDAY").get(0).getFormattedEndTime());
                                             viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
                                             break;
                                         case "THURSDAY":
-                                            viewHolder.openClosedTextView.setText("Will Be Open Until " + openHoursHashMap.get("FRIDAY").get(0).getFormattedEndTime());
+                                            viewHolder.openClosedTextView.setText("Open - Closes " + openHoursHashMap.get("FRIDAY").get(0).getFormattedEndTime());
                                             viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
                                             break;
                                         case "FRIDAY":
-                                            viewHolder.openClosedTextView.setText("Will Be Open Until " + openHoursHashMap.get("SATURDAY").get(0).getFormattedEndTime());
+                                            viewHolder.openClosedTextView.setText("Open - Closes " + openHoursHashMap.get("SATURDAY").get(0).getFormattedEndTime());
                                             viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
                                             break;
                                         case "SATURDAY":
-                                            viewHolder.openClosedTextView.setText("Will Be Open Until " + openHoursHashMap.get("SUNDAY").get(0).getFormattedEndTime());
+                                            viewHolder.openClosedTextView.setText("Open - Closes " + openHoursHashMap.get("SUNDAY").get(0).getFormattedEndTime());
                                             viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
                                             break;
                                     }
@@ -222,12 +222,12 @@ public class GroupRecyclerAdapter extends RecyclerView.Adapter<GroupRecyclerAdap
                                 }
 
                             } else {
-                                viewHolder.openClosedTextView.setText("Will Be Closed");
-                                viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorAccent));
+                                viewHolder.openClosedTextView.setText("Closed");
+                                viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.quantum_googred));
                             }
                         }
                     }else {
-                        viewHolder.openClosedTextView.setText("No hours provided");
+                        viewHolder.openClosedTextView.setText("No hours available");
                     }
 //
                 } else { //no requested date & time / see whats open now
@@ -284,12 +284,13 @@ public class GroupRecyclerAdapter extends RecyclerView.Adapter<GroupRecyclerAdap
                                 }
 
                             } else {
-                                viewHolder.openClosedTextView.setText("Closed Now");
-                                viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorAccent));
+                                viewHolder.openClosedTextView.setText("Closed");
+                                viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.quantum_googred));
+
                             }
                         }
                     } else {
-                        viewHolder.openClosedTextView.setText("No hours provided");
+                        viewHolder.openClosedTextView.setText("No hours available");
                     }
                 }
             }

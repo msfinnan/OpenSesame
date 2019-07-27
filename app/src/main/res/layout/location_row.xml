@@ -6,7 +6,6 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="5dp"
-    android:padding="5dp"
     app:cardCornerRadius="8dp">
 
     <LinearLayout
@@ -14,25 +13,48 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <TextView
+            android:id="@+id/location_name_list"
+            android:text="Location"
+            android:layout_marginBottom="4dp"
+            android:padding="10dp"
+            android:textSize="18sp"
+            android:textColor="@color/quantum_black_100"
+            android:textAlignment="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+        <TextView
+            android:id="@+id/group_name_list"
+            android:layout_marginBottom="4dp"
+            android:padding="10dp"
+            android:text="Group"
+            android:textSize="18sp"
+            android:textAlignment="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/location_name_list"
+                android:id="@+id/open_closed_list"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginStart="160dp"
+                android:layout_marginTop="4dp"
                 android:layout_marginEnd="151dp"
                 android:padding="10dp"
-                android:text="Location"
+                android:text="No hours available"
                 android:textAlignment="center"
                 android:textSize="18sp"
-                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.617"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:layout_editor_absoluteY="4dp" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
                 android:id="@+id/delete_location_button"
@@ -40,12 +62,15 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_gravity="end"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
                 android:background="@android:color/transparent"
                 android:contentDescription="delete location"
                 android:paddingTop="4dp"
                 android:src="@drawable/ic_delete_black_32dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                tools:layout_editor_absoluteY="0dp" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <FrameLayout
                 android:id="@+id/frameLayout"
@@ -53,8 +78,12 @@
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@id/delete_location_button"
                 android:layout_gravity="end"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                app:layout_constraintEnd_toStartOf="@+id/delete_location_button">
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/delete_location_button"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <ImageButton
                     android:id="@+id/add_to_calendar_now_button"
@@ -62,8 +91,8 @@
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
                     android:contentDescription="@string/add_to_calendar"
-                    android:visibility="visible"
                     android:paddingTop="4dp"
+                    android:visibility="visible"
                     app:srcCompat="@drawable/ic_event_black_32dp" />
 
 
@@ -73,37 +102,13 @@
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
                     android:contentDescription="@string/add_to_calendar"
-                    android:visibility="visible"
                     android:paddingTop="4dp"
+                    android:visibility="visible"
                     app:srcCompat="@drawable/ic_event_black_32dp" />
 
             </FrameLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-        <TextView
-        android:id="@+id/group_name_list"
-        android:layout_marginBottom="4dp"
-        android:padding="10dp"
-        android:text="Group"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:textAlignment="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/open_closed_list"
-            android:layout_marginBottom="4dp"
-            android:padding="10dp"
-            android:text="Open/Closed"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textAlignment="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
 
 
     </LinearLayout>
