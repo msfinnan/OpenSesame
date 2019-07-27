@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -12,16 +13,74 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-        android:id="@+id/location_name_list"
-        android:layout_marginBottom="4dp"
-        android:padding="10dp"
-        android:text="Location"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:textAlignment="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/location_name_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="160dp"
+                android:layout_marginEnd="151dp"
+                android:padding="10dp"
+                android:text="Location"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:layout_editor_absoluteY="4dp" />
+
+            <ImageButton
+                android:id="@+id/delete_location_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="end"
+                android:background="@android:color/transparent"
+                android:contentDescription="delete location"
+                android:paddingTop="4dp"
+                android:src="@drawable/ic_delete_black_32dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:layout_editor_absoluteY="0dp" />
+
+            <FrameLayout
+                android:id="@+id/frameLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@id/delete_location_button"
+                android:layout_gravity="end"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toStartOf="@+id/delete_location_button">
+
+                <ImageButton
+                    android:id="@+id/add_to_calendar_now_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="@string/add_to_calendar"
+                    android:visibility="visible"
+                    android:paddingTop="4dp"
+                    app:srcCompat="@drawable/ic_event_black_32dp" />
+
+
+                <ImageButton
+                    android:id="@+id/add_to_calendar_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="@string/add_to_calendar"
+                    android:visibility="visible"
+                    android:paddingTop="4dp"
+                    app:srcCompat="@drawable/ic_event_black_32dp" />
+
+            </FrameLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
         <TextView
         android:id="@+id/group_name_list"
@@ -45,39 +104,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageButton
-                android:id="@+id/add_to_calendar_now_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="invisible"
-                app:srcCompat="@android:drawable/ic_menu_my_calendar" />
-
-
-            <ImageButton
-                android:id="@+id/add_to_calendar_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="invisible"
-                app:srcCompat="@android:drawable/ic_menu_my_calendar" />
-
-            <Space
-                android:layout_width="240dp"
-                android:layout_height="wrap_content" />
-
-            <ImageButton
-                android:id="@+id/delete_location_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                app:srcCompat="@android:drawable/ic_delete"/>
-
-        </LinearLayout>
 
     </LinearLayout>
 
