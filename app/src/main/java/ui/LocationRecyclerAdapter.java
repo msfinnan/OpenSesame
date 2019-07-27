@@ -231,11 +231,11 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
                     }
 //
                 } else { //no requested date & time / see whats open now
-                    if (openStatus != null) {
-                        String todayDayOfWeek = LocalDate.now().dayOfWeek().getAsText().toUpperCase();
+                    String todayDayOfWeek = LocalDate.now().dayOfWeek().getAsText().toUpperCase();
 
 
-                        ArrayList<TimeRange> hashValues = openHoursHashMap.get(todayDayOfWeek);
+                    ArrayList<TimeRange> hashValues = openHoursHashMap.get(todayDayOfWeek);
+                    if (openStatus != null && hashValues !=null) {
 
                         for (int i = 0; i < hashValues.size(); i++) {
 //                            if (hashValues.get(i).rangeIncludes(requestedTime)) {

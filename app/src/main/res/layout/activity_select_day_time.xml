@@ -30,7 +30,6 @@
         android:layout_height="wrap_content"
         android:text="@string/see_what_s_open"
         android:paddingTop="24dp"
-        android:textSize="20sp"
         android:textStyle="bold"
         android:textColor="@color/colorAccent"
         android:background="@android:color/transparent"
