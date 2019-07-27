@@ -23,6 +23,7 @@
     <TextView
         android:id="@+id/location_details_name_textview"
         android:text="No location name found"
+        android:layout_marginTop="8dp"
         android:textColor="@color/quantum_black_100"
         android:textSize="18sp"
         android:layout_width="match_parent"
@@ -31,11 +32,13 @@
     <TextView
         android:id="@+id/location_address"
         android:text="No address found"
+        android:layout_marginTop="8dp"
         android:textSize="18sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <TextView
+        android:layout_marginTop="8dp"
         android:id="@+id/opening_hours_monday"
         android:text="Monday: No hours found"
         android:textSize="18sp"
@@ -87,6 +90,7 @@
     <TextView
         android:id="@+id/phone_number"
         android:text="No phone number found"
+        android:layout_marginTop="8dp"
         android:textSize="18sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -94,6 +98,7 @@
     <TextView
         android:id="@+id/web_address"
         android:text="No website found"
+        android:layout_marginTop="8dp"
         android:textSize="18sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

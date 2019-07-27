@@ -112,7 +112,9 @@ public class LocationDetailsActivity extends AppCompatActivity {
                 }
 
                 if (place.getAddress() != null) {
-                    locationAddressTextView.setText(place.getAddress());
+                    int lastComma = place.getAddress().lastIndexOf(",");
+                    String trimmedAddress = place.getAddress().substring(0, lastComma);
+                    locationAddressTextView.setText(trimmedAddress);
                 }
 
                 if (place.getOpeningHours() != null ) {
