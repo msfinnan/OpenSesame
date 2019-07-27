@@ -64,12 +64,13 @@ public class LocationDetailsActivity extends AppCompatActivity {
 
         //get google places id from intent
         Intent intent = getIntent();
-        String placeId = intent.getStringExtra("locationId");
+        final String placeId = intent.getStringExtra("locationId");
 
 
         locationNameTextView = findViewById(R.id.location_details_name_textview);
 
         locationAddressTextView = findViewById(R.id.location_address);
+
 
         sundayHoursTextView = findViewById(R.id.opening_hours_sunday);
         mondayHoursTextView = findViewById(R.id.opening_hours_monday);
@@ -207,7 +208,22 @@ public class LocationDetailsActivity extends AppCompatActivity {
             }
         });
 
+        locationAddressTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "onClick: ");
+                Uri gmmIntentUri = Uri.parse("geo:0,0?q=" + locationAddressTextView.getText().toString());
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                mapIntent.setPackage("com.google.android.apps.maps");
+                if (mapIntent.resolveActivity(getPackageManager()) != null) {
+                    Log.d(TAG, "onClick: not null");
+                    startActivity(mapIntent);
+                }
+            }
+        });
+
 
 
     }
+
 }
