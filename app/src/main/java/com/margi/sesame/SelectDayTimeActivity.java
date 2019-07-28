@@ -57,7 +57,7 @@ public class SelectDayTimeActivity extends AppCompatActivity {
                 int day = calendar.get(Calendar.DAY_OF_MONTH);
 
                 DatePickerDialog dialog = new DatePickerDialog(SelectDayTimeActivity.this,
-                        android.R.style.Theme_DeviceDefault_Dialog,
+                        android.R.style.Theme_Material_Dialog,
                         dateSetListener,
                         year, month, day);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -94,8 +94,8 @@ public class SelectDayTimeActivity extends AppCompatActivity {
 
 
                 TimePickerDialog dialog = new TimePickerDialog(SelectDayTimeActivity.this,
-                        android.R.style.Theme_DeviceDefault_Dialog,
-                        timeSetListener, hourOfDay, minute, true); //last variable is bool for is24HourView
+                        android.R.style.Theme_Material,
+                        timeSetListener, hourOfDay, minute, false); //last variable is bool for is24HourView
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
             }
