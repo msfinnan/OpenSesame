@@ -6,28 +6,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
+    android:gravity="center_horizontal"
     android:padding="18dp"
     tools:context=".AddLocationActivity">
-
 
     <fragment android:id="@+id/autocomplete_fragment"
         android:hint="@string/location_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
-        />
+        android:layout_marginTop="150dp"
+        android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment" />
 
 
     <AutoCompleteTextView
         android:id="@+id/groupNameAutoComplete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
+        android:paddingLeft="32dp"
         android:inputType="textPersonName"
         android:textSize="20sp"
+        android:textColorHint="@color/hintColor"
+        android:background="@android:color/transparent"
         android:hint="@string/group_name" />
 
     <Button
@@ -35,19 +38,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="72dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:textColor="@color/colorAccent"
-        android:background="@android:color/transparent"
+        android:textColor="@color/white"
+        android:fontFamily="@font/poppins"
+        android:background="@drawable/button_background"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
         android:text="@string/add_location" />
+
+
 
     <ProgressBar
         android:id="@+id/addLocationProgressBar"
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="208dp" />
+
 </LinearLayout>

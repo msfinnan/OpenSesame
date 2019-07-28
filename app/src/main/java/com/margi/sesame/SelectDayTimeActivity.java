@@ -28,8 +28,8 @@ import java.util.Date;
 import util.AppController;
 
 public class SelectDayTimeActivity extends AppCompatActivity {
-    private TextView displayDate;
-    private TextView displayTime;
+    private Button displayDate;
+    private Button displayTime;
     private Button goToLocations;
 
     private DatePickerDialog.OnDateSetListener dateSetListener;

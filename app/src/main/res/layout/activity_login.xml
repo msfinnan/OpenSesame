@@ -45,7 +45,7 @@
             android:fontFamily="@font/poppins"
             android:text="@string/login_text"
             android:background="@drawable/button_background"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="36dp"
             android:paddingLeft="64dp"
             android:paddingRight="64dp"
             android:layout_gravity="center_horizontal"
