@@ -185,37 +185,37 @@ public class GroupRecyclerAdapter extends RecyclerView.Adapter<GroupRecyclerAdap
                             if (hashValues.get(i).rangeIncludes(requestedTime)) {
                                 if (hashValues.get(i).getEndTime().getMinuteOfHour() != 59) {
                                     viewHolder.openClosedTextView.setText("Open - Closes " + hashValues.get(i).getFormattedEndTime()); // add "until " + endOfRange
-                                    viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+                                    viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorAccent));
                                     break;
                                 } else{ //open overnight
                                     switch (requestedDay.toUpperCase()) {
                                         case "SUNDAY":
                                             viewHolder.openClosedTextView.setText("Open - Closes " + openHoursHashMap.get("MONDAY").get(1).getFormattedEndTime());
-                                            viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+                                            viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorAccent));
                                             break;
                                         case "MONDAY":
                                             viewHolder.openClosedTextView.setText("Open - Closes " + openHoursHashMap.get("TUESDAY").get(0).getFormattedEndTime());
-                                            viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+                                            viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorAccent));
                                             break;
                                         case "TUESDAY":
                                             viewHolder.openClosedTextView.setText("Open - Closes " + openHoursHashMap.get("WEDNESDAY").get(0).getFormattedEndTime());
-                                            viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+                                            viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorAccent));
                                             break;
                                         case "WEDNESDAY":
                                             viewHolder.openClosedTextView.setText("Open - Closes " + openHoursHashMap.get("THURSDAY").get(0).getFormattedEndTime());
-                                            viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+                                            viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorAccent));
                                             break;
                                         case "THURSDAY":
                                             viewHolder.openClosedTextView.setText("Open - Closes " + openHoursHashMap.get("FRIDAY").get(0).getFormattedEndTime());
-                                            viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+                                            viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorAccent));
                                             break;
                                         case "FRIDAY":
                                             viewHolder.openClosedTextView.setText("Open - Closes " + openHoursHashMap.get("SATURDAY").get(0).getFormattedEndTime());
-                                            viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+                                            viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorAccent));
                                             break;
                                         case "SATURDAY":
                                             viewHolder.openClosedTextView.setText("Open - Closes " + openHoursHashMap.get("SUNDAY").get(0).getFormattedEndTime());
-                                            viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+                                            viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorAccent));
                                             break;
                                     }
                                     break;
@@ -223,7 +223,7 @@ public class GroupRecyclerAdapter extends RecyclerView.Adapter<GroupRecyclerAdap
 
                             } else {
                                 viewHolder.openClosedTextView.setText("Closed");
-                                viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.quantum_googred));
+                                viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorAccent));
                             }
                         }
                     }else {
@@ -251,31 +251,31 @@ public class GroupRecyclerAdapter extends RecyclerView.Adapter<GroupRecyclerAdap
                                     switch (requestedDay.toUpperCase()) {
                                         case "SUNDAY":
                                             viewHolder.openClosedTextView.setText("Open Until " + openHoursHashMap.get("MONDAY").get(1).getFormattedEndTime());
-                                            viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+                                            viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorAccent));
                                             break;
                                         case "MONDAY":
                                             viewHolder.openClosedTextView.setText("Open Until " + openHoursHashMap.get("TUESDAY").get(0).getFormattedEndTime());
-                                            viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+                                            viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorAccent));
                                             break;
                                         case "TUESDAY":
                                             viewHolder.openClosedTextView.setText("Open Until " + openHoursHashMap.get("WEDNESDAY").get(0).getFormattedEndTime());
-                                            viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+                                            viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorAccent));
                                             break;
                                         case "WEDNESDAY":
                                             viewHolder.openClosedTextView.setText("Open Until " + openHoursHashMap.get("THURSDAY").get(0).getFormattedEndTime());
-                                            viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+                                            viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorAccent));
                                             break;
                                         case "THURSDAY":
                                             viewHolder.openClosedTextView.setText("Open Until " + openHoursHashMap.get("FRIDAY").get(0).getFormattedEndTime());
-                                            viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+                                            viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorAccent));
                                             break;
                                         case "FRIDAY":
                                             viewHolder.openClosedTextView.setText("Open Until " + openHoursHashMap.get("SATURDAY").get(0).getFormattedEndTime());
-                                            viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+                                            viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorAccent));
                                             break;
                                         case "SATURDAY":
                                             viewHolder.openClosedTextView.setText("Open Until " + openHoursHashMap.get("SUNDAY").get(0).getFormattedEndTime());
-                                            viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+                                            viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorAccent));
                                             break;
                                     }
 
@@ -285,7 +285,7 @@ public class GroupRecyclerAdapter extends RecyclerView.Adapter<GroupRecyclerAdap
 
                             } else {
                                 viewHolder.openClosedTextView.setText("Closed");
-                                viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.quantum_googred));
+                                viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
 
                             }
                         }
