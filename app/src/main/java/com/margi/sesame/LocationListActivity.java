@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -50,6 +52,7 @@ public class LocationListActivity extends AppCompatActivity implements LocationR
     private List<Location> locationList;
     private RecyclerView recyclerView;
     private LocationRecyclerAdapter locationRecyclerAdapter;
+    private FloatingActionButton addLocationFAB;
 
     private HashSet<String> groupNames;
     private ArrayList<String> groupNamesArray;
@@ -67,6 +70,7 @@ public class LocationListActivity extends AppCompatActivity implements LocationR
         user = firebaseAuth.getCurrentUser();
 
         noLocationEntry = findViewById(R.id.list_no_locations);
+        addLocationFAB = findViewById(R.id.add_location_fab);
 
         locationList = new ArrayList<>();
 
@@ -140,6 +144,16 @@ public class LocationListActivity extends AppCompatActivity implements LocationR
 
                     }
                 });
+        addLocationFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (user != null && firebaseAuth != null) {
+                    startActivity(new Intent(LocationListActivity.this,
+                            AddLocationActivity.class));
+//                    finish(); //come back to this
+                }
+            }
+        });
 
     }
 
@@ -153,15 +167,15 @@ public class LocationListActivity extends AppCompatActivity implements LocationR
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         switch (item.getItemId()) {
-            case R.id.action_add :
-                //take users to AddLocationActivity
-                if (user != null && firebaseAuth != null) {
-                    startActivity(new Intent(LocationListActivity.this,
-                            AddLocationActivity.class));
-//                    finish(); //come back to this
-                }
-
-                break;
+//            case R.id.action_add :
+//                //take users to AddLocationActivity
+//                if (user != null && firebaseAuth != null) {
+//                    startActivity(new Intent(LocationListActivity.this,
+//                            AddLocationActivity.class));
+////                    finish(); //come back to this
+//                }
+//
+//                break;
             case R.id.action_sign_out :
                 if (user != null && firebaseAuth != null){
                     firebaseAuth.signOut();

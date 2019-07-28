@@ -77,14 +77,6 @@ public class GroupListActivity extends AppCompatActivity implements GroupRecycle
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         switch (item.getItemId()) {
-            case R.id.action_add :
-                //take users to AddLocationActivity
-                if (user != null && firebaseAuth != null) {
-                    startActivity(new Intent(GroupListActivity.this,
-                            AddLocationActivity.class));
-////                    finish(); //come back to this
-                }
-                    break;
             case R.id.action_sign_out :
                 if (user != null && firebaseAuth != null){
                     firebaseAuth.signOut();

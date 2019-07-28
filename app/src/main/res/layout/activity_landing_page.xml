@@ -13,6 +13,7 @@
         android:id="@+id/landing_page_open_now"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="300dp"
         android:layout_marginBottom="36dp"
         android:background="@drawable/button_background"
         android:text="@string/see_what_s_open_now"

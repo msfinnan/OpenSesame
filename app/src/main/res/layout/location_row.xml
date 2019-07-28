@@ -73,7 +73,7 @@
                 android:background="@android:color/transparent"
                 android:contentDescription="delete location"
                 android:paddingTop="4dp"
-                android:src="@drawable/ic_delete_black_32dp"
+                android:src="@drawable/ic_delete_black_semi_opaque_32dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -99,7 +99,7 @@
                     android:contentDescription="@string/add_to_calendar"
                     android:paddingTop="4dp"
                     android:visibility="visible"
-                    app:srcCompat="@drawable/ic_event_black_32dp" />
+                    app:srcCompat="@drawable/ic_event_black_semi_opaque_32dp" />
 
 
                 <ImageButton
@@ -110,7 +110,7 @@
                     android:contentDescription="@string/add_to_calendar"
                     android:paddingTop="4dp"
                     android:visibility="visible"
-                    app:srcCompat="@drawable/ic_event_black_32dp" />
+                    app:srcCompat="@drawable/ic_event_black_semi_opaque_32dp" />
 
             </FrameLayout>
 

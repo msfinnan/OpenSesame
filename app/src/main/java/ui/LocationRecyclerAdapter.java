@@ -247,7 +247,7 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
                                     break;
                                 } else{ //open overnight
 
-                                    switch (requestedDay.toUpperCase()) {
+                                    switch (todayDayOfWeek.toUpperCase()) {
                                         case "SUNDAY":
                                             viewHolder.openClosedTextView.setText("Open - Closes " + openHoursHashMap.get("MONDAY").get(1).getFormattedEndTime());
                                             viewHolder.openClosedTextView.setTextColor(context.getResources().getColor(R.color.colorOpen));
