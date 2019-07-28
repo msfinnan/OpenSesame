@@ -57,7 +57,7 @@
             android:id="@+id/location_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
+            android:layout_marginStart="6dp"
             android:layout_marginTop="12dp"
             android:fontFamily="@font/work_sans"
             android:text="No address found"
@@ -85,7 +85,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:fontFamily="@font/work_sans"
-            android:paddingLeft="4dp"
+            android:layout_marginStart="6dp"
             android:text="Monday: No hours found"
             android:textColor="@color/softBlack"
             android:textSize="18sp" />
@@ -96,7 +96,7 @@
         android:id="@+id/opening_hours_tuesday"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
+        android:layout_marginStart="22dp"
         android:fontFamily="@font/work_sans"
         android:text="Tuesday: No hours found"
         android:textColor="@color/softBlack"
@@ -106,7 +106,7 @@
         android:id="@+id/opening_hours_wednesday"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
+        android:layout_marginStart="22dp"
         android:fontFamily="@font/work_sans"
         android:text="Wednesday: No hours found"
         android:textColor="@color/softBlack"
@@ -116,7 +116,7 @@
         android:id="@+id/opening_hours_thursday"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
+        android:layout_marginStart="22dp"
         android:fontFamily="@font/work_sans"
         android:text="Thursday: No hours found"
         android:textColor="@color/softBlack"
@@ -126,7 +126,7 @@
         android:id="@+id/opening_hours_friday"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
+        android:layout_marginStart="22dp"
         android:fontFamily="@font/work_sans"
         android:text="Friday: No hours found"
         android:textColor="@color/softBlack"
@@ -136,7 +136,7 @@
         android:id="@+id/opening_hours_saturday"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
+        android:layout_marginStart="22dp"
         android:fontFamily="@font/work_sans"
         android:text="Saturday: No hours found"
         android:textColor="@color/softBlack"
@@ -146,7 +146,7 @@
         android:id="@+id/opening_hours_sunday"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
+        android:layout_marginStart="22dp"
         android:fontFamily="@font/work_sans"
         android:text="Sunday: No hours found"
         android:textColor="@color/softBlack"
@@ -168,7 +168,7 @@
             android:id="@+id/web_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
+            android:layout_marginStart="6dp"
             android:layout_marginTop="8dp"
             android:fontFamily="@font/work_sans"
             android:text="No website found"
@@ -192,7 +192,7 @@
             android:id="@+id/phone_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
+            android:layout_marginStart="6dp"
             android:layout_marginTop="8dp"
             android:fontFamily="@font/work_sans"
             android:text="No phone number found"
@@ -201,7 +201,56 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
+        <ImageButton
+            android:id="@+id/location_details_add_event_image"
+            android:src="@drawable/ic_event_available_black_24dp"
+            android:background="@android:color/transparent"
+            android:paddingTop="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/location_details_add_event"
+            android:text="@string/add_event_to_calendar"
+            android:paddingTop="8dp"
+            android:layout_marginStart="6dp"
+            android:textColor="@color/softBlack"
+            android:fontFamily="@font/poppins"
+            android:textSize="18sp"
+            android:layout_gravity="start"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:id="@+id/location_details_delete_location_image"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_clear_black_24dp"
+            android:layout_marginTop="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/location_details_delete_location"
+            android:text="@string/delete_location"
+            android:layout_gravity="start"
+            android:layout_marginStart="6dp"
+            android:textSize="18sp"
+            android:paddingTop="8dp"
+            android:textColor="@color/softBlack"
+            android:fontFamily="@font/poppins"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

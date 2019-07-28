@@ -22,4 +22,6 @@
     <string name="select_date">Select Date</string>
     <string name="see_what_s_open">See What Will Be Open</string>
     <string name="add_to_calendar">add to calendar</string>
+    <string name="add_event_to_calendar">Add Event to Calendar</string>
+    <string name="delete_location">Delete Location</string>
 </resources>

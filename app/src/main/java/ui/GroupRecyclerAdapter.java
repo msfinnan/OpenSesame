@@ -335,45 +335,45 @@ public class GroupRecyclerAdapter extends RecyclerView.Adapter<GroupRecyclerAdap
 //            locationName = itemView.findViewById(R.id.location_name_list);
             groupName = itemView.findViewById(R.id.group_name_list);
             openClosedTextView = itemView.findViewById(R.id.open_closed_list);
-            addToCalendarButton = itemView.findViewById(R.id.add_to_calendar_button);
-            addToCalendarNowButton = itemView.findViewById(R.id.add_to_calendar_now_button);
-            deleteLocationButton = itemView.findViewById(R.id.delete_location_button);
+//            addToCalendarButton = itemView.findViewById(R.id.add_to_calendar_button);
+//            addToCalendarNowButton = itemView.findViewById(R.id.add_to_calendar_now_button);
+//            deleteLocationButton = itemView.findViewById(R.id.delete_location_button);
 
-            //todo consider making these one button for better user experience
-            if (appController.getFutureDay() != null && appController.getFutureHourMin() != null ){ //looking at future times
-                addToCalendarButton.setVisibility(View.VISIBLE);
-            }else{
-                addToCalendarNowButton.setVisibility(View.VISIBLE);
-            }
-
-            groupName.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    Intent intent = new Intent(context, GroupListActivity.class);
-                    TextView textView = view.findViewById(R.id.group_name_list);
-                    String message = textView.getText().toString();
-                    intent.putExtra("groupName", message);
-                    context.startActivity(intent);
-
-                }
-            });
-
-            addToCalendarButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    addEventToCalendar(locationName.getText().toString());
-                }
-            });
-
-            addToCalendarNowButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    addEventToCalendarNow(locationName.getText().toString());
-                }
-            });
-
-            deleteLocationButton.setOnClickListener(this);
+//            //todo consider making these one button for better user experience
+//            if (appController.getFutureDay() != null && appController.getFutureHourMin() != null ){ //looking at future times
+//                addToCalendarButton.setVisibility(View.VISIBLE);
+//            }else{
+//                addToCalendarNowButton.setVisibility(View.VISIBLE);
+//            }
+//
+//            groupName.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//
+//                    Intent intent = new Intent(context, GroupListActivity.class);
+//                    TextView textView = view.findViewById(R.id.group_name_list);
+//                    String message = textView.getText().toString();
+//                    intent.putExtra("groupName", message);
+//                    context.startActivity(intent);
+//
+//                }
+//            });
+//
+//            addToCalendarButton.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    addEventToCalendar(locationName.getText().toString());
+//                }
+//            });
+//
+//            addToCalendarNowButton.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    addEventToCalendarNow(locationName.getText().toString());
+//                }
+//            });
+//
+//            deleteLocationButton.setOnClickListener(this);
 
         }
 

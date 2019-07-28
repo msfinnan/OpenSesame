@@ -167,15 +167,7 @@ public class LocationListActivity extends AppCompatActivity implements LocationR
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         switch (item.getItemId()) {
-//            case R.id.action_add :
-//                //take users to AddLocationActivity
-//                if (user != null && firebaseAuth != null) {
-//                    startActivity(new Intent(LocationListActivity.this,
-//                            AddLocationActivity.class));
-////                    finish(); //come back to this
-//                }
-//
-//                break;
+
             case R.id.action_sign_out :
                 if (user != null && firebaseAuth != null){
                     firebaseAuth.signOut();
@@ -231,6 +223,7 @@ public class LocationListActivity extends AppCompatActivity implements LocationR
     @Override
     protected void onResume() {
         super.onResume();
+
         collectionReference.whereEqualTo("userId", AppController.getInstance()
                 .getUserId()) //gets back all of users locations
                 .get()

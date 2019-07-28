@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -215,17 +216,6 @@ public class AddLocationActivity extends AppCompatActivity {
         }
     }
 
-
-    //    @Override
-//    public void onClick(View view) {
-//        switch (view.getId()){
-//            case R.id.addCollectionButton:
-//                //save Location
-//                saveCollection();
-//                break;
-//        }
-//    }
-
     private void saveLocation(String locationName, String locationId) {
         //get text view with collection name
 //        String locationName = locationNameEditText.getText().toString().trim();
@@ -271,65 +261,6 @@ public class AddLocationActivity extends AppCompatActivity {
         }
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//    }
-
-//    private void getPlaceId() {
-//        // Initialize the AutocompleteSupportFragment.
-//        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
-//                getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
-//
-//// Specify the types of place data to return.
-//        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
-//
-//// Set up a PlaceSelectionListener to handle the response.
-//        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-//            @Override
-//            public void onPlaceSelected(Place place) {
-//
-//                Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
-//            }
-//
-//            @Override
-//            public void onError(Status status) {
-//
-//                Log.i(TAG, "An error occurred: " + status);
-//            }
-//        });
-//    }
-
-//    private void fetchLocation(){
-////initialize
-////        if (!Places.isInitialized()) {
-////            Places.initialize(this, this.getString(R.string.apiKey));
-////        }
-////        PlacesClient placesClient = Places.createClient(this);
-//        // Define a Place ID.
-//        String placeId = "ChIJGzsYf0wVkFQR0QnPNo9YzKA";
-//
-//// Specify the fields to return.
-//        List<Place.Field> placeFields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.OPENING_HOURS, Place.Field.UTC_OFFSET);
-//
-//// Construct a request object, passing the place ID and fields array.
-//        FetchPlaceRequest request = FetchPlaceRequest.newInstance(placeId, placeFields);
-//
-//        placesClient.fetchPlace(request).addOnSuccessListener(new OnSuccessListener<FetchPlaceResponse>() {
-//            @Override
-//            public void onSuccess(FetchPlaceResponse fetchPlaceResponse) {
-//                Place place = fetchPlaceResponse.getPlace();
-//                Log.d(TAG, "onSuccess: Place found " + place.isOpen());
-//            }
-//        }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//                Log.d(TAG, "onFailure: Place not found" + e.getMessage());
-//            }
-//        });
-//
-//    }
 
 
 
