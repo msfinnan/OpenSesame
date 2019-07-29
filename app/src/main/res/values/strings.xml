@@ -24,4 +24,8 @@
     <string name="add_to_calendar">add to calendar</string>
     <string name="add_event_to_calendar">Add Event to Calendar</string>
     <string name="delete_location">Delete Location</string>
+    <string name="title_activity_bottom_nav">BottomNavActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 </resources>
