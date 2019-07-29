@@ -10,31 +10,25 @@
         android:id="@+id/group_spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:padding="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerViewCollectionList"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.942">
+        tools:layout_editor_absoluteY="105dp">
 
     </Spinner>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewCollectionList"
-        android:layout_width="401dp"
-        android:layout_height="530dp"
+        android:layout_width="403dp"
+        android:layout_height="519dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="125dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.541" />
+        app:layout_constraintHorizontal_bias="0.727"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/list_no_locations"

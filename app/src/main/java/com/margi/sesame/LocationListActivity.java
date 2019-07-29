@@ -99,11 +99,16 @@ public class LocationListActivity extends AppCompatActivity implements LocationR
                             //convert hashset to arraylist
                             groupNamesArray = new ArrayList<>(groupNames);
 
+
+//                            val adapter = ArrayAdapter.createFromResource(this, R.array.array_name, R.layout.custom_spinner) // where array_name consists of the items to show in Spinner
+//                            adapter.setDropDownViewResource(R.layout.custom_spinner)
+
+
+
                             //Creating the instance of ArrayAdapter containing list of group Names
                             ArrayAdapter<String> adapter = new ArrayAdapter<>
-                                    (LocationListActivity.this, android.R.layout.simple_spinner_item, groupNamesArray);
-
-                            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                    (LocationListActivity.this, R.layout.custom_spinner, groupNamesArray);
+                            adapter.setDropDownViewResource(R.layout.custom_spinner);
                             spinner.setAdapter(adapter);
 
 
