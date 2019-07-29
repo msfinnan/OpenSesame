@@ -87,6 +87,18 @@ public class GroupListActivity extends AppCompatActivity implements GroupRecycle
 //                    finish(); //come back to this.
                 }
                 break;
+            case R.id.open_now :
+                startActivity(new Intent(GroupListActivity.this,
+                        LocationListActivity.class));
+                break;
+            case R.id.open_later :
+                startActivity(new Intent(GroupListActivity.this,
+                        SelectDayTimeActivity.class));
+                break;
+            case R.id.add_location_from_menu :
+                startActivity(new Intent(GroupListActivity.this,
+                        AddLocationActivity.class));
+                break;
         }
         return super.onOptionsItemSelected(item);
 

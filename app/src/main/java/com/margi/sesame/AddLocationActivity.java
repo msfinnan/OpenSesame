@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -261,6 +262,44 @@ public class AddLocationActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()) {
+
+            case R.id.action_sign_out :
+                if (user != null && firebaseAuth != null){
+                    firebaseAuth.signOut();
+
+                    startActivity(new Intent(AddLocationActivity.this,
+                            MainActivity.class));
+
+//                    finish(); //come back to this.
+                }
+                break;
+            case R.id.open_now :
+                startActivity(new Intent(AddLocationActivity.this,
+                        LocationListActivity.class));
+                break;
+            case R.id.open_later :
+                startActivity(new Intent(AddLocationActivity.this,
+                        SelectDayTimeActivity.class));
+                break;
+            case R.id.add_location_from_menu :
+                startActivity(new Intent(AddLocationActivity.this,
+                        AddLocationActivity.class));
+                break;
+
+        }
+        return super.onOptionsItemSelected(item);
+
+    }
 
 
 

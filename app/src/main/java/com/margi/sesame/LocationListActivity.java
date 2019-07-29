@@ -183,6 +183,18 @@ public class LocationListActivity extends AppCompatActivity implements LocationR
 //                    finish(); //come back to this.
                 }
                 break;
+            case R.id.open_now :
+                startActivity(new Intent(LocationListActivity.this,
+                        LocationListActivity.class));
+                break;
+            case R.id.open_later :
+                startActivity(new Intent(LocationListActivity.this,
+                        SelectDayTimeActivity.class));
+                break;
+            case R.id.add_location_from_menu :
+                startActivity(new Intent(LocationListActivity.this,
+                        AddLocationActivity.class));
+                break;
                 }
         return super.onOptionsItemSelected(item);
 

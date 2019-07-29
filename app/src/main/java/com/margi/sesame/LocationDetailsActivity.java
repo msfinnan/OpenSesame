@@ -350,5 +350,43 @@ public class LocationDetailsActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()) {
+
+            case R.id.action_sign_out :
+                if (user != null && firebaseAuth != null){
+                    firebaseAuth.signOut();
+
+                    startActivity(new Intent(LocationDetailsActivity.this,
+                            MainActivity.class));
+
+//                    finish(); //come back to this.
+                }
+                break;
+            case R.id.open_now :
+                startActivity(new Intent(LocationDetailsActivity.this,
+                        LocationListActivity.class));
+                break;
+            case R.id.open_later :
+                startActivity(new Intent(LocationDetailsActivity.this,
+                        SelectDayTimeActivity.class));
+                break;
+            case R.id.add_location_from_menu :
+                startActivity(new Intent(LocationDetailsActivity.this,
+                        AddLocationActivity.class));
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+
+    }
+
 
 }

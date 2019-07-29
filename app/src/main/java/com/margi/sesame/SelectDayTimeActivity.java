@@ -1,5 +1,6 @@
 package com.margi.sesame;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
@@ -9,11 +10,16 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeFieldType;
@@ -36,6 +42,9 @@ public class SelectDayTimeActivity extends AppCompatActivity {
     private TimePickerDialog.OnTimeSetListener timeSetListener;
     private AppController appController = AppController.getInstance();
 
+    private FirebaseAuth firebaseAuth;
+    private FirebaseUser user;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +54,9 @@ public class SelectDayTimeActivity extends AppCompatActivity {
         displayDate = findViewById(R.id.select_day_time_text);
         displayTime = findViewById(R.id.select_time_text);
         goToLocations = findViewById(R.id.select_day_time_go_to_locations);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        user = firebaseAuth.getCurrentUser();
 
         final Intent intent = new Intent(SelectDayTimeActivity.this, LocationListActivity.class);
 
@@ -126,4 +138,41 @@ public class SelectDayTimeActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()) {
+
+            case R.id.action_sign_out :
+                if (user != null && firebaseAuth != null){
+                    firebaseAuth.signOut();
+
+                    startActivity(new Intent(SelectDayTimeActivity.this,
+                            MainActivity.class));
+
+//                    finish(); //come back to this.
+                }
+                break;
+            case R.id.open_now :
+                startActivity(new Intent(SelectDayTimeActivity.this,
+                        LocationListActivity.class));
+                break;
+            case R.id.open_later :
+                startActivity(new Intent(SelectDayTimeActivity.this,
+                        SelectDayTimeActivity.class));
+                break;
+            case R.id.add_location_from_menu :
+                startActivity(new Intent(SelectDayTimeActivity.this,
+                        AddLocationActivity.class));
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+
+    }
 }
