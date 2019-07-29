@@ -8,8 +8,10 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.icu.util.Calendar;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,6 +33,8 @@ import com.google.android.libraries.places.api.net.FetchPlaceResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.protobuf.StringValue;
 
+import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -38,6 +42,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import model.Location;
+import util.AppController;
 
 public class LocationDetailsActivity extends AppCompatActivity {
 
@@ -57,7 +62,12 @@ public class LocationDetailsActivity extends AppCompatActivity {
     TextView phoneNumberTextView;
     TextView websiteTextView;
 
+    TextView addToCalendarTextView;
+    TextView deleteLocationTextView;
+
     private PlacesClient placesClient;
+    private AppController appController = AppController.getInstance();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +97,10 @@ public class LocationDetailsActivity extends AppCompatActivity {
         websiteTextView = findViewById(R.id.web_address);
 
         phoneNumberTextView = findViewById(R.id.phone_number);
+
+        deleteLocationTextView = findViewById(R.id.location_details_delete_location);
+
+        addToCalendarTextView = findViewById(R.id.location_details_add_event);
 
 
         //get places details from google place sdk
@@ -227,8 +241,55 @@ public class LocationDetailsActivity extends AppCompatActivity {
             }
         });
 
+        addToCalendarTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (appController.getFutureDay() != null && appController.getFutureHourMin() != null) { //looking at future times
+                    addEventToCalendar(locationNameTextView.getText().toString());
+                } else {
+                    addEventToCalendarNow(locationNameTextView.getText().toString());
+                }
+            }
+        });
 
+    }
 
+    private void addEventToCalendarNow(String locationName) {
+        Calendar beginTime = Calendar.getInstance();
+        LocalDate today = LocalDate.now();
+        LocalTime timeNow = LocalTime.now();
+        beginTime.set(today.getYear(), (today.getMonthOfYear() - 1), today.getDayOfMonth(),
+                timeNow.getHourOfDay() , timeNow.getMinuteOfHour());
+        Calendar endTime = Calendar.getInstance();
+        endTime.set(today.getYear(), (today.getMonthOfYear() - 1), today.getDayOfMonth(),
+                (timeNow.getHourOfDay() + 1) , timeNow.getMinuteOfHour());
+        Intent intent = new Intent(Intent.ACTION_INSERT)
+                .setData(CalendarContract.Events.CONTENT_URI)
+                .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis())
+                .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis())
+                .putExtra(CalendarContract.Events.TITLE, "Go to " + locationName)
+                .putExtra(CalendarContract.Events.EVENT_LOCATION, locationName);
+//                .putExtra(Intent.EXTRA_EMAIL, "rowan@example.com,trevor@example.com");
+
+      startActivity(intent);
+    }
+
+    private void addEventToCalendar(String locationName) {
+        Calendar beginTime = Calendar.getInstance();
+        beginTime.set(appController.getFutureYear(), appController.getFutureMonth(), appController.getFutureDayOfMonth(),
+                appController.getFutureHour(), appController.getFutureMin());
+        Calendar endTime = Calendar.getInstance();
+        endTime.set(appController.getFutureYear(), appController.getFutureMonth(), appController.getFutureDayOfMonth(),
+                (appController.getFutureHour() + 1) , appController.getFutureMin());
+        Intent intent = new Intent(Intent.ACTION_INSERT)
+                .setData(CalendarContract.Events.CONTENT_URI)
+                .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis())
+                .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis())
+                .putExtra(CalendarContract.Events.TITLE, "Go to " + locationName)
+                .putExtra(CalendarContract.Events.EVENT_LOCATION, locationName);
+//                .putExtra(Intent.EXTRA_EMAIL, "rowan@example.com,trevor@example.com");
+
+        startActivity(intent);
     }
 
 
