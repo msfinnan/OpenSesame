@@ -340,18 +340,18 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
 //                addToCalendarNowButton.setVisibility(View.VISIBLE);
 //            }
 //
-//            groupName.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//
-//                    Intent intent = new Intent(context, GroupListActivity.class);
-//                    TextView textView = view.findViewById(R.id.group_name_list);
-//                    String message = textView.getText().toString();
-//                    intent.putExtra("groupName", message);
-//                    context.startActivity(intent);
-//
-//                }
-//            });
+            groupName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Intent intent = new Intent(context, GroupListActivity.class);
+                    TextView textView = view.findViewById(R.id.group_name_list);
+                    String message = textView.getText().toString();
+                    intent.putExtra("groupName", message);
+                    context.startActivity(intent);
+
+                }
+            });
 //
 //            addToCalendarButton.setOnClickListener(new View.OnClickListener() {
 //                @Override
