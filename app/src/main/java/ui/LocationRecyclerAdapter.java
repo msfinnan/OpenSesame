@@ -54,9 +54,9 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
     private ArrayList<Place> placesArray;
     private static String TAG = "LocationRecyclerAdapter";
     private AppController appController = AppController.getInstance();
-    public ImageButton addToCalendarButton;
-    public ImageButton addToCalendarNowButton;
-    public ImageButton deleteLocationButton;
+//    public ImageButton addToCalendarButton;
+//    public ImageButton addToCalendarNowButton;
+//    public ImageButton deleteLocationButton;
     public TextView locationName;
 
 

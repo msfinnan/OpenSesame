@@ -31,6 +31,10 @@ import com.google.android.libraries.places.api.net.FetchPhotoResponse;
 import com.google.android.libraries.places.api.net.FetchPlaceRequest;
 import com.google.android.libraries.places.api.net.FetchPlaceResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.protobuf.StringValue;
 
 import org.joda.time.LocalDate;
@@ -42,6 +46,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import model.Location;
+import ui.LocationRecyclerAdapter;
 import util.AppController;
 
 public class LocationDetailsActivity extends AppCompatActivity {
@@ -49,6 +54,15 @@ public class LocationDetailsActivity extends AppCompatActivity {
 
     private static final int PERMISSION_CODE = 1 ;
     private static final String TAG = "LocationDetailsActivity";
+
+    private FirebaseAuth firebaseAuth;
+    private FirebaseAuth.AuthStateListener authStateListener;
+    private FirebaseUser user;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+    private CollectionReference collectionReference = db.collection("Locations");
+
+
     TextView locationNameTextView;
     TextView locationAddressTextView;
     ImageView locationImageView;
@@ -69,10 +83,15 @@ public class LocationDetailsActivity extends AppCompatActivity {
     private AppController appController = AppController.getInstance();
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location_details);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        user = firebaseAuth.getCurrentUser();
 
         //get google places id from intent
         Intent intent = getIntent();
@@ -252,6 +271,16 @@ public class LocationDetailsActivity extends AppCompatActivity {
             }
         });
 
+        deleteLocationTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onDeleteLocation();
+
+            }
+        });
+
+
+
     }
 
     private void addEventToCalendarNow(String locationName) {
@@ -292,7 +321,34 @@ public class LocationDetailsActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    private void onDeleteLocation(){
+        final String locationName = locationNameTextView.getText().toString();
+        String userId = user.getUid();
 
+        db.collection("Locations").document(locationName + ":" + userId)
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "onSuccess: Successfully deleted " + locationName );
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d(TAG, "onFailure: Error deleting " + locationName + " " + e.getMessage());
+
+                    }
+                });
+
+        Intent intent = new Intent(LocationDetailsActivity.this, LocationListActivity.class);
+        startActivity(intent);
+
+        Toast.makeText(this, "Deleted " + locationName, Toast.LENGTH_LONG).show();
+
+
+    }
 
 
 }
