@@ -1,6 +1,7 @@
 package com.margi.sesame;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -99,6 +100,12 @@ public class LocationDetailsActivity extends AppCompatActivity {
 
 
         locationNameTextView = findViewById(R.id.location_details_name_textview);
+
+        ActionBar supportActionBar = getSupportActionBar();
+        if (supportActionBar != null) {
+            supportActionBar.setTitle("Location Details");
+            supportActionBar.show();
+        }
 
         locationAddressTextView = findViewById(R.id.location_address);
 

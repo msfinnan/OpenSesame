@@ -72,6 +72,12 @@ public class LocationListActivity extends AppCompatActivity implements LocationR
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location_list);
 
+        ActionBar supportActionBar = getSupportActionBar();
+        if (supportActionBar != null) {
+            supportActionBar.setTitle("All Locations");
+            supportActionBar.show();
+        }
+
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
 
@@ -114,7 +120,7 @@ public class LocationListActivity extends AppCompatActivity implements LocationR
         TextView tv = new TextView(getApplicationContext());
 
         groupNames = new HashSet<>();
-        groupNames.add("View All Locations");
+        groupNames.add("Select a Group");
         groupNamesArray = new ArrayList<>();
         spinner = findViewById(R.id.group_spinner);
 
@@ -148,7 +154,7 @@ public class LocationListActivity extends AppCompatActivity implements LocationR
                             spinner.setAdapter(adapter);
 
 
-                            int spinnerPosition = adapter.getPosition("View All Locations");
+                            int spinnerPosition = adapter.getPosition("Select a Group");
 
                             //set the default according to value
                             spinner.setSelection(spinnerPosition);
@@ -157,7 +163,7 @@ public class LocationListActivity extends AppCompatActivity implements LocationR
                             spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                 @Override
                                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                                    if (adapterView.getItemAtPosition(i).toString().equals("View All Locations")){
+                                    if (adapterView.getItemAtPosition(i).toString().equals("Select a Group")){
                                         //stay on the same page
 
                                     }else {

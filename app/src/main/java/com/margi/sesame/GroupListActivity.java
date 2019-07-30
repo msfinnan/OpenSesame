@@ -1,6 +1,7 @@
 package com.margi.sesame;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -64,6 +65,12 @@ public class GroupListActivity extends AppCompatActivity implements GroupRecycle
         Intent intent = getIntent();
         groupName = intent.getStringExtra("groupName");
         Log.d("GroupList", "onCreate: value of groupName is " + groupName);
+
+        ActionBar supportActionBar = getSupportActionBar();
+        if (supportActionBar != null) {
+            supportActionBar.setTitle(groupName);
+            supportActionBar.show();
+        }
 
     }
 

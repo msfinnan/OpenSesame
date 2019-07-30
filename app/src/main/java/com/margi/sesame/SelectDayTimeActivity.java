@@ -1,6 +1,7 @@
 package com.margi.sesame;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
@@ -50,6 +51,12 @@ public class SelectDayTimeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_day_time);
+
+        ActionBar supportActionBar = getSupportActionBar();
+        if (supportActionBar != null) {
+            supportActionBar.setTitle("See What's Open Later");
+            supportActionBar.show();
+        }
 
         displayDate = findViewById(R.id.select_day_time_text);
         displayTime = findViewById(R.id.select_time_text);
