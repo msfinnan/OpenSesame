@@ -18,9 +18,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity
-            android:name=".BottomNavActivity"
-            android:label="@string/title_activity_bottom_nav"></activity>
         <activity android:name=".SelectDayTimeActivity" />
         <activity android:name=".LandingPageActivity" />
         <activity android:name=".LocationDetailsActivity" />

@@ -1,14 +1,19 @@
 package com.margi.sesame;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.drm.DrmStore;
 import android.graphics.Color;
+import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,6 +39,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 
 import model.Location;
 import ui.LocationRecyclerAdapter;
@@ -78,11 +84,41 @@ public class LocationListActivity extends AppCompatActivity implements LocationR
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+//        ActionBar actionBar = getSupportActionBar();
+//        TextView tv = new TextView(getApplicationContext());
+//        Typeface typeface = ResourcesCompat.getFont(this, R.font.monotype_corsiva);
+//        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
+//                RelativeLayout.LayoutParams.MATCH_PARENT, // Width of TextView
+//                RelativeLayout.LayoutParams.WRAP_CONTENT); // Height of TextView
+//        tv.setLayoutParams(lp);
+//        tv.setText("Your Text"); // ActionBar title text
+//        tv.setTextSize(25);
+//        tv.setTextColor(Color.WHITE);
+//        tv.setTypeface(typeface, typeface.ITALIC);
+//        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+//        actionBar.setCustomView(tv);
+
+//
+//        int titleId = getResources().getIdentifier("action_bar_title", "id",
+//                "android");
+//        TextView yourTextView = (TextView) findViewById(titleId);
+//        Typeface typeface = new Typeface(R.font.poppins);
+//        yourTextView.setTypeface(R.font.poppins);
+
+//        ActionBar supportActionBar = getSupportActionBar();
+//        supportActionBar.setIcon(R.drawable.sesame_orange_blue);
+//        getSupportActionBar().setDisplayShowHomeEnabled(true);
+//        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.WHITE)); // set your desired color
+//
+//        supportActionBar.show();
+        TextView tv = new TextView(getApplicationContext());
 
         groupNames = new HashSet<>();
         groupNames.add("View All Locations");
         groupNamesArray = new ArrayList<>();
         spinner = findViewById(R.id.group_spinner);
+
+
 
         //get all groupNames from Firestore for groupNames array that I use for autocomplete drop down in activity_add_location.xml
         collectionReference.whereEqualTo("userId", AppController.getInstance()

@@ -9,13 +9,6 @@
     android:padding="18dp"
     tools:context=".LoginActivity">
 
-    <ProgressBar
-        android:id="@+id/login_progress"
-        style="?android:attr/progressBarStyleLarge"
-        android:visibility="invisible"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
     <LinearLayout
         android:id="@+id/email_login_form"
         android:layout_width="match_parent"
@@ -26,7 +19,7 @@
             android:id="@+id/email_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="200dp"
+            android:layout_marginTop="250dp"
             android:hint="@string/email_hint"
             android:inputType="textEmailAddress"
             android:maxLines="1" />
@@ -67,5 +60,13 @@
             android:layout_height="wrap_content" />
 
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/login_progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:visibility="invisible"
+        android:layout_marginTop="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>
