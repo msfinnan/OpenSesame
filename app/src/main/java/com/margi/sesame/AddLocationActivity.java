@@ -107,7 +107,7 @@ public class AddLocationActivity extends AppCompatActivity {
                 getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
 
         assert autocompleteFragment != null;
-        autocompleteFragment.setHint("Location Name (ex. Roscoe's)");
+        autocompleteFragment.setHint("Location Name (ex. Chuck's)");
 
         autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS, Place.Field.LAT_LNG, Place.Field.OPENING_HOURS, Place.Field.UTC_OFFSET));
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
