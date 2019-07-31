@@ -8,13 +8,13 @@
     <string name="or_text">Or</string>
     <string name="create_account">Create Account</string>
     <string name="username_hint">Username</string>
-    <string name="location_name">Location Name (ex. Roscoe\'s)</string>
+    <string name="location_name">Location (ex. Chuck\'s)</string>
     <string name="add_location">Add Location</string>
     <string name="menu_title">Add New Location</string>
     <string name="log_out">Log Out</string>
     <string name="add_first_location">Add a new location using the + icon!</string>
     <string name="add_location_button">Add Location</string>
-    <string name="group_name">Group Name (ex. Dog Friendly Bars)</string>
+    <string name="group_name">Group (ex. Dog Friendly Bars)</string>
     <string name="see_what_s_open_now">See What\'s Open Now</string>
     <string name="see_what_s_open_later">See What\'s Open Later</string>
     <string name="select_date_and_time">Select Date and Time</string>
